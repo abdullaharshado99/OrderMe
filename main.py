@@ -1,12 +1,12 @@
 import segno
 import hashlib
-from PIL import Image, ImageDraw, ImageFont
 from pathlib import Path
 from datetime import datetime
+from PIL import Image, ImageDraw, ImageFont
 
 
 class RestaurantQRManager:
-    def __init__(self, base_url="https://yourdomain.com/scan"):
+    def __init__(self, base_url="https://orderme.arnaindustry.com/scan"):
         self.base_url = base_url
         self.logo = Image.open("sevva.png").convert("RGBA")
 
