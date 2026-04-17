@@ -1,0 +1,80 @@
+{
+  "welcome": "Bienvenue",
+  "posture_warning": "Votre posture n'est pas correcte",
+  "laptop_high": "Relevez votre ordinateur portable au niveau des yeux",
+  "Onboarding": {
+    "title1": "Voir qui skie à proximité",
+    "title2": "Créer et rejoindre des rencontres instantanément",
+    "subtitle1": "Trouvez d'autres skieurs et snowboarders en temps réel sur les pistes",
+    "subtitle2": "Organisez des sessions de groupe ou rejoignez d'autres pour une journée épique sur la montagne."
+  },
+  "Login": {
+    "title": "Connexion",
+    "subtitle": "Entrez vos détails pour accéder.",
+    "forgotPassword": "Mot de passe oublié?",
+    "dontHaveAccount": "Vous n'avez pas de compte?",
+    "signup": "S'inscrire",
+    "orContinueWith": "Ou continuer avec",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "Entrez votre e-mail",
+    "passwordLabel": "Mot de passe",
+    "passwordPlaceholder": "Entrez votre mot de passe",
+    "buttonTitle": "Connexion"
+  },
+  "LoginwithEmail": {
+    "title": "Connexion",
+    "loginBtn": "Connexion",
+    "description": "Entrez vos détails pour accéder.",
+    "phoneLabel": "Numéro de téléphone",
+    "passwordLabel": "Mot de passe",
+    "emailLabel": "E-mail",
+    "passwordBottomTxt": "Mot de passe oublié?",
+    "bottomTxt": "Vous n'avez pas de compte?",
+    "signup": "S'inscrire"
+  },
+  "Signup": {
+    "title": "S'inscrire",
+    "subtitle": "Entrez vos détails pour accéder.",
+    "alreadyHaveAccount": "Vous avez déjà un compte?",
+    "login": "Connexion",
+    "orContinueWith": "Ou continuer avec",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "Entrez votre e-mail",
+    "passwordLabel": "Mot de passe",
+    "passwordPlaceholder": "Entrez votre mot de passe",
+    "buttonTitle": "S'inscrire"
+  },
+  "ForgetPassword": {
+    "title": "Mot de passe oublié",
+    "subtitle": "Nous enverrons un OTP à votre adresse e-mail enregistrée ",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "Entrez votre e-mail",
+    "buttonTitle": "Envoyer OTP"
+  },
+  "VerifyOtp": {
+    "title": "Vérifier OTP",
+    "subtitlePrefix": "Nous avons envoyé un OTP à ",
+    "resendPrompt": "Vous n'avez pas reçu l'OTP?",
+    "resendButton": "Renvoyer OTP",
+    "verifyButton": "Vérifier"
+  },
+  "SetupProfile": {
+    "title": "Configurez votre profil",
+    "subtitle": "Parlez-nous un peu de vous.",
+    "addProfilePhoto": "Ajouter une photo de profil",
+    "fullNameLabel": "Nom complet",
+    "fullNamePlaceholder": "Entrez le nom complet",
+    "skillLevel": "Niveau de compétence",
+    "beginner": "Débutant",
+    "intermediate": "Intermédiaire",
+    "advanced": "Avancé",
+    "iPrefer": "Je préfère",
+    "skiing": "Ski",
+    "snowboarding": "Planche à neige",
+    "language": "Langue",
+    "selectLanguage": "Sélectionner la langue",
+    "addBioLabel": "Ajouter une biographie",
+    "addBioPlaceholder": "Ajouter une biographie",
+    "save": "Enregistrer"
+  }
+}
