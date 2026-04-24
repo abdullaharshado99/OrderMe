@@ -1,0 +1,164 @@
+.sidebar {
+    background-color: #af4e4f;
+    color: #af4e4f;
+}
+
+.sidebarHeader {
+    border-bottom: 1px solid var(--sidebar-border);
+}
+
+.brandLink {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.75rem;
+    text-decoration: none;
+    background-color: rgba(221, 177, 169, 0.55);
+    margin-bottom: 0.4rem;
+}
+
+.brandLink:hover {
+    background-color: rgba(221, 177, 169, 0.55);
+}
+
+.sidebarSeparator {
+    margin: 0;
+    width: 0;
+    background-color: transparent;
+}
+
+.sidebarFooter {
+    margin-top: auto;
+    border-top: 1px solid var(--sidebar-border);
+}
+
+.logoutButton {
+    width: 100%;
+    justify-content: flex-start;
+    color: #871517;
+    font-family: var(--font-quicksand);
+    gap: 0.5rem;
+}
+
+.logoutIcon {
+    /* color: #871517; */
+    width: 1rem;
+    height: 1rem;
+    color: #ddb1a9;
+}
+
+.topHeader {
+    display: flex;
+    height: 3.5rem;
+    background-color: #af4e4f;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--border);
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.sidebarTrigger {
+    margin-left: -0.25rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 999px;
+    background: url('/IshmaalQuran-Logo.png') center/cover no-repeat;
+    color: transparent;
+    border: none;
+    padding: 0;
+}
+
+.sidebarTrigger svg {
+    display: none;
+}
+
+.logoWrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.logoutText {
+    /* font-family: var(--font-quicksand);
+    color: #871517; */
+    font-family: var(--font-quicksand);
+    color: #ddb1a9;
+}
+
+.content {
+    flex: 1 1 auto;
+    padding: 1rem;
+    background-color: #ddb1a9;
+}
+
+@media (min-width: 768px) {
+    .content {
+        padding: 1.5rem;
+    }
+}
+
+.icon {
+    width: 1rem;
+    height: 1rem;
+    color: #ddb1a9;
+}
+
+.iconText {
+    font-family: var(--font-quicksand);
+    color: #ddb1a9;
+}
+
+.brandRow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.brandLogo {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    margin-top: 0.6rem;
+}
+
+:global([data-collapsible="icon"]) [data-sidebar-brand-link] {
+    justify-content: center;
+    padding: 0.5rem;
+}
+
+:global([data-collapsible="icon"]) [data-sidebar-brand-text],
+:global([data-collapsible="icon"]) [data-sidebar-logout-text] {
+    display: none;
+}
+
+.brandText {
+    font-weight: 600;
+    font-family: var(--font-quicksand);
+    color: #871517;
+}
+
+:global([data-slot="sidebar-menu-button"][data-active="true"]) {
+    background-color: #ddb1a9 !important;
+    color: #871517 !important;
+}
+
+:global([data-slot="sidebar-menu-button"][data-active="true"] svg) {
+    color: #871517 !important;
+}
+
+:global([data-slot="sidebar-menu-button"][data-active="true"] span) {
+    color: #871517 !important;
+}
+
+:global([data-slot="sidebar-menu-button"]:hover) {
+    background-color: #ddb1a9 !important;
+    color: #871517 !important;
+}
+
+:global([data-slot="sidebar-menu-button"]:hover svg),
+:global([data-slot="sidebar-menu-button"]:hover span) {
+    color: #871517 !important;
+}

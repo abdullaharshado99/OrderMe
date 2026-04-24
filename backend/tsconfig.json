@@ -23,3 +23,18 @@
     "noFallthroughCasesInSwitch": false
   }
 }
+// {
+//   "compilerOptions": {
+//     "module": "commonjs",        // ✅ "esnext" ya "es2020" na ho
+//     "moduleResolution": "node",  // ✅ ensure karo
+//     "esModuleInterop": true,
+//     "target": "es2020",
+//     "lib": ["es2020"],
+//     "skipLibCheck": true,         // ✅ add karo
+//     "strict": true,
+//     "outDir": "./dist",
+//     "rootDir": "./src",
+//     "experimentalDecorators": true,
+//     "emitDecoratorMetadata": true
+//   }
+// }

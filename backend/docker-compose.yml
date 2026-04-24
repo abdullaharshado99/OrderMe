@@ -1,0 +1,44 @@
+# version: '3.9'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: livequran-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: livequran
+      POSTGRES_PASSWORD: supersecret
+      POSTGRES_DB: live_with_quran
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    networks:
+      - livequran-network
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: live-with-quran-backend
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: livequran
+      DB_PASSWORD: supersecret
+      DB_NAME: live_with_quran
+      NODE_ENV: development
+    depends_on:
+      - postgres
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    networks:
+      - livequran-network
+
+networks:
+  livequran-network:
+    driver: bridge
