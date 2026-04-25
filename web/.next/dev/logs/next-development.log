@@ -1,0 +1,12 @@
+[00:00:01.494] Server  LOG     ✓ Ready in 1123ms
+[00:00:03.803] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:44:18.387] Server  ERROR   ⨯ PageNotFoundError: Cannot find module for page: route not found /_not-found/page
+[00:44:18.402] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/home/tech-lady/dev/OrderMe/web/src/app'
+[00:44:18.410] Server  ERROR   ⨯ "unhandledRejection:" Error: ENOENT: no such file or directory, scandir '/home/tech-lady/dev/OrderMe/web/src/app'
+[00:44:18.415] Server  ERROR   ⨯ "unhandledRejection: " Error: ENOENT: no such file or directory, scandir '/home/tech-lady/dev/OrderMe/web/src/app'
+[00:44:18.964] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/home/tech-lady/dev/OrderMe/web/src/app'
+[00:44:18.970] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/home/tech-lady/dev/OrderMe/web/src/app'
+[00:44:18.986] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/home/tech-lady/dev/OrderMe/web/src/app'
+[00:44:18.990] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/home/tech-lady/dev/OrderMe/web/src/app'
+[00:44:19.005] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/home/tech-lady/dev/OrderMe/web/src/app'
+[00:44:19.011] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/home/tech-lady/dev/OrderMe/web/src/app'
