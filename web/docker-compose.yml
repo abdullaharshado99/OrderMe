@@ -1,0 +1,11 @@
+services:
+  backend:
+    # your existing NestJS service
+  admin-web:
+    build: ./live-with-quran-web
+    ports:
+      - "3001:3000"
+    environment:
+      - NEXT_PUBLIC_NEST_API_BASE_URL=http://localhost:3000
+    depends_on:
+      - backend
