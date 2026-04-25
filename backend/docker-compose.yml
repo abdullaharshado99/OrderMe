@@ -3,33 +3,33 @@
 services:
   postgres:
     image: postgres:15
-    container_name: livequran-postgres
+    container_name: orderme-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: livequran
+      POSTGRES_USER: orderme
       POSTGRES_PASSWORD: supersecret
-      POSTGRES_DB: live_with_quran
+      POSTGRES_DB: orderme
     ports:
       - '5432:5432'
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
     networks:
-      - livequran-network
+      - orderme-network
 
   backend:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: live-with-quran-backend
+    container_name: order-me-backend
     restart: unless-stopped
     ports:
       - '3000:3000'
     environment:
-      DB_HOST: postgres
+      DB_HOST: localhost
       DB_PORT: 5432
-      DB_USERNAME: livequran
+      DB_USERNAME: orderme
       DB_PASSWORD: supersecret
-      DB_NAME: live_with_quran
+      DB_NAME: orderme
       NODE_ENV: development
     depends_on:
       - postgres
@@ -37,8 +37,11 @@ services:
       - ./:/app
       - /app/node_modules
     networks:
-      - livequran-network
+      - orderme-network
 
 networks:
-  livequran-network:
+  orderme-network:
     driver: bridge
+
+volumes:
+  postgres-data:

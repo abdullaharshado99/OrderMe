@@ -47,6 +47,7 @@
     "@nestjs/swagger": "^11.2.6",
     "@nestjs/typeorm": "^11.0.0",
     "@types/bcrypt": "^6.0.0",
+    "@types/ms": "^2.1.0",
     "@types/passport-jwt": "^4.0.1",
     "axios": "^1.13.6",
     "bcrypt": "^6.0.0",

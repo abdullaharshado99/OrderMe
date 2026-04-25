@@ -1,40 +1,33 @@
 {
   "compilerOptions": {
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
-    "resolvePackageJsonExports": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "ignoreDeprecations": "5.0", 
     "esModuleInterop": true,
-    "isolatedModules": true,
-    "declaration": true,
-    "removeComments": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "ES2023",
-    "sourceMap": true,
-    "outDir": "./dist",
-    "baseUrl": "./",
-    "incremental": true,
+    "target": "ES2021",
+    "lib": [
+      "ES2021"
+    ],
     "skipLibCheck": true,
-    "strictNullChecks": true,
+    "strict": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "incremental": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
+    "strictNullChecks": true,
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false
-  }
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }
-// {
-//   "compilerOptions": {
-//     "module": "commonjs",        // ✅ "esnext" ya "es2020" na ho
-//     "moduleResolution": "node",  // ✅ ensure karo
-//     "esModuleInterop": true,
-//     "target": "es2020",
-//     "lib": ["es2020"],
-//     "skipLibCheck": true,         // ✅ add karo
-//     "strict": true,
-//     "outDir": "./dist",
-//     "rootDir": "./src",
-//     "experimentalDecorators": true,
-//     "emitDecoratorMetadata": true
-//   }
-// }

@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { QuranSyncModule } from './quran-sync/quran-sync.module';
 
 @Module({
   imports: [
@@ -17,13 +16,11 @@ import { QuranSyncModule } from './quran-sync/quran-sync.module';
         database: config.get<string>('DB_NAME'),
         autoLoadEntities: true,
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: true,
-        // migrationsRun: true,
-        // migrations: [__dirname + '/migrations/*{.ts,.js}'],
+        synchronize: false,
+        migrationsRun: true,
+        migrations: [__dirname + '/migrations/*{.ts,.js}'],
       }),
     }),
-    QuranSyncModule,
   ],
 })
-export class CliModule { }
-
+export class CliModule {}

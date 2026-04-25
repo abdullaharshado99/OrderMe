@@ -1,4 +1,10 @@
-import { IsEmail, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import {
+  IsEmail,
+  IsOptional,
+  IsString,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
 export class UpdateMeDto {
   @IsOptional()
@@ -14,10 +20,10 @@ export class UpdateMeDto {
 
 export class ChangePasswordDto {
   @IsString()
-  currentPassword: string;
+  currentPassword?: string;
 
   @IsString()
   @MinLength(6)
   @MaxLength(128)
-  newPassword: string;
+  newPassword?: string;
 }

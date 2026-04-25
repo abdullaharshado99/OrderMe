@@ -1,4 +1,4 @@
-export type RoleName = 'USER' | 'ADMIN' | 'SUPER-ADMIN';
+export type RoleName = 'SUPER_ADMIN' | 'RESTAURANT_OWNER' | 'MANAGER' | 'CHEF' | 'CUSTOMER';
 
 export interface RoleDto {
     id: number;
@@ -23,12 +23,27 @@ function getRoleName(role: UserRole | undefined | null): RoleName | null {
     return role.name;
 }
 
-export function isAdminRole(role: UserRole | undefined | null) {
+export function isRestaurantOwnerRole(role: UserRole | undefined | null) {
     const name = getRoleName(role);
-    return name === 'ADMIN' || name === 'SUPER-ADMIN';
+    return name === 'RESTAURANT_OWNER';
+}
+
+export function isManagerRole(role: UserRole | undefined | null) {
+    const name = getRoleName(role);
+    return name === 'MANAGER';
+}
+
+export function isChefRole(role: UserRole | undefined | null) {
+    const name = getRoleName(role);
+    return name === 'CHEF';
+}
+
+export function isCustomerRole(role: UserRole | undefined | null) {
+    const name = getRoleName(role);
+    return name === 'CUSTOMER';
 }
 
 export function isSuperAdminRole(role: UserRole | undefined | null) {
     const name = getRoleName(role);
-    return name === 'SUPER-ADMIN';
+    return name === 'SUPER_ADMIN';
 }

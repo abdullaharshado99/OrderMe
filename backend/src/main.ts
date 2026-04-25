@@ -8,7 +8,9 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 const BODY_LIMIT = '5gb';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule, { bodyParser: false });
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    bodyParser: false,
+  });
   app.use(json({ limit: BODY_LIMIT }));
   app.use(urlencoded({ extended: true, limit: BODY_LIMIT }));
   // app.enableCors({
@@ -32,7 +34,7 @@ async function bootstrap() {
         description: 'Enter session token',
         in: 'header',
       },
-      'session_token'
+      'session_token',
     )
     .addBearerAuth(
       {
@@ -43,7 +45,7 @@ async function bootstrap() {
         description: 'Enter access token',
         in: 'header',
       },
-      'access-token'
+      'access-token',
     )
     .build();
   const document = SwaggerModule.createDocument(app, config);
