@@ -1,0 +1,284 @@
+/* [project]/web/src/components/auth/login.module.css [app-client] (css) */
+.login-module__27Ywvq__container {
+  background-color: var(--login-bg, #f3e2de);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 32px 24px;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-module__27Ywvq__bgLogo {
+  z-index: 0;
+  pointer-events: none;
+  place-items: center;
+  display: grid;
+  position: absolute;
+  inset: 0;
+}
+
+.login-module__27Ywvq__bgLogo:before {
+  content: "";
+  filter: blur(28px);
+  opacity: .55;
+  background: radial-gradient(circle, #ffffff1f, #ffffff05 55%, #0000 70%);
+  border-radius: 999px;
+  width: min(72vw, 760px);
+  height: min(72vw, 760px);
+  animation: 6s ease-in-out infinite login-module__27Ywvq__glowPulse;
+  position: absolute;
+}
+
+.login-module__27Ywvq__bgLogoImg {
+  object-fit: contain;
+  opacity: .14;
+  filter: blur(10px);
+  animation: 7.5s ease-in-out infinite login-module__27Ywvq__floatSlow;
+  transform: translateY(-10px)rotate(-8deg)scale(1.02);
+  width: min(62vw, 640px) !important;
+  height: min(62vw, 640px) !important;
+  position: relative !important;
+}
+
+.login-module__27Ywvq__header {
+  z-index: 1;
+  text-align: center;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.login-module__27Ywvq__logoWrap {
+  justify-content: center;
+  margin-bottom: 10px;
+  display: flex;
+}
+
+.login-module__27Ywvq__logo {
+  object-fit: contain;
+  filter: drop-shadow(0 10px 22px #00000059);
+  width: 64px;
+  height: 64px;
+  animation: 3.8s ease-in-out infinite login-module__27Ywvq__logoFloat;
+}
+
+.login-module__27Ywvq__appTitle {
+  color: var(--login-text, #af4e4f);
+  font-size: 16px;
+  font-family: var(--font-quicksand);
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.login-module__27Ywvq__title {
+  color: var(--login-text, #af4e4f);
+  font-size: 28px;
+  font-family: var(--font-quicksand);
+  font-weight: 700;
+}
+
+.login-module__27Ywvq__subtitle {
+  color: var(--login-text, #af4e4f);
+  text-align: center;
+  font-size: 14px;
+  font-family: var(--font-quicksand);
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+.login-module__27Ywvq__card {
+  z-index: 1;
+  background-color: var(--login-card-bg, #fff);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 400px;
+  padding: 24px 20px;
+  position: relative;
+  box-shadow: 0 6px 12px #00000026;
+}
+
+.login-module__27Ywvq__fieldGroup {
+  margin-bottom: 16px;
+}
+
+.login-module__27Ywvq__label {
+  color: var(--login-text, #af4e4f);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--font-quicksand);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.login-module__27Ywvq__input {
+  background-color: var(--login-input-bg, #f5f5f5);
+  width: 100%;
+  color: var(--login-input-text, #a86e6e);
+  border: 1px solid var(--login-border, #e0e0e0);
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: var(--font-quicksand);
+  box-sizing: border-box;
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+
+.login-module__27Ywvq__input::placeholder {
+  color: var(--login-placeholder, #888);
+}
+
+.login-module__27Ywvq__input:focus {
+  border-color: var(--login-focus, #ddb1a9);
+  outline: none;
+}
+
+.login-module__27Ywvq__passwordContainer {
+  width: 100%;
+  position: relative;
+}
+
+.login-module__27Ywvq__passwordInput {
+  font-family: var(--font-quicksand);
+  color: var(--login-input-text, #a86e6e);
+  padding-right: 48px;
+}
+
+.login-module__27Ywvq__toggleButton {
+  cursor: pointer;
+  color: var(--login-text, #af4e4f);
+  background: none;
+  border: none;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  display: flex;
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+}
+
+.login-module__27Ywvq__toggleButton:hover {
+  opacity: .8;
+}
+
+.login-module__27Ywvq__submitButton {
+  background-color: var(--login-button, #871517);
+  width: 100%;
+  color: var(--login-button-text, #fff);
+  font-family: var(--font-quicksand);
+  cursor: pointer;
+  border: none;
+  border-radius: 12px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+}
+
+.login-module__27Ywvq__submitButton:hover:not(:disabled) {
+  opacity: .95;
+}
+
+.login-module__27Ywvq__submitButton:disabled {
+  opacity: .7;
+  cursor: not-allowed;
+}
+
+.login-module__27Ywvq__loadingIcon {
+  width: 20px;
+  height: 20px;
+  animation: 1s linear infinite login-module__27Ywvq__spin;
+}
+
+@keyframes login-module__27Ywvq__spin {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes login-module__27Ywvq__floatSlow {
+  0% {
+    transform: translateY(-14px)rotate(-10deg)scale(1.02);
+  }
+
+  50% {
+    transform: translateY(10px)rotate(-6deg)scale(1.04);
+  }
+
+  100% {
+    transform: translateY(-14px)rotate(-10deg)scale(1.02);
+  }
+}
+
+@keyframes login-module__27Ywvq__logoFloat {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes login-module__27Ywvq__glowPulse {
+  0% {
+    opacity: .45;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: .62;
+    transform: scale(1.04);
+  }
+
+  100% {
+    opacity: .45;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-module__27Ywvq__bgLogoImg, .login-module__27Ywvq__bgLogo:before, .login-module__27Ywvq__logo {
+    animation: none !important;
+  }
+}
+
+.login-module__27Ywvq__errorAlert {
+  font-family: var(--font-quicksand);
+  margin-bottom: 16px;
+}
+
+.login-module__27Ywvq__footerLink {
+  text-align: center;
+  margin-top: 24px;
+}
+
+.login-module__27Ywvq__footerLinkText {
+  color: var(--login-text, #af4e4f);
+  font-size: 15px;
+  font-family: var(--font-quicksand);
+  font-weight: 500;
+}
+
+.login-module__27Ywvq__footerLinkBold {
+  color: var(--login-text, #af4e4f);
+  font-weight: 700;
+  font-family: var(--font-quicksand);
+}
+
+/*# sourceMappingURL=web_src_components_auth_login_module_0ae2bf2b.css.map*/

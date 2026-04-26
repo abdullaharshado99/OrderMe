@@ -1,15 +1,13 @@
-import * as ms from 'ms';
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { AuthService } from './auth.service';
-import { JwtStrategy } from './jwt.strategy';
+import { PassportModule } from '@nestjs/passport';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PassportModule } from '@nestjs/passport';
 import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
+import { JwtStrategy } from './strategies/jwt.strategy';
+import { RefreshTokenStrategy } from './strategies/refresh-token.strategy';
 import { User } from '../users/entities/user.entity';
-import { SessionTokenGuard } from './session-token.guard';
-import { RefreshTokenStrategy } from './refresh-token.strategy';
 import { Role } from '../roles/entities/role.entity';
 
 @Module({
@@ -19,24 +17,17 @@ import { Role } from '../roles/entities/role.entity';
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => {
-        const secret =
-          config.get<string>('JWT_ACCESS_SECRET') ?? 'JWT_ACCESS_SECRET';
-        const expiresIn = config.get<string>('JWT_ACCESS_EXPIRES_IN') ?? '90m';
-
+        const secret = config.get<string>('JWT_ACCESS_SECRET') ?? 'default_secret_change_me';
+        const expiresIn = config.get<string>('JWT_ACCESS_EXPIRES_IN') ?? '15m';
         return {
           secret,
-          signOptions: { expiresIn: expiresIn as ms.StringValue },
+          signOptions: { expiresIn: expiresIn as any },
         };
       },
     }),
   ],
   controllers: [AuthController],
-  providers: [
-    AuthService,
-    JwtStrategy,
-    RefreshTokenStrategy,
-    SessionTokenGuard,
-  ],
+  providers: [AuthService, JwtStrategy, RefreshTokenStrategy],
   exports: [AuthService],
 })
-export class AuthModule {}
+export class AuthModule { }

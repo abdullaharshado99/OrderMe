@@ -1,19 +1,23 @@
-import { User } from '../../users/entities/user.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-export type RoleName = 'SUPER_ADMIN' | 'MANAGER' | 'RESTAURANT_OWNER' | 'CHEF' | 'CUSTOMER';
+export enum RoleName {
+  SUPER_ADMIN = 'super-admin',
+  RESTAURANT_OWNER = 'restaurant-owner',
+  CHEF = 'chef',
+  CUSTOMER = 'customer',
+}
 
 @Entity('roles')
 export class Role {
   @PrimaryGeneratedColumn()
   id?: number;
 
-  @Column({ unique: true })
+  @Column({ type: 'enum', enum: RoleName, default: RoleName.CUSTOMER })
   name?: RoleName;
 
-  @Column({ nullable: true })
-  description?: string;
+  @CreateDateColumn()
+  createdAt?: Date;
 
-  @OneToMany(() => User, (user) => user.role)
-  users?: User[];
+  @UpdateDateColumn()
+  updatedAt?: Date;
 }

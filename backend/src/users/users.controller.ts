@@ -1,84 +1,41 @@
-import { User } from './entities/user.entity';
+import { Controller, Get, Post, Patch, Delete, Body, Param, UseGuards, Request } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
-import { UpdateMeDto, ChangePasswordDto } from './dto/update-me.dto';
-import { CurrentUser } from '../common/decorators/current-user.decorator';
-import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiBearerAuth,
-} from '@nestjs/swagger';
-import {
-  Controller,
-  Get,
-  Param,
-  ParseIntPipe,
-  UseGuards,
-  Patch,
-  Body,
-  HttpCode,
-  HttpStatus,
-  Delete,
-} from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from '../common/guards/roles.guard';
+import { Roles } from '../common/decorators/roles.decorator';
+import { RoleName } from '../roles/entities/role.entity';
 
-@ApiTags('users')
 @Controller('users')
+@UseGuards(AuthGuard('jwt'), RolesGuard)
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private usersService: UsersService) { }
 
-  @Get('')
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth('access-token')
-  @ApiOperation({ summary: 'Get current authenticated user' })
-  @ApiResponse({ status: 200, description: 'Returns current user' })
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async getMe(@CurrentUser() user: User) {
-    return this.usersService.getMe(user.id!);
-  }
-
-  @Patch('')
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth('access-token')
-  @ApiOperation({
-    summary: 'Update current authenticated user profile (name/email)',
-  })
-  @ApiResponse({ status: 200, description: 'Returns updated user' })
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async updateMe(@CurrentUser() user: User, @Body() dto: UpdateMeDto) {
-    return this.usersService.updateMe(user.id!, dto);
-  }
-
-  @Patch('change-password')
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth('access-token')
-  @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: 'Change password for current user' })
-  async changePassword(
-    @CurrentUser() user: User,
-    @Body() dto: ChangePasswordDto,
-  ) {
-    await this.usersService.changePassword(user.id!, dto);
-    return { message: 'Password changed successfully' };
-  }
-
-  @Delete('')
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth('access-token')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  @ApiOperation({
-    summary: 'Hard delete current authenticated user account (irreversible)',
-  })
-  async deleteMe(@CurrentUser() user: User) {
-    await this.usersService.hardDeleteAccount(user.id!);
-    return;
+  @Get()
+  @Roles(RoleName.SUPER_ADMIN, RoleName.RESTAURANT_OWNER)
+  async findAll(@Request() req) {
+    const { role, restaurantId } = req.user;
+    return this.usersService.findAll(restaurantId, role, restaurantId);
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Get user by id' })
-  @ApiResponse({ status: 200, description: 'User' })
-  @ApiResponse({ status: 404, description: 'User not found' })
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.findById(id);
+  async findOne(@Param('id') id: number, @Request() req) {
+    return this.usersService.findOne(id, req.user.role, req.user.restaurantId);
+  }
+
+  @Patch(':id')
+  async update(@Param('id') id: number, @Body() updateData: any, @Request() req) {
+    return this.usersService.updateProfile(id, updateData, req.user.userId, req.user.role);
+  }
+
+  @Delete(':id')
+  @Roles(RoleName.SUPER_ADMIN, RoleName.RESTAURANT_OWNER)
+  async remove(@Param('id') id: number, @Request() req) {
+    return this.usersService.deleteUser(id, req.user.role, req.user.restaurantId);
+  }
+
+  @Post(':id/role')
+  @Roles(RoleName.SUPER_ADMIN)
+  async assignRole(@Param('id') id: number, @Body('roleName') roleName: RoleName, @Request() req) {
+    return this.usersService.assignRole(id, roleName, req.user.role);
   }
 }

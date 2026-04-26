@@ -1,0 +1,35 @@
+/* [project]/web/src/app/(admin)/dashboard/dashboard.module.css [app-client] (css) */
+.dashboard-module___mwYLq__card {
+  border-width: 1px solid #c9b6b6;
+  background-color: #fff;
+  border-radius: .75rem;
+  box-shadow: 0 1px 3px #0000001a;
+}
+
+.dashboard-module___mwYLq__cardHeader {
+  padding: 1.25rem 1.75rem .25rem;
+}
+
+.dashboard-module___mwYLq__cardTitle {
+  letter-spacing: -.025em;
+  color: #af4e4f;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 2rem;
+  font-family: var(--font-quicksand);
+  margin: 0;
+}
+
+.dashboard-module___mwYLq__cardContent {
+  padding: 1.25rem 1.75rem 1.75rem;
+}
+
+.dashboard-module___mwYLq__infoText {
+  color: #af4e4f;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  font-family: var(--font-quicksand);
+  margin-top: .5rem;
+}
+
+/*# sourceMappingURL=web_src_app_%28admin%29_dashboard_dashboard_module_8bdb6083.css.map*/

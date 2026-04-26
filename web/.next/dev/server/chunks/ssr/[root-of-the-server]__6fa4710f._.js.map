@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 14, "column": 0}, "map": {"version":3,"sources":["file:///home/tech-lady/dev/OrderMe/web/src/app/page.tsx"],"sourcesContent":["// import { LoginForm } from \"../components/auth/LoginForm\";\n\n\nexport default function Home() {\n  return(\n   <div style={{ color: \"red\"}}>Hello, Order Me!</div>\n  //  <LoginForm />\n  )\n}"],"names":[],"mappings":"AAAA,4DAA4D;;;;;;;AAG7C,SAAS;IACtB,qBACC,qPAAC;QAAI,OAAO;YAAE,OAAO;QAAK;kBAAG;;;;;;AAGhC"}}]
+}
