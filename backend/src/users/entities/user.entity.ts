@@ -25,7 +25,7 @@ export class User {
   @Column()
   roleId?: number;
 
-  @Column({ nullable: true })
+  @Column({ type: 'int', nullable: true })
   restaurantId?: number | null;
 
   @Column({ default: true })

@@ -12,7 +12,7 @@ export class Role {
   @PrimaryGeneratedColumn()
   id?: number;
 
-  @Column({ type: 'enum', enum: RoleName, unique: true })
+  @Column({ type: 'enum', enum: RoleName, default: RoleName.CUSTOMER })
   name?: RoleName;
 
   @CreateDateColumn()

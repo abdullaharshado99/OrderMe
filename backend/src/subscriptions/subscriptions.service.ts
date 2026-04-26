@@ -22,9 +22,9 @@ export class SubscriptionsService {
         const sub = this.subRepo.create(dto);
         const saved = await this.subRepo.save(sub);
         // Update restaurant's subscription plan and expiry
-        await this.restaurantRepo.update(dto.restaurantId, {
+        await this.restaurantRepo.update(dto.restaurantId!, {
             subscriptionPlan: dto.plan,
-            subscriptionExpiry: new Date(dto.endDate),
+            subscriptionExpiry: new Date(dto.endDate!),
         });
         return saved;
     }
@@ -60,14 +60,14 @@ export class SubscriptionsService {
             restaurantId: sub.restaurantId,
             plan: dto.plan,
             price: dto.price,
-            startDate: new Date(dto.startDate),
-            endDate: new Date(dto.endDate),
+            startDate: new Date(dto.startDate!),
+            endDate: new Date(dto.endDate!),
             isActive: true,
         });
         const saved = await this.subRepo.save(newSub);
-        await this.restaurantRepo.update(sub.restaurantId, {
+        await this.restaurantRepo.update(sub.restaurantId!, {
             subscriptionPlan: dto.plan,
-            subscriptionExpiry: new Date(dto.endDate),
+            subscriptionExpiry: new Date(dto.endDate!),
         });
         return saved;
     }
@@ -80,7 +80,7 @@ export class SubscriptionsService {
         for (const sub of expired) {
             sub.isActive = false;
             await this.subRepo.save(sub);
-            await this.restaurantRepo.update(sub.restaurantId, { isActive: false });
+            await this.restaurantRepo.update(sub.restaurantId!, { isActive: false });
         }
         return { deactivated: expired.length };
     }

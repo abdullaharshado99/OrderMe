@@ -121,6 +121,19 @@ let AuthService = class AuthService {
         // In production, you might blacklist the token. For now, just return.
         return { message: 'Logged out successfully' };
     }
+    async validateSessionToken(token) {
+        try {
+            const payload = this.jwtService.verify(token);
+            const user = await this.userRepository.findOne({
+                where: { id: payload.sub },
+                relations: ['role'],
+            });
+            return user || null;
+        }
+        catch (error) {
+            return null;
+        }
+    }
 };
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([

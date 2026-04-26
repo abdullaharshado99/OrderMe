@@ -45,9 +45,9 @@ export class DocumentsService {
     async delete(id: number, currentUserRole: string, userRestaurantId?: number) {
         const doc = await this.docRepo.findOne({ where: { id } });
         if (!doc) throw new NotFoundException('Document not found');
-        this.checkAccess(doc.restaurantId, currentUserRole, userRestaurantId);
+        this.checkAccess(doc.restaurantId!, currentUserRole, userRestaurantId);
         // Delete physical file
-        const filePath = path.join(process.cwd(), doc.fileUrl);
+        const filePath = path.join(process.cwd(), doc.fileUrl!);
         if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
         return this.docRepo.remove(doc);
     }

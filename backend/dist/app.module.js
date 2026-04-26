@@ -17,6 +17,12 @@ const menu_module_1 = require("./menus/menu.module");
 const restaurants_module_1 = require("./restaurants/restaurants.module");
 const nventory_module_1 = require("./inventory/nventory.module");
 const orders_module_1 = require("./orders/orders.module");
+const subscriptions_module_1 = require("./subscriptions/subscriptions.module");
+const documents_module_1 = require("./documents/documents.module");
+const expenses_module_1 = require("./expenses/expenses.module");
+const qr_module_1 = require("./qr/qr.module");
+const analytics_module_1 = require("./analytics/analytics.module");
+const notifications_module_1 = require("./notifications/notifications.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -37,15 +43,19 @@ exports.AppModule = AppModule = __decorate([
                     synchronize: true,
                 }),
             }),
-            roles_module_1.RolesModule,
+            analytics_module_1.AnalyticsModule,
             auth_module_1.AuthModule,
-            users_module_1.UsersModule,
-            ExpensesModule,
-            SubscriptionsModule,
+            documents_module_1.DocumentsModule,
+            expenses_module_1.ExpensesModule,
             nventory_module_1.InventoryModule,
-            orders_module_1.OrdersModule,
             menu_module_1.MenusModule,
+            notifications_module_1.NotificationsModule,
+            orders_module_1.OrdersModule,
+            qr_module_1.QrModule,
             restaurants_module_1.RestaurantsModule,
+            roles_module_1.RolesModule,
+            subscriptions_module_1.SubscriptionsModule,
+            users_module_1.UsersModule,
         ],
     })
 ], AppModule);
