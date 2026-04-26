@@ -1,13 +1,5 @@
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { Role } from '../../roles/entities/role.entity';
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
 
 @Entity('users')
 export class User {
@@ -18,17 +10,26 @@ export class User {
   email?: string;
 
   @Column()
-  passwordHash?: string;
+  password?: string; // hashed
 
   @Column({ nullable: true })
   name?: string;
 
-  @Column({ default: true })
-  isActive?: boolean;
+  @Column({ nullable: true })
+  phone?: string;
 
-  @ManyToOne(() => Role, (role) => role.users, { eager: true })
+  @ManyToOne(() => Role)
   @JoinColumn({ name: 'roleId' })
   role?: Role;
+
+  @Column()
+  roleId?: number;
+
+  @Column({ nullable: true })
+  restaurantId?: number | null;
+
+  @Column({ default: true })
+  isActive?: boolean;
 
   @CreateDateColumn()
   createdAt?: Date;

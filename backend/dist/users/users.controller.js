@@ -13,102 +13,81 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
-const user_entity_1 = require("./entities/user.entity");
-const users_service_1 = require("./users.service");
-const jwt_auth_guard_1 = require("../common/guards/jwt-auth.guard");
-const update_me_dto_1 = require("./dto/update-me.dto");
-const current_user_decorator_1 = require("../common/decorators/current-user.decorator");
-const swagger_1 = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
+const users_service_1 = require("./users.service");
+const passport_1 = require("@nestjs/passport");
+const roles_guard_1 = require("../common/guards/roles.guard");
+const roles_decorator_1 = require("../common/decorators/roles.decorator");
+const role_entity_1 = require("../roles/entities/role.entity");
 let UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;
     }
-    async getMe(user) {
-        return this.usersService.getMe(user.id);
+    async findAll(req) {
+        const { role, restaurantId } = req.user;
+        return this.usersService.findAll(restaurantId, role, restaurantId);
     }
-    async updateMe(user, dto) {
-        return this.usersService.updateMe(user.id, dto);
+    async findOne(id, req) {
+        return this.usersService.findOne(id, req.user.role, req.user.restaurantId);
     }
-    async changePassword(user, dto) {
-        await this.usersService.changePassword(user.id, dto);
-        return { message: 'Password changed successfully' };
+    async update(id, updateData, req) {
+        return this.usersService.updateProfile(id, updateData, req.user.userId, req.user.role);
     }
-    async deleteMe(user) {
-        await this.usersService.hardDeleteAccount(user.id);
-        return;
+    async remove(id, req) {
+        return this.usersService.deleteUser(id, req.user.role, req.user.restaurantId);
     }
-    findOne(id) {
-        return this.usersService.findById(id);
+    async assignRole(id, roleName, req) {
+        return this.usersService.assignRole(id, roleName, req.user.role);
     }
 };
 exports.UsersController = UsersController;
 __decorate([
-    (0, common_1.Get)(''),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, swagger_1.ApiBearerAuth)('access-token'),
-    (0, swagger_1.ApiOperation)({ summary: 'Get current authenticated user' }),
-    (0, swagger_1.ApiResponse)({ status: 200, description: 'Returns current user' }),
-    (0, swagger_1.ApiResponse)({ status: 401, description: 'Unauthorized' }),
-    __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    (0, common_1.Get)(),
+    (0, roles_decorator_1.Roles)(role_entity_1.RoleName.SUPER_ADMIN, role_entity_1.RoleName.RESTAURANT_OWNER),
+    __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [user_entity_1.User]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], UsersController.prototype, "getMe", null);
-__decorate([
-    (0, common_1.Patch)(''),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, swagger_1.ApiBearerAuth)('access-token'),
-    (0, swagger_1.ApiOperation)({
-        summary: 'Update current authenticated user profile (name/email)',
-    }),
-    (0, swagger_1.ApiResponse)({ status: 200, description: 'Returns updated user' }),
-    (0, swagger_1.ApiResponse)({ status: 401, description: 'Unauthorized' }),
-    __param(0, (0, current_user_decorator_1.CurrentUser)()),
-    __param(1, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [user_entity_1.User, update_me_dto_1.UpdateMeDto]),
-    __metadata("design:returntype", Promise)
-], UsersController.prototype, "updateMe", null);
-__decorate([
-    (0, common_1.Patch)('change-password'),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, swagger_1.ApiBearerAuth)('access-token'),
-    (0, common_1.HttpCode)(common_1.HttpStatus.OK),
-    (0, swagger_1.ApiOperation)({ summary: 'Change password for current user' }),
-    __param(0, (0, current_user_decorator_1.CurrentUser)()),
-    __param(1, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [user_entity_1.User,
-        update_me_dto_1.ChangePasswordDto]),
-    __metadata("design:returntype", Promise)
-], UsersController.prototype, "changePassword", null);
-__decorate([
-    (0, common_1.Delete)(''),
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
-    (0, swagger_1.ApiBearerAuth)('access-token'),
-    (0, common_1.HttpCode)(common_1.HttpStatus.NO_CONTENT),
-    (0, swagger_1.ApiOperation)({
-        summary: 'Hard delete current authenticated user account (irreversible)',
-    }),
-    __param(0, (0, current_user_decorator_1.CurrentUser)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [user_entity_1.User]),
-    __metadata("design:returntype", Promise)
-], UsersController.prototype, "deleteMe", null);
+], UsersController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
-    (0, swagger_1.ApiOperation)({ summary: 'Get user by id' }),
-    (0, swagger_1.ApiResponse)({ status: 200, description: 'User' }),
-    (0, swagger_1.ApiResponse)({ status: 404, description: 'User not found' }),
-    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Request)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:returntype", Promise)
 ], UsersController.prototype, "findOne", null);
+__decorate([
+    (0, common_1.Patch)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object, Object]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "update", null);
+__decorate([
+    (0, common_1.Delete)(':id'),
+    (0, roles_decorator_1.Roles)(role_entity_1.RoleName.SUPER_ADMIN, role_entity_1.RoleName.RESTAURANT_OWNER),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "remove", null);
+__decorate([
+    (0, common_1.Post)(':id/role'),
+    (0, roles_decorator_1.Roles)(role_entity_1.RoleName.SUPER_ADMIN),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)('roleName')),
+    __param(2, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, String, Object]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "assignRole", null);
 exports.UsersController = UsersController = __decorate([
-    (0, swagger_1.ApiTags)('users'),
     (0, common_1.Controller)('users'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt'), roles_guard_1.RolesGuard),
     __metadata("design:paramtypes", [users_service_1.UsersService])
 ], UsersController);
 //# sourceMappingURL=users.controller.js.map

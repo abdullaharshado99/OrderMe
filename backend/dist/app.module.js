@@ -7,15 +7,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
-const path_1 = require("path");
 const common_1 = require("@nestjs/common");
+const config_1 = require("@nestjs/config");
 const typeorm_1 = require("@nestjs/typeorm");
 const auth_module_1 = require("./auth/auth.module");
-const schedule_1 = require("@nestjs/schedule");
 const users_module_1 = require("./users/users.module");
 const roles_module_1 = require("./roles/roles.module");
-const serve_static_1 = require("@nestjs/serve-static");
-const config_1 = require("@nestjs/config");
+const menu_module_1 = require("./menus/menu.module");
+const restaurants_module_1 = require("./restaurants/restaurants.module");
+const nventory_module_1 = require("./inventory/nventory.module");
+const orders_module_1 = require("./orders/orders.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -23,30 +24,28 @@ exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             config_1.ConfigModule.forRoot({ isGlobal: true }),
-            schedule_1.ScheduleModule.forRoot(),
-            serve_static_1.ServeStaticModule.forRoot({
-                rootPath: (0, path_1.join)(__dirname, '..', 'uploads'),
-                serveRoot: '/uploads',
-            }),
             typeorm_1.TypeOrmModule.forRootAsync({
                 inject: [config_1.ConfigService],
                 useFactory: (config) => ({
                     type: 'postgres',
                     host: config.get('DB_HOST'),
-                    port: parseInt(config.get('DB_PORT') ?? '5432', 10),
+                    port: config.get('DB_PORT'),
                     username: config.get('DB_USERNAME'),
                     password: config.get('DB_PASSWORD'),
                     database: config.get('DB_NAME'),
-                    autoLoadEntities: true,
                     entities: [__dirname + '/**/*.entity{.ts,.js}'],
-                    synchronize: true, //config.get<string>('NODE_ENV') === 'development',
-                    migrationsRun: true,
-                    migrations: [__dirname + '/migrations/*{.ts,.js}'],
+                    synchronize: true,
                 }),
             }),
+            roles_module_1.RolesModule,
             auth_module_1.AuthModule,
             users_module_1.UsersModule,
-            roles_module_1.RolesModule,
+            ExpensesModule,
+            SubscriptionsModule,
+            nventory_module_1.InventoryModule,
+            orders_module_1.OrdersModule,
+            menu_module_1.MenusModule,
+            restaurants_module_1.RestaurantsModule,
         ],
     })
 ], AppModule);

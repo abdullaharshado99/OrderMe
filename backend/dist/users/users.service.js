@@ -46,134 +46,85 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersService = void 0;
-const bcrypt = __importStar(require("bcrypt"));
-const typeorm_1 = require("typeorm");
-const user_entity_1 = require("./entities/user.entity");
-const typeorm_2 = require("@nestjs/typeorm");
 const common_1 = require("@nestjs/common");
+const typeorm_1 = require("@nestjs/typeorm");
+const typeorm_2 = require("typeorm");
+const user_entity_1 = require("./entities/user.entity");
+const role_entity_1 = require("../roles/entities/role.entity");
+const bcrypt = __importStar(require("bcrypt"));
 let UsersService = class UsersService {
-    constructor(usersRepository, dataSource) {
-        this.usersRepository = usersRepository;
-        this.dataSource = dataSource;
+    constructor(userRepository, roleRepository) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
-    async findByEmail(email) {
-        return this.usersRepository.findOneBy({ email });
-    }
-    async findById(id, relations = ['role']) {
-        return this.usersRepository.findOne({ where: { id }, relations });
-    }
-    toUserResponse(user) {
-        return {
-            id: user.id,
-            role: {
-                id: user.role?.id ?? 1,
-                name: user.role?.name ?? 'USER',
-            },
-            name: user.name ?? null,
-            email: user.email,
-            isActive: user.isActive,
-            createdAt: user.createdAt,
-            updatedAt: user.updatedAt,
-        };
-    }
-    async getMe(userId) {
-        const user = await this.findById(userId);
-        if (!user) {
-            throw new common_1.NotFoundException('User not found');
+    async findAll(restaurantId, currentUserRole, currentUserRestaurantId) {
+        // Super admin can see all users
+        if (currentUserRole === role_entity_1.RoleName.SUPER_ADMIN) {
+            return this.userRepository.find({ relations: ['role'] });
         }
-        return this.toUserResponse(user);
+        // Restaurant owner and chef see only users in their restaurant
+        if (restaurantId && currentUserRestaurantId === restaurantId) {
+            return this.userRepository.find({ where: { restaurantId }, relations: ['role'] });
+        }
+        throw new common_1.ForbiddenException('Access denied');
     }
-    async updateMe(userId, dto) {
-        const user = await this.findById(userId);
-        if (!user) {
-            throw new common_1.NotFoundException('User not found');
-        }
-        if (dto.email && dto.email !== user.email) {
-            const existing = await this.findByEmail(dto.email);
-            if (existing && existing.id !== user.id) {
-                throw new common_1.UnauthorizedException('Email already in use');
-            }
-            user.email = dto.email;
-        }
-        if (dto.name !== undefined) {
-            user.name = dto.name;
-        }
-        await this.usersRepository.save(user);
-        return this.toUserResponse(user);
-    }
-    async changePassword(userId, dto) {
-        const user = await this.usersRepository.findOne({
-            where: { id: userId },
-            select: ['id', 'passwordHash'],
-        });
+    async findOne(id, currentUserRole, currentUserRestaurantId) {
+        const user = await this.userRepository.findOne({ where: { id }, relations: ['role'] });
         if (!user)
             throw new common_1.NotFoundException('User not found');
-        const valid = await bcrypt.compare(dto.currentPassword, user.passwordHash);
-        if (!valid)
-            throw new common_1.UnauthorizedException('Current password is incorrect');
-        user.passwordHash = await bcrypt.hash(dto.newPassword, 10);
-        await this.usersRepository.save(user);
+        if (currentUserRole === role_entity_1.RoleName.SUPER_ADMIN)
+            return user;
+        if (currentUserRestaurantId === user.restaurantId)
+            return user;
+        throw new common_1.ForbiddenException('Access denied');
     }
-    async hardDeleteAccount(userId) {
-        const user = await this.usersRepository.findOne({
-            where: { id: userId },
-            select: ['id'],
-        });
+    async updateProfile(id, updateData, currentUserId, currentUserRole) {
+        if (id !== currentUserId && currentUserRole !== role_entity_1.RoleName.SUPER_ADMIN) {
+            throw new common_1.ForbiddenException('You can only update your own profile');
+        }
+        const user = await this.userRepository.findOne({ where: { id } });
         if (!user)
             throw new common_1.NotFoundException('User not found');
-        await this.dataSource.transaction(async (manager) => {
-            // Remove user-linked rows that do not cascade.
-            await manager
-                .query(`DELETE FROM "resume_tracking" WHERE "userId" = $1`, [userId])
-                .catch(() => undefined);
-            await manager
-                .query(`DELETE FROM "quiz_attempts" WHERE "userId" = $1`, [userId])
-                .catch(() => undefined);
-            await manager
-                .query(`DELETE FROM "exam_attempts" WHERE "userId" = $1`, [userId])
-                .catch(() => undefined);
-            await manager
-                .query(`DELETE FROM "user_progress" WHERE "userId" = $1`, [userId])
-                .catch(() => undefined);
-            await manager
-                .query(`DELETE FROM "daily_activity" WHERE "userId" = $1`, [userId])
-                .catch(() => undefined);
-            await manager
-                .query(`DELETE FROM "user_goals" WHERE "userId" = $1`, [userId])
-                .catch(() => undefined);
-            await manager
-                .query(`DELETE FROM "user_learning_stats" WHERE "userId" = $1`, [
-                userId,
-            ])
-                .catch(() => undefined);
-            // Finally delete the user.
-            await manager.query(`DELETE FROM "users" WHERE "id" = $1`, [userId]);
-        });
-        return { deleted: true };
+        if (updateData.password) {
+            updateData.password = await bcrypt.hash(updateData.password, 10);
+        }
+        Object.assign(user, updateData);
+        return this.userRepository.save(user);
     }
-    async findAll() {
-        const users = await this.usersRepository.find({
-            relations: ['role'],
-            order: { id: 'ASC' },
-        });
-        return users.map((u) => this.toUserResponse(u));
+    async deleteUser(id, currentUserRole, currentUserRestaurantId) {
+        const user = await this.userRepository.findOne({ where: { id } });
+        if (!user)
+            throw new common_1.NotFoundException('User not found');
+        if (currentUserRole === role_entity_1.RoleName.SUPER_ADMIN) {
+            await this.userRepository.remove(user);
+            return { message: 'User deleted' };
+        }
+        if (currentUserRole === role_entity_1.RoleName.RESTAURANT_OWNER && user.restaurantId === currentUserRestaurantId) {
+            await this.userRepository.remove(user);
+            return { message: 'User deleted' };
+        }
+        throw new common_1.ForbiddenException('Access denied');
     }
-    async createUser(email, plainPassword, name) {
-        const saltRounds = 10;
-        const hashedPassword = await bcrypt.hash(plainPassword, saltRounds);
-        const user = this.usersRepository.create({
-            email,
-            passwordHash: hashedPassword,
-            name,
-        });
-        return this.usersRepository.save(user);
+    async assignRole(userId, roleName, currentUserRole) {
+        if (currentUserRole !== role_entity_1.RoleName.SUPER_ADMIN) {
+            throw new common_1.ForbiddenException('Only super admin can assign roles');
+        }
+        const user = await this.userRepository.findOne({ where: { id: userId } });
+        if (!user)
+            throw new common_1.NotFoundException('User not found');
+        const role = await this.roleRepository.findOne({ where: { name: roleName } });
+        if (!role)
+            throw new common_1.BadRequestException('Invalid role');
+        user.roleId = role.id;
+        return this.userRepository.save(user);
     }
 };
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_2.InjectRepository)(user_entity_1.User)),
-    __metadata("design:paramtypes", [typeorm_1.Repository,
-        typeorm_1.DataSource])
+    __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
+    __param(1, (0, typeorm_1.InjectRepository)(role_entity_1.Role)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map

@@ -9,15 +9,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthModule = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
-const auth_service_1 = require("./auth.service");
-const jwt_strategy_1 = require("./jwt.strategy");
+const passport_1 = require("@nestjs/passport");
 const config_1 = require("@nestjs/config");
 const typeorm_1 = require("@nestjs/typeorm");
-const passport_1 = require("@nestjs/passport");
 const auth_controller_1 = require("./auth.controller");
+const auth_service_1 = require("./auth.service");
+const jwt_strategy_1 = require("./strategies/jwt.strategy");
+const refresh_token_strategy_1 = require("./strategies/refresh-token.strategy");
 const user_entity_1 = require("../users/entities/user.entity");
-const session_token_guard_1 = require("./session-token.guard");
-const refresh_token_strategy_1 = require("./refresh-token.strategy");
 const role_entity_1 = require("../roles/entities/role.entity");
 let AuthModule = class AuthModule {
 };
@@ -29,23 +28,14 @@ exports.AuthModule = AuthModule = __decorate([
             passport_1.PassportModule,
             jwt_1.JwtModule.registerAsync({
                 inject: [config_1.ConfigService],
-                useFactory: (config) => {
-                    const secret = config.get('JWT_ACCESS_SECRET') ?? 'JWT_ACCESS_SECRET';
-                    const expiresIn = config.get('JWT_ACCESS_EXPIRES_IN') ?? '90m';
-                    return {
-                        secret,
-                        signOptions: { expiresIn: expiresIn },
-                    };
-                },
+                useFactory: (config) => ({
+                    secret: config.get('JWT_ACCESS_SECRET') || 'JWT_ACCESS_SECRET',
+                    signOptions: { expiresIn: '1d' },
+                }),
             }),
         ],
         controllers: [auth_controller_1.AuthController],
-        providers: [
-            auth_service_1.AuthService,
-            jwt_strategy_1.JwtStrategy,
-            refresh_token_strategy_1.RefreshTokenStrategy,
-            session_token_guard_1.SessionTokenGuard,
-        ],
+        providers: [auth_service_1.AuthService, jwt_strategy_1.JwtStrategy, refresh_token_strategy_1.RefreshTokenStrategy],
         exports: [auth_service_1.AuthService],
     })
 ], AuthModule);

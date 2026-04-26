@@ -10,8 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
-const role_entity_1 = require("../../roles/entities/role.entity");
 const typeorm_1 = require("typeorm");
+const role_entity_1 = require("../../roles/entities/role.entity");
 let User = class User {
 };
 exports.User = User;
@@ -26,20 +26,32 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], User.prototype, "passwordHash", void 0);
+], User.prototype, "password", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], User.prototype, "name", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ default: true }),
-    __metadata("design:type", Boolean)
-], User.prototype, "isActive", void 0);
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], User.prototype, "phone", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => role_entity_1.Role, (role) => role.users, { eager: true }),
+    (0, typeorm_1.ManyToOne)(() => role_entity_1.Role),
     (0, typeorm_1.JoinColumn)({ name: 'roleId' }),
     __metadata("design:type", role_entity_1.Role)
 ], User.prototype, "role", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], User.prototype, "roleId", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", Object)
+], User.prototype, "restaurantId", void 0);
+__decorate([
+    (0, typeorm_1.Column)({ default: true }),
+    __metadata("design:type", Boolean)
+], User.prototype, "isActive", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)

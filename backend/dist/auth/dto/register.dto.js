@@ -9,8 +9,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RegisterDto = void 0;
+exports.RefreshTokenDto = exports.LoginDto = exports.RegisterDto = void 0;
 const class_validator_1 = require("class-validator");
+const role_entity_1 = require("../../roles/entities/role.entity");
 class RegisterDto {
 }
 exports.RegisterDto = RegisterDto;
@@ -20,12 +21,44 @@ __decorate([
 ], RegisterDto.prototype, "email", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.MinLength)(2),
+    (0, class_validator_1.MinLength)(6),
+    __metadata("design:type", String)
+], RegisterDto.prototype, "password", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], RegisterDto.prototype, "name", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.MinLength)(6),
+    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
-], RegisterDto.prototype, "password", void 0);
+], RegisterDto.prototype, "phone", void 0);
+__decorate([
+    (0, class_validator_1.IsEnum)(role_entity_1.RoleName),
+    __metadata("design:type", String)
+], RegisterDto.prototype, "role", void 0);
+__decorate([
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Number)
+], RegisterDto.prototype, "restaurantId", void 0);
+class LoginDto {
+}
+exports.LoginDto = LoginDto;
+__decorate([
+    (0, class_validator_1.IsEmail)(),
+    __metadata("design:type", String)
+], LoginDto.prototype, "email", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], LoginDto.prototype, "password", void 0);
+class RefreshTokenDto {
+}
+exports.RefreshTokenDto = RefreshTokenDto;
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], RefreshTokenDto.prototype, "refreshToken", void 0);
 //# sourceMappingURL=register.dto.js.map
