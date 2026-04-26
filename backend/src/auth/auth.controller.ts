@@ -20,14 +20,14 @@ export class AuthController {
 
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
-  async refresh(@Body() dto: RefreshTokenDto) {
-    return this.authService.refreshTokens(dto.refreshToken ?? '');
+  async refresh(@Body('refreshToken') refreshToken: string) {
+    return this.authService.refreshTokens(refreshToken);
   }
 
   @Post('logout')
   @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.OK)
-  async logout() {
-    return this.authService.logout();
+  async logout(@Body('refreshToken') refreshToken: string) {
+    return this.authService.logout(refreshToken);
   }
 }

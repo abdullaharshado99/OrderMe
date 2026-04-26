@@ -16,10 +16,14 @@ import { Role } from '../roles/entities/role.entity';
     PassportModule,
     JwtModule.registerAsync({
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        secret: config.get<string>('JWT_ACCESS_SECRET') || 'JWT_ACCESS_SECRET',
-        signOptions: { expiresIn: '1d' },
-      }),
+      useFactory: (config: ConfigService) => {
+        const secret = config.get<string>('JWT_ACCESS_SECRET') ?? 'default_secret_change_me';
+        const expiresIn = config.get<string>('JWT_ACCESS_EXPIRES_IN') ?? '15m';
+        return {
+          secret,
+          signOptions: { expiresIn: expiresIn as any },
+        };
+      },
     }),
   ],
   controllers: [AuthController],
