@@ -1,0 +1,25 @@
+{
+  "extends": "@react-native/typescript-config",
+  "compilerOptions": {
+    "types": ["jest"],
+    "baseUrl": ".",
+    "allowJs": true,
+    "checkJs": false,
+    "paths": {
+      "@components/*": ["src/components/*"],
+      "@screens/*": ["src/screens/*"],
+      "@redux/*": ["src/redux/*"],
+      "@NativeText": ["src/components/AppTexts/NativeText"],
+      "@Routes": ["src/navigation/Routes"],
+      "@export": ["src/utils/export"],
+      "@libs": ["src/libs"]
+    }
+  },
+  // "include": ["**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": ["**/node_modules", "**/Pods"]
+}
