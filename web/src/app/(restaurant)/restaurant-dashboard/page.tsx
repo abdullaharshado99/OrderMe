@@ -1,4 +1,4 @@
-import styles from './resturant-dashboard.module.css';
+import styles from './restaurant-dashboard.module.css';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 
 export default function ResturantDashboardPage() {
@@ -9,7 +9,7 @@ export default function ResturantDashboardPage() {
             </CardHeader>
             <CardContent className={styles.cardContent}>
                 <p className={styles.infoText}>
-                    Welcome to the Live With Quran admin dashboard. Use the sidebar to manage media,
+                    Welcome to the Order Me admin dashboard. Use the sidebar to manage media,
                     admins, and your profile.
                 </p>
             </CardContent>

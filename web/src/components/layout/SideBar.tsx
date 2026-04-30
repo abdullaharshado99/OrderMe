@@ -78,7 +78,7 @@ function AdminShellChrome({ children }: { children: React.ReactNode }) {
                                     />
                                 </div>
                                 <span className={styles.brandText} data-sidebar-brand-text>
-                                    Live With Quran
+                                    Order Me
                                 </span>
                             </span>
                         </Link>

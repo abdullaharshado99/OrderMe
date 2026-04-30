@@ -22,8 +22,8 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
 
   const config = new DocumentBuilder()
-    .setTitle('Live With Quran API')
-    .setDescription('Authentication and REST APIs for Live With Quran')
+    .setTitle('Order Me API')
+    .setDescription('Authentication and REST APIs for Order Me')
     .setVersion('1.0')
     .addBearerAuth(
       {

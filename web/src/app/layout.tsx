@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Live With Quran Admin',
-  description: 'Live With Quran Admin',
+  title: 'Order Me Admin',
+  description: 'Order Me Admin',
   icons: {
     icon: '/IshmaalQuran-Logo.png',
     apple: '/IshmaalQuran-Logo.png',
@@ -30,8 +30,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${quicksand.variable} ${geistMono.variable} antialiased`}>
         <TooltipProvider>
           {/* <AuthProvider> */}
-            {children}
-            {/* </AuthProvider> */}
+          {children}
+          {/* </AuthProvider> */}
           <Toaster />
         </TooltipProvider>
       </body>
