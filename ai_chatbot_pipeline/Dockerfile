@@ -1,32 +1,29 @@
-# Use Python 3.11 for consistent behavior with your lockfile
-FROM python:3.11-slim
+FROM python:3.10-slim
+
+# Prevent Python from writing .pyc files & enable logs immediately
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-# Install system dependencies for document processing
+# System dependencies (only if needed for ML libs)
 RUN apt-get update && apt-get install -y \
-    gcc \
-    g++ \
+    build-essential \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Install dependencies first (better layer caching)
-COPY requirements.txt .
-COPY libraries/requirements.txt ./libraries/
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy dependency file first (for caching)
+COPY libraries/requirements.txt ./requirements.txt
 
-# Copy application code
-COPY Anna_pipeline/ ./Anna_pipeline/
-COPY endpoint.py pipeline.py .
-COPY templates/ ./templates/
-COPY static/ ./static/
+# Upgrade pip + install deps
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
-# Set environment variables for production
-ENV PORT=8080
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV CHROMADB_TELEMETRY=0
+# Copy full project
+COPY . .
 
-EXPOSE $PORT
+# Expose port (if running API, e.g., FastAPI)
+EXPOSE 8000
 
-# Run with gunicorn optimized for RAG workloads
-CMD gunicorn endpoint:app --bind 0.0.0.0:$PORT --workers 1 --threads 2 --timeout 120
+# Default command (adjust if using FastAPI/uvicorn)
+CMD ["python", "main.py"]
