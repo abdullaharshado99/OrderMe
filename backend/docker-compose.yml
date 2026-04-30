@@ -1,0 +1,47 @@
+# version: '3.9'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: orderme-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: orderme
+      POSTGRES_PASSWORD: supersecret
+      POSTGRES_DB: orderme
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - orderme-network
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: order-me-backend
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    environment:
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USERNAME: orderme
+      DB_PASSWORD: supersecret
+      DB_NAME: orderme
+      NODE_ENV: development
+    depends_on:
+      - postgres
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    networks:
+      - orderme-network
+
+networks:
+  orderme-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
