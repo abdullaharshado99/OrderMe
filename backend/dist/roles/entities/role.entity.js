@@ -13,10 +13,10 @@ exports.Role = exports.RoleName = void 0;
 const typeorm_1 = require("typeorm");
 var RoleName;
 (function (RoleName) {
-    RoleName["SUPER_ADMIN"] = "super-admin";
-    RoleName["RESTAURANT_OWNER"] = "restaurant-owner";
-    RoleName["CHEF"] = "chef";
-    RoleName["CUSTOMER"] = "customer";
+    RoleName["SUPER_ADMIN"] = "SUPER_ADMIN";
+    RoleName["RESTAURANT_OWNER"] = "RESTAURANT_OWNER";
+    RoleName["CHEF"] = "CHEF";
+    RoleName["CUSTOMER"] = "CUSTOMER";
 })(RoleName || (exports.RoleName = RoleName = {}));
 let Role = class Role {
 };

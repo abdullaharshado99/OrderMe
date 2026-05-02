@@ -21,13 +21,25 @@ export class SubscriptionsService {
         }
         const sub = this.subRepo.create(dto);
         const saved = await this.subRepo.save(sub);
-        // Update restaurant's subscription plan and expiry
         await this.restaurantRepo.update(dto.restaurantId!, {
             subscriptionPlan: dto.plan,
             subscriptionExpiry: new Date(dto.endDate!),
         });
         return saved;
     }
+
+    async getAllWithRestaurants() {
+        return this.subRepo.find({ relations: ['restaurant'], order: { createdAt: 'DESC' } });
+    }
+
+    async getPlans() {
+        return [
+            { id: 1, name: 'Basic', price: 49, features: 'Up to 50 orders/month, basic support', durationDays: 30 },
+            { id: 2, name: 'Pro', price: 99, features: 'Unlimited orders, priority support, inventory management', durationDays: 30 },
+            { id: 3, name: 'Enterprise', price: 199, features: 'Everything in Pro + dedicated account manager, API access', durationDays: 30 },
+        ];
+    }
+
 
     async findByRestaurant(restaurantId: number, currentUserRole: string, userRestaurantId?: number) {
         if (currentUserRole !== RoleName.SUPER_ADMIN && userRestaurantId !== restaurantId) {

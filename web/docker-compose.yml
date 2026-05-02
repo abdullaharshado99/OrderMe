@@ -1,11 +1,38 @@
 services:
   backend:
-    # your existing NestJS service
-  admin-web:
-    build: ./live-with-quran-web
+    build: ./backend
+    container_name: orderme-backend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15
+    container_name: orderme-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: orderme
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    build: ./web
+    container_name: orderme-web
+    restart: unless-stopped
     ports:
       - "3001:3000"
     environment:
-      - NEXT_PUBLIC_NEST_API_BASE_URL=http://localhost:3000
+      - NEXT_PUBLIC_API_URL=http://localhost:3000
     depends_on:
       - backend
+
+volumes:
+  postgres_data:

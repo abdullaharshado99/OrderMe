@@ -1,146 +1,52 @@
 'use client';
-
 import Link from 'next/link';
-import Image from 'next/image';
-import styles from './sidebar.module.css';
 import { usePathname } from 'next/navigation';
-import { isSuperAdminRole } from '@/lib/auth';
-import { Separator } from '@/components/ui/separator';
 import { useAuth } from '@/components/auth/AuthProvider';
-import { AdminGuard } from '@/components/auth/AdminGuard';
-import { LogOut, LayoutDashboard, FolderPlus, Shield, UserCircle2, FileQuestion, BookOpen } from 'lucide-react';
-import {
-    SidebarProvider,
-    Sidebar,
-    SidebarHeader,
-    SidebarContent,
-    SidebarGroup,
-    SidebarGroupContent,
-    SidebarMenu,
-    SidebarMenuItem,
-    SidebarMenuButton,
-    SidebarFooter,
-    SidebarInset,
-    SidebarTrigger,
-    useSidebar,
-} from '@/components/ui/sidebar';
+import { LayoutDashboard, Users, Menu, ShoppingCart, LogOut } from 'lucide-react';
 
-const navItems = [
-    { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { href: '/media', label: 'Media Upload', icon: FolderPlus },
-    { href: '/quiz', label: 'Quiz Upload', icon: FileQuestion },
-    { href: '/exams', label: 'Exams', icon: BookOpen },
-    { href: '/profile', label: 'Profile', icon: UserCircle2 },
-    { href: '/admins', label: 'Admins', icon: Shield, superAdminOnly: true },
+const adminNav = [
+    { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { href: '/admin/restaurants', label: 'Restaurants', icon: Users },
+    { href: '/admin/subscriptions', label: 'Subscriptions', icon: ShoppingCart },
 ];
 
-function AdminShellChrome({ children }: { children: React.ReactNode }) {
+const restaurantNav = [
+    { href: '/restaurant/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { href: '/restaurant/menu', label: 'Menu', icon: Menu },
+    { href: '/restaurant/orders', label: 'Orders', icon: ShoppingCart },
+    { href: '/restaurant/staff', label: 'Staff', icon: Users },
+];
+
+export function Sidebar() {
+    const { user, logout } = useAuth();
     const pathname = usePathname();
-    const { user, setUser } = useAuth();
-    const { isMobile, setOpenMobile } = useSidebar();
 
-    const handleLogout = async () => {
-        document.cookie = 'lwq_admin_token=; Max-Age=0; path=/;';
-        setUser(null);
-        window.location.href = '/login';
-    };
-
-    const closeMobileSidebarAfterNav = () => {
-        if (isMobile) {
-            setOpenMobile(false);
-        }
-    };
-
-    const filteredNavItems = navItems.filter(
-        (item) => !item.superAdminOnly || isSuperAdminRole(user?.role)
-    );
+    const navItems = user?.role === 'SUPER_ADMIN' ? adminNav : restaurantNav;
 
     return (
-        <>
-            <Sidebar collapsible="icon" className={styles.sidebar}>
-                <SidebarHeader className={styles.sidebarHeader}>
-                    <SidebarMenuButton asChild isActive={pathname === '/dashboard'}>
+        <aside className="w-64 bg-white shadow-md h-screen fixed left-0 top-0 flex flex-col">
+            <div className="p-4 text-xl font-bold border-b">Order Me</div>
+            <nav className="flex-1 p-4">
+                {navItems.map((item) => {
+                    const isActive = pathname === item.href;
+                    return (
                         <Link
-                            href="/dashboard"
-                            className={styles.brandLink}
-                            data-sidebar-brand-link
-                            onClick={closeMobileSidebarAfterNav}
+                            key={item.href}
+                            href={item.href}
+                            className={`flex items-center gap-3 p-2 rounded-lg mb-2 ${isActive ? 'bg-blue-100 text-blue-700' : 'hover:bg-gray-100'}`}
                         >
-                            <span className={styles.brandRow}>
-                                <div className={styles.logoWrap} aria-hidden>
-                                    <Image
-                                        src="/IshmaalQuran-Logo.png"
-                                        alt=""
-                                        width={15}
-                                        height={15}
-                                        className={styles.brandLogo}
-                                        priority
-                                    />
-                                </div>
-                                <span className={styles.brandText} data-sidebar-brand-text>
-                                    Order Me
-                                </span>
-                            </span>
+                            <item.icon size={20} />
+                            <span>{item.label}</span>
                         </Link>
-                    </SidebarMenuButton>
-                </SidebarHeader>
-                <SidebarContent>
-                    <SidebarGroup>
-                        <SidebarGroupContent>
-                            <SidebarMenu>
-                                {filteredNavItems.map((item) => {
-                                    const Icon = item.icon;
-                                    const isActive = pathname.startsWith(item.href);
-                                    return (
-                                        <SidebarMenuItem key={item.href}>
-                                            <SidebarMenuButton
-                                                asChild
-                                                isActive={isActive}
-                                                tooltip={item.label}
-                                                onClick={closeMobileSidebarAfterNav}
-                                            >
-                                                <Link href={item.href}>
-                                                    <Icon className={styles.icon} />
-                                                    <span className={styles.iconText}>{item.label}</span>
-                                                </Link>
-                                            </SidebarMenuButton>
-                                        </SidebarMenuItem>
-                                    );
-                                })}
-                            </SidebarMenu>
-                        </SidebarGroupContent>
-                    </SidebarGroup>
-                </SidebarContent>
-                <Separator className={styles.sidebarSeparator} />
-                <SidebarFooter className={styles.sidebarFooter}>
-                    <SidebarMenu>
-                        <SidebarMenuItem>
-                            <SidebarMenuButton onClick={handleLogout} tooltip="Logout">
-                                <LogOut className={styles.logoutIcon} />
-                                <span data-sidebar-logout-text className={styles.logoutText}>Logout</span>
-                            </SidebarMenuButton>
-                        </SidebarMenuItem>
-                    </SidebarMenu>
-                </SidebarFooter>
-            </Sidebar>
-            <SidebarInset>
-                <header className={styles.topHeader}>
-                    <SidebarTrigger className={styles.sidebarTrigger} />
-                </header>
-                <div className={styles.content}>
-                    {children}
-                </div>
-            </SidebarInset>
-        </>
-    );
-}
-
-export function AdminShell({ children }: { children: React.ReactNode }) {
-    return (
-        <AdminGuard>
-            <SidebarProvider>
-                <AdminShellChrome>{children}</AdminShellChrome>
-            </SidebarProvider>
-        </AdminGuard>
+                    );
+                })}
+            </nav>
+            <div className="p-4 border-t">
+                <button onClick={logout} className="flex items-center gap-3 text-red-600 w-full p-2 rounded-lg hover:bg-gray-100">
+                    <LogOut size={20} />
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
     );
 }

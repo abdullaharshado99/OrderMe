@@ -27,11 +27,11 @@ let AuthController = class AuthController {
     async login(dto) {
         return this.authService.login(dto);
     }
-    async refresh(dto) {
-        return this.authService.refreshTokens(dto.refreshToken ?? '');
+    async refresh(refreshToken) {
+        return this.authService.refreshTokens(refreshToken);
     }
-    async logout() {
-        return this.authService.logout();
+    async logout(refreshToken) {
+        return this.authService.logout(refreshToken);
     }
 };
 exports.AuthController = AuthController;
@@ -53,17 +53,18 @@ __decorate([
 __decorate([
     (0, common_1.Post)('refresh'),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
-    __param(0, (0, common_1.Body)()),
+    __param(0, (0, common_1.Body)('refreshToken')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [register_dto_1.RefreshTokenDto]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "refresh", null);
 __decorate([
     (0, common_1.Post)('logout'),
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    __param(0, (0, common_1.Body)('refreshToken')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "logout", null);
 exports.AuthController = AuthController = __decorate([

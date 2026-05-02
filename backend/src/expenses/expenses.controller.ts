@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Delete, Body, Param, Query, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Body, Param, Query, UseGuards, Request, Header } from '@nestjs/common';
 import { ExpensesService } from './expenses.service';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../common/guards/roles.guard';
@@ -18,6 +18,7 @@ export class ExpensesController {
     }
 
     @Get('restaurant/:restaurantId')
+    @Header('Cache-Control', 'no-cache, no-store, must-revalidate')
     @Roles(RoleName.SUPER_ADMIN, RoleName.RESTAURANT_OWNER)
     findAll(@Param('restaurantId') restaurantId: number, @Request() req) {
         return this.expensesService.findAll(restaurantId, req.user.role, req.user.restaurantId);

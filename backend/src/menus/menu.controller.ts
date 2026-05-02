@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Delete, Body, Param, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Body, Param, UseGuards, Request, Header } from '@nestjs/common';
 import { MenusService } from './menu.service';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../common/guards/roles.guard';
@@ -17,6 +17,7 @@ export class MenusController {
   }
 
   @Get('restaurant/:restaurantId')
+  @Header('Cache-Control', 'no-cache, no-store, must-revalidate')
   findAll(@Param('restaurantId') restaurantId: number, @Request() req) {
     return this.menusService.findAllByRestaurant(restaurantId, req.user.role, req.user.restaurantId);
   }

@@ -30,7 +30,7 @@ export class AuthService {
     if (!role) throw new BadRequestException('Invalid role');
 
     if ((dto.role === RoleName.RESTAURANT_OWNER || dto.role === RoleName.CHEF) && !dto.restaurantId) {
-      throw new BadRequestException('restaurantId is required for restaurant-owner or chef');
+      throw new BadRequestException('restaurantId is required for RESTAURANT_OWNER or CHEF');
     }
 
     const hashedPassword = await bcrypt.hash(dto.password ?? '', 10);
@@ -118,5 +118,9 @@ export class AuthService {
     } catch (error) {
       return null;
     }
+  }
+
+  async validateUser(userId: number): Promise<User | null> {
+    return this.userRepository.findOne({ where: { id: userId }, relations: ['role'] });
   }
 }
