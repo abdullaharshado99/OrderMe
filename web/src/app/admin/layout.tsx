@@ -1,6 +1,7 @@
 import { AdminSidebar } from '@/components/layout/AdminSidebar';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 
+
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
     return (
         <ProtectedRoute allowedRoles={['SUPER_ADMIN']}>

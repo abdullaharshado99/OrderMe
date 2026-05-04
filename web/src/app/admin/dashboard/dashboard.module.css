@@ -1,11 +1,15 @@
 .container {
     padding: 1.5rem;
+    background-color: var(--black);
+    min-height: 100vh;
+    color: var(--silver);
 }
 
 .title {
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 1.5rem;
+    color: var(--raspberry);
 }
 
 .statsGrid {
@@ -18,4 +22,25 @@
     .statsGrid {
         grid-template-columns: repeat(3, 1fr);
     }
+}
+
+/* Card Styling */
+.statsGrid :global(.bg-card) {
+    background: linear-gradient(135deg, var(--black), #222);
+    border: 1px solid var(--silver);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.statsGrid :global(.bg-card:hover) {
+    border-color: var(--brilliant-rose);
+    transform: translateY(-5px);
+}
+
+.statsGrid :global(h3) {
+    color: var(--brilliant-rose);
+}
+
+.statsGrid :global(.text-3xl) {
+    color: var(--raspberry);
 }

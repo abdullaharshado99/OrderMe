@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Geist_Mono, Quicksand } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from '@/components/auth/AuthProvider';
+import './globals.css';
 
 const quicksand = Quicksand({ variable: "--font-quicksand", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
