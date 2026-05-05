@@ -1,1 +1,14 @@
+chardet
+docx2txt
+fastapi
 langchain
+langchain-milvus
+langchain_openai
+langchain_community
+langchain_experimental
+load_dotenv
+milvus
+pypdf
+pillow
+tqdm
+transformers
