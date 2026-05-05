@@ -1,3 +1,4 @@
+apscheduler
 chardet
 docx2txt
 fastapi
@@ -10,5 +11,6 @@ load_dotenv
 milvus
 pypdf
 pillow
+python-jose
 tqdm
 transformers
