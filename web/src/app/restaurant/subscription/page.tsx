@@ -27,39 +27,72 @@ export default function OwnerSubscription() {
             api
                 .get<CurrentSubscription | null>(`/subscriptions/current/${user.restaurantId}`)
                 .then((res) => setSubscription(res.data ?? null))
-                .catch(() => {});
+                .catch(() => { });
             api.get<PlanCard[]>('/subscriptions/plans').then((res) => setPlans(res.data ?? []));
         }
     }, [user]);
 
     return (
-        <div className="p-6">
-            <h1 className="text-2xl font-bold mb-6">My Subscription</h1>
+        <div className="p-6 min-h-screen bg-gray-50 text-gray-900" style={{ fontFamily: 'var(--font-quicksand)' }}>
+
+            {/* Title */}
+            <h1 className="text-2xl font-bold mb-6 text-[var(--raspberry)]">
+                My Subscription
+            </h1>
+
+            {/* Current Plan */}
             {subscription && (
-                <Card className="mb-6 bg-green-50">
+                <Card className="mb-6 bg-white border border-gray-200">
                     <CardHeader>
-                        <CardTitle>Current Plan: {subscription.plan ?? '—'}</CardTitle>
+                        <CardTitle className="text-[var(--brilliant-rose)]">
+                            Current Plan: {subscription.plan ?? '—'}
+                        </CardTitle>
                     </CardHeader>
-                    <CardContent>
+
+                    <CardContent className="text-gray-700">
                         <p>
                             Valid until:{' '}
                             {subscription.endDate != null
                                 ? new Date(subscription.endDate).toLocaleDateString()
                                 : '—'}
                         </p>
-                        <p>Price: ${subscription.price ?? '—'}</p>
+
+                        <p className="mt-1 text-[var(--raspberry)] font-semibold">
+                            Price: ${subscription.price ?? '—'}
+                        </p>
                     </CardContent>
                 </Card>
             )}
-            <h2 className="text-xl font-bold mb-4">Available Plans</h2>
+
+            {/* Plans */}
+            <h2 className="text-xl font-bold mb-4 text-[var(--brilliant-rose)]">
+                Available Plans
+            </h2>
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {plans.map(plan => (
-                    <Card key={plan.id}>
-                        <CardHeader><CardTitle>{plan.name}</CardTitle></CardHeader>
-                        <CardContent>
-                            <p className="text-2xl font-bold">${plan.price}/month</p>
-                            <p className="mt-2">{plan.features}</p>
-                            <button className="mt-4 bg-blue-600 text-white px-4 py-2 rounded w-full">Upgrade</button>
+                    <Card
+                        key={plan.id}
+                        className="bg-white border border-gray-200 hover:border-[var(--brilliant-rose)] transition"
+                    >
+                        <CardHeader>
+                            <CardTitle className="text-[var(--brilliant-rose)]">
+                                {plan.name}
+                            </CardTitle>
+                        </CardHeader>
+
+                        <CardContent className="text-gray-700">
+                            <p className="text-2xl font-bold text-[var(--raspberry)]">
+                                ${plan.price}/month
+                            </p>
+
+                            <p className="mt-2 text-sm">
+                                {plan.features}
+                            </p>
+
+                            <button className="mt-4 bg-[var(--raspberry)] hover:bg-[var(--brilliant-rose)] text-white px-4 py-2 rounded w-full transition">
+                                Upgrade
+                            </button>
                         </CardContent>
                     </Card>
                 ))}

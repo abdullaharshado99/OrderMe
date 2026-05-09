@@ -1,13 +1,20 @@
+/* Container */
 .container {
     padding: 1.5rem;
+    background-color: #f9fafb;
+    min-height: 100vh;
 }
 
+/* Title */
 .title {
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 1.5rem;
+    color: var(--raspberry);
+    font-family: var(--font-quicksand);
 }
 
+/* Grid */
 .statsGrid {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
@@ -17,6 +24,46 @@
 
 @media (min-width: 768px) {
     .statsGrid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
     }
+}
+
+/* Cards */
+.card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    font-family: var(--font-quicksand);
+
+}
+
+.card:hover {
+    border-color: var(--brilliant-rose);
+    transform: translateY(-4px);
+}
+
+/* Values */
+.value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--raspberry);
+    font-family: var(--font-quicksand);
+}
+
+/* Orders list */
+.orderList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.orderItem {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e5e7eb;
+    color: #374151;
+}
+
+.orderItem:last-child {
+    border-bottom: none;
 }

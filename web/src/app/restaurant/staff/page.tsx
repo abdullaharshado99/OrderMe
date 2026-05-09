@@ -25,19 +25,74 @@ export default function StaffPage() {
     };
 
     return (
-        <div className="p-6 max-w-2xl mx-auto">
-            <h1 className="text-2xl font-bold mb-6">Add New Chef</h1>
-            <Card>
-                <CardHeader><CardTitle>Chef Details</CardTitle></CardHeader>
+        <div className="p-6 max-w-2xl mx-auto min-h-screen bg-gray-50 text-gray-900" style={{ fontFamily: 'var(--font-quicksand)' }}>
+
+            {/* Title */}
+            <h1 className="text-2xl font-bold mb-6 text-[var(--raspberry)]">
+                Add New Chef
+            </h1>
+
+            <Card className="bg-white border border-gray-200">
+                <CardHeader>
+                    <CardTitle className="text-[var(--brilliant-rose)]">
+                        Chef Details
+                    </CardTitle>
+                </CardHeader>
+
                 <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-4">
-                        <input type="email" placeholder="Email" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="w-full p-2 border rounded" required />
-                        <input type="password" placeholder="Password" value={formData.password} onChange={e => setFormData({ ...formData, password: e.target.value })} className="w-full p-2 border rounded" required />
-                        <input type="tel" placeholder="Phone Number" value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} className="w-full p-2 border rounded" />
-                        <input type="text" placeholder="Full Name" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full p-2 border rounded" required />
-                        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Add Chef</button>
+
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            value={formData.email}
+                            onChange={e => setFormData({ ...formData, email: e.target.value })}
+                            className="w-full p-2 rounded border border-gray-300 bg-white focus:border-[var(--raspberry)] outline-none"
+                            required
+                        />
+
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            value={formData.password}
+                            onChange={e => setFormData({ ...formData, password: e.target.value })}
+                            className="w-full p-2 rounded border border-gray-300 bg-white focus:border-[var(--raspberry)] outline-none"
+                            required
+                        />
+
+                        <input
+                            type="tel"
+                            placeholder="Phone Number"
+                            value={formData.phone}
+                            onChange={e => setFormData({ ...formData, phone: e.target.value })}
+                            className="w-full p-2 rounded border border-gray-300 bg-white focus:border-[var(--raspberry)] outline-none"
+                        />
+
+                        <input
+                            type="text"
+                            placeholder="Full Name"
+                            value={formData.name}
+                            onChange={e => setFormData({ ...formData, name: e.target.value })}
+                            className="w-full p-2 rounded border border-gray-300 bg-white focus:border-[var(--raspberry)] outline-none"
+                            required
+                        />
+
+                        <button
+                            type="submit"
+                            className="bg-[var(--raspberry)] hover:bg-[var(--brilliant-rose)] text-white px-4 py-2 rounded transition"
+                        >
+                            Add Chef
+                        </button>
+
                     </form>
-                    {message && <p className="mt-4 text-green-600">{message}</p>}
+
+                    {/* Message */}
+                    {message && (
+                        <p className={`mt-4 ${message.includes('success') ? 'text-green-600' : 'text-red-500'}`}>
+                            {message}
+                        </p>
+                    )}
+
                 </CardContent>
             </Card>
         </div>

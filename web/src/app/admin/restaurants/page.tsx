@@ -36,7 +36,7 @@ export default function RestaurantsPage() {
     };
 
     return (
-        <div className="p-6 min-h-screen bg-gray-50 text-gray-900">
+        <div className="p-6 min-h-screen bg-gray-50 text-gray-900" style={{ fontFamily: 'var(--font-quicksand)' }}>
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-2xl font-bold text-[var(--raspberry)]">Restaurants</h1>
 
@@ -56,7 +56,7 @@ export default function RestaurantsPage() {
                         </CardTitle>
                     </CardHeader>
 
-                    <CardContent>
+                    <CardContent className="text-gray-700">
                         <form onSubmit={handleSubmit} className="space-y-4">
 
                             <input
@@ -64,7 +64,7 @@ export default function RestaurantsPage() {
                                 placeholder="Restaurant Name"
                                 value={formData.name}
                                 onChange={e => setFormData({ ...formData, name: e.target.value })}
-                                className="w-full p-2 rounded bg-white border border-gray-300 text-gray-900 focus:border-[var(--raspberry)] outline-none" required
+                                className="w-full p-2 rounded bg-white border border-gray-300 text-brilliant-rose focus:border-[var(--raspberry)] outline-none" required
                             />
 
                             <input
@@ -72,14 +72,14 @@ export default function RestaurantsPage() {
                                 placeholder="Address"
                                 value={formData.address}
                                 onChange={e => setFormData({ ...formData, address: e.target.value })}
-                                className="w-full p-2 rounded bg-white border border-gray-300 text-gray-900 focus:border-[var(--raspberry)] outline-none" />
+                                className="w-full p-2 rounded bg-white border border-gray-300 text-brilliant-rose focus:border-[var(--raspberry)] outline-none" />
 
                             <input
                                 type="text"
                                 placeholder="Phone"
                                 value={formData.phone}
                                 onChange={e => setFormData({ ...formData, phone: e.target.value })}
-                                className="w-full p-2 rounded bg-white border border-gray-300 text-gray-900 focus:border-[var(--raspberry)] outline-none" />
+                                className="w-full p-2 rounded bg-white border border-gray-300 text-brilliant-rose focus:border-[var(--raspberry)] outline-none" />
 
                             <div className="flex gap-2">
                                 <button
@@ -106,8 +106,7 @@ export default function RestaurantsPage() {
                 {restaurants.map((rest: any) => (
                     <Card
                         key={rest.id}
-                        className="bg-[#222] border border-[var(--silver)] hover:border-[var(--brilliant-rose)] transition"
-                    >
+                        className="bg-white border border-gray-200 hover:border-[var(--brilliant-rose)] transition"                    >
                         <CardHeader>
                             <CardTitle className="text-[var(--brilliant-rose)]">
                                 {rest.name}

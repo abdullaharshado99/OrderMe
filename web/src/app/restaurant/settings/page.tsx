@@ -12,13 +12,16 @@ export default function SettingsPage() {
     const handleUpload = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!logoFile) return;
+
         const restaurantId = user?.restaurantId;
         if (restaurantId == null) {
             alert('You must be signed in with a restaurant to upload a logo.');
             return;
         }
+
         const formData = new FormData();
         formData.append('logo', logoFile);
+
         setUploading(true);
         try {
             await api.post(`/restaurants/upload-logo/${restaurantId}`, formData, {
@@ -33,21 +36,40 @@ export default function SettingsPage() {
     };
 
     return (
-        <div className="p-6 max-w-2xl mx-auto">
-            <h1 className="text-2xl font-bold mb-6">Restaurant Settings</h1>
-            <Card>
-                <CardHeader><CardTitle>Update Logo</CardTitle></CardHeader>
+        <div className="p-6 max-w-2xl mx-auto min-h-screen bg-gray-50 text-gray-900" style={{ fontFamily: 'var(--font-quicksand)' }}>
+
+            {/* Title */}
+            <h1 className="text-2xl font-bold mb-6 text-[var(--raspberry)]">
+                Restaurant Settings
+            </h1>
+
+            <Card className="bg-white border border-gray-200">
+                <CardHeader>
+                    <CardTitle className="text-[var(--brilliant-rose)]">
+                        Update Logo
+                    </CardTitle>
+                </CardHeader>
+
                 <CardContent>
-                    <form onSubmit={handleUpload}>
+                    <form onSubmit={handleUpload} className="space-y-4">
+
+                        {/* File Input */}
                         <input
                             type="file"
                             accept="image/*"
                             onChange={(e) => setLogoFile(e.target.files?.[0] ?? null)}
-                            className="mb-4"
+                            className="w-full p-2 border border-gray-300 rounded bg-white text-gray-700"
                         />
-                        <button type="submit" disabled={uploading} className="bg-blue-600 text-white px-4 py-2 rounded">
+
+                        {/* Upload Button */}
+                        <button
+                            type="submit"
+                            disabled={uploading}
+                            className="bg-[var(--raspberry)] hover:bg-[var(--brilliant-rose)] text-white px-4 py-2 rounded transition disabled:opacity-50"
+                        >
                             {uploading ? 'Uploading...' : 'Upload Logo'}
                         </button>
+
                     </form>
                 </CardContent>
             </Card>

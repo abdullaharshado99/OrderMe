@@ -10,6 +10,7 @@
     font-weight: 700;
     margin-bottom: 1.5rem;
     color: var(--raspberry);
+    font-family: var(--font-quicksand);
 }
 
 .statsGrid {
@@ -30,6 +31,7 @@
     border: 1px solid var(--silver);
     border-radius: 12px;
     transition: all 0.3s ease;
+    font-family: var(--font-quicksand);
 }
 
 .statsGrid :global(.bg-card:hover) {

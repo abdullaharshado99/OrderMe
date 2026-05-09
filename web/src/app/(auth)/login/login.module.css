@@ -1,0 +1,288 @@
+.container {
+    position: relative;
+    overflow: hidden;
+    min-height: 100vh;
+    background-color: var(--login-bg, #fcfcfc);
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.bgLogo {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.bgLogo::before {
+    content: '';
+    position: absolute;
+    width: min(72vw, 760px);
+    height: min(72vw, 760px);
+    border-radius: 999px;
+    background: radial-gradient(circle at center,
+            rgba(255, 255, 255, 0.12),
+            rgba(255, 255, 255, 0.02) 55%,
+            transparent 70%);
+    filter: blur(28px);
+    opacity: 0.55;
+    animation: glowPulse 6s ease-in-out infinite;
+}
+
+.bgLogoImg {
+    width: min(62vw, 640px) !important;
+    height: min(62vw, 640px) !important;
+    position: relative !important;
+    object-fit: contain;
+    opacity: 0.14;
+    filter: blur(10px);
+    transform: translateY(-10px) rotate(-8deg) scale(1.02);
+    animation: floatSlow 7.5s ease-in-out infinite;
+}
+
+.header {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.logoWrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.logo {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.35));
+    animation: logoFloat 3.8s ease-in-out infinite;
+}
+
+.appTitle {
+    font-size: 16px;
+    color: var(--login-text, #e61272);
+    margin-bottom: 4px;
+    font-family: var(--font-quicksand);
+    font-weight: 500;
+}
+
+.title {
+    font-size: 28px;
+    color: var(--login-text, #e61272);
+    font-family: var(--font-quicksand);
+    font-weight: 700;
+}
+
+.subtitle {
+    margin-top: 8px;
+    font-size: 14px;
+    color: var(--login-text, #f067ae);
+    text-align: center;
+    font-family: var(--font-quicksand);
+    font-weight: 500;
+}
+
+.card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 400px;
+    background-color: var(--login-card-bg, #fcfcfc);
+    border-radius: 16px;
+    padding: 24px 20px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.fieldGroup {
+    margin-bottom: 16px;
+}
+
+.label {
+    display: block;
+    font-size: 14px;
+    color: var(--login-text, #f067ae);
+    margin-bottom: 6px;
+    font-weight: 500;
+    font-family: var(--font-quicksand);
+}
+
+.input {
+    width: 100%;
+    background-color: var(--login-input-bg, #f5f5f5);
+    color: var(--login-input-text, #F27FBB);
+    border-radius: 10px;
+    padding: 10px 14px;
+    border: 1px solid var(--login-border, #e0e0e0);
+    font-size: 1rem;
+    font-weight: 500;
+    font-family: var(--font-quicksand);
+    box-sizing: border-box;
+}
+
+.input::placeholder {
+    color: var(--login-placeholder, #888);
+    font-family: var(--font-quicksand);
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--login-focus, );
+}
+
+.passwordContainer {
+    position: relative;
+    width: 100%;
+}
+
+.passwordInput {
+    padding-right: 48px;
+    font-family: var(--font-quicksand);
+    color: var(--login-input-text, #F27FBB);
+}
+
+.toggleButton {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    color: var(--login-text, #e61272);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggleButton:hover {
+    opacity: 0.8;
+}
+
+.submitButton {
+    width: 100%;
+    background-color: var(--login-button, #e61272);
+    color: var(--login-button-text, #fff);
+    font-family: var(--font-quicksand);
+    border: none;
+    border-radius: 12px;
+    padding: 14px;
+    margin-top: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.submitButton:hover:not(:disabled) {
+    opacity: 0.95;
+}
+
+.submitButton:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.loadingIcon {
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes floatSlow {
+    0% {
+        transform: translateY(-14px) rotate(-10deg) scale(1.02);
+    }
+
+    50% {
+        transform: translateY(10px) rotate(-6deg) scale(1.04);
+    }
+
+    100% {
+        transform: translateY(-14px) rotate(-10deg) scale(1.02);
+    }
+}
+
+@keyframes logoFloat {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+@keyframes glowPulse {
+    0% {
+        opacity: 0.45;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.62;
+        transform: scale(1.04);
+    }
+
+    100% {
+        opacity: 0.45;
+        transform: scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .bgLogoImg,
+    .bgLogo::before,
+    .logo {
+        animation: none !important;
+    }
+}
+
+.errorAlert {
+    margin-bottom: 16px;
+    font-family: var(--font-quicksand);
+}
+
+.footerLink {
+    margin-top: 24px;
+    text-align: center;
+}
+
+.footerLinkText {
+    font-size: 15px;
+    color: var(--login-text, #f067ae);
+    font-family: var(--font-quicksand);
+    font-weight: 500;
+}
+
+.footerLinkBold {
+    font-weight: 700;
+    color: var(--login-text, #e61272);
+    font-family: var(--font-quicksand);
+}

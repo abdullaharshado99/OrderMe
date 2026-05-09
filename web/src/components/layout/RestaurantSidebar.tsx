@@ -19,25 +19,44 @@ export function RestaurantSidebar() {
     const pathname = usePathname();
 
     return (
-        <aside className="w-64 bg-white shadow-md h-screen fixed left-0 top-0 flex flex-col border-r">
-            <div className="p-4 text-xl font-bold text-center border-b">Order Me</div>
+        <aside className="w-64 bg-white h-screen fixed left-0 top-0 flex flex-col border-r border-gray-200"
+            style={{ fontFamily: 'var(--font-quicksand)' }}>
+
+            {/* Title */}
+            <div className="p-4 text-xl font-bold border-b text-[var(--raspberry)]">
+                Order Me
+            </div>
+
+            {/* Navigation */}
             <nav className="flex-1 p-4 space-y-2">
                 {navItems.map((item) => {
                     const isActive = pathname === item.href;
+
                     return (
                         <Link
                             key={item.href}
                             href={item.href}
-                            className={`flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 ${isActive ? 'bg-blue-100 text-blue-700' : ''}`}
+                            className={`group flex items-center gap-3 p-2 rounded-lg transition
+                            ${isActive
+                                    ? 'bg-[var(--raspberry)] text-white shadow-md'
+                                    : 'text-gray-700 hover:bg-[var(--raspberry)] hover:text-white'}`}
                         >
-                            <item.icon size={20} />
+                            <item.icon
+                                size={20}
+                                className={`${isActive ? 'text-white' : 'text-gray-500 group-hover:text-white'}`}
+                            />
                             <span>{item.label}</span>
                         </Link>
                     );
                 })}
             </nav>
-            <div className="p-4 border-t">
-                <button onClick={logout} className="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-gray-100 text-red-600">
+
+            {/* Logout */}
+            <div className="p-4 border-t border-gray-200">
+                <button
+                    onClick={logout}
+                    className="flex items-center gap-3 w-full p-2 rounded-lg text-gray-700 hover:bg-red-500/20 hover:text-red-500 transition"
+                >
                     <LogOut size={20} />
                     <span>Logout</span>
                 </button>
