@@ -24,7 +24,7 @@ export class SubscriptionsController {
 
     @Get('plans')
     async getPlans() {
-        return this.subsService.getPlans();
+        return this.subsService.getAllPlans();
     }
 
     @Get('restaurant/:restaurantId')

@@ -7,6 +7,7 @@ import { User } from '../users/entities/user.entity';
 import { Role, RoleName } from '../roles/entities/role.entity';
 import { RegisterDto, LoginDto } from './dto/register.dto';
 import { ConfigService } from '@nestjs/config'; // ✅ add this
+import { SubscriptionsService } from '../subscriptions/subscriptions.service';
 
 @Injectable()
 export class AuthService {
@@ -19,7 +20,8 @@ export class AuthService {
     @InjectRepository(Role)
     private roleRepository: Repository<Role>,
     private jwtService: JwtService,
-    private configService: ConfigService, // ✅ inject
+    private configService: ConfigService,
+    private subscriptionsService: SubscriptionsService
   ) { }
 
   async register(dto: RegisterDto) {
@@ -29,8 +31,11 @@ export class AuthService {
     const role = await this.roleRepository.findOne({ where: { name: dto.role } });
     if (!role) throw new BadRequestException('Invalid role');
 
-    if ((dto.role === RoleName.RESTAURANT_OWNER || dto.role === RoleName.CHEF) && !dto.restaurantId) {
-      throw new BadRequestException('restaurantId is required for RESTAURANT_OWNER or CHEF');
+    if (
+      (dto.role === RoleName.RESTAURANT_OWNER || dto.role === RoleName.CHEF || dto.role === RoleName.CASHIER) &&
+      !dto.restaurantId
+    ) {
+      throw new BadRequestException('restaurantId is required for RESTAURANT_OWNER, CHEF, or CASHIER');
     }
 
     const hashedPassword = await bcrypt.hash(dto.password ?? '', 10);
@@ -43,6 +48,14 @@ export class AuthService {
       restaurantId: dto.restaurantId || null,
     });
     await this.userRepository.save(user);
+
+    if (dto.plan && (dto.role === RoleName.RESTAURANT_OWNER || dto.role === RoleName.SUPER_ADMIN)) {
+      try {
+        await this.subscriptionsService.createSubscriptionFromPlan(user.restaurantId!, dto.plan);
+      } catch (err) {
+        console.error('Failed to create subscription', err);
+      }
+    }
 
     const payload = { sub: user.id, email: user.email, role: role.name, restaurantId: user.restaurantId };
     const accessToken = this.jwtService.sign(payload, {

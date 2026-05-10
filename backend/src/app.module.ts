@@ -14,6 +14,9 @@ import { ExpensesModule } from './expenses/expenses.module';
 import { QrModule } from './qr/qr.module';
 import { AnalyticsModule } from './analytics/analytics.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { WarehouseModule } from './warehouse/warehouse.module';
+import { PosModule } from './pos/pos.module';
+import { KdsModule } from './kds/kds.module';
 
 @Module({
   imports: [
@@ -44,6 +47,9 @@ import { NotificationsModule } from './notifications/notifications.module';
     RolesModule,
     SubscriptionsModule,
     UsersModule,
+    WarehouseModule,
+    PosModule,
+    KdsModule,
   ],
 })
 export class AppModule { }

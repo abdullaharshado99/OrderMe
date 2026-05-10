@@ -22,6 +22,7 @@ export default function LoginPage() {
             const decoded = JSON.parse(atob(token!.split('.')[1]));
             if (decoded.role === 'SUPER_ADMIN') router.push('/admin/dashboard');
             else if (decoded.role === 'RESTAURANT_OWNER') router.push('/restaurant/dashboard');
+            else if (decoded.role === 'CHEF') router.push('/chef/kitchen')
             else router.push('/menu');
         } catch (err) {
             alert('Login failed');

@@ -23,6 +23,9 @@ const expenses_module_1 = require("./expenses/expenses.module");
 const qr_module_1 = require("./qr/qr.module");
 const analytics_module_1 = require("./analytics/analytics.module");
 const notifications_module_1 = require("./notifications/notifications.module");
+const warehouse_module_1 = require("./warehouse/warehouse.module");
+const pos_module_1 = require("./pos/pos.module");
+const kds_module_1 = require("./kds/kds.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -56,6 +59,9 @@ exports.AppModule = AppModule = __decorate([
             roles_module_1.RolesModule,
             subscriptions_module_1.SubscriptionsModule,
             users_module_1.UsersModule,
+            warehouse_module_1.WarehouseModule,
+            pos_module_1.PosModule,
+            kds_module_1.KdsModule,
         ],
     })
 ], AppModule);

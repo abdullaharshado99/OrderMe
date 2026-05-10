@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Body, Param, UseGuards, Request, Header } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Body, Param, UseGuards, Request, Header, Query } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../common/guards/roles.guard';
@@ -40,9 +40,27 @@ export class OrdersController {
         return this.ordersService.assignChef(orderId, chefId, req.user.role, req.user.restaurantId);
     }
 
-    @Get('kitchen/:restaurantId')
+    @Get('kitchen/queue/:restaurantId')
     @Roles(RoleName.CHEF, RoleName.RESTAURANT_OWNER)
-    getKitchenQueue(@Param('restaurantId') restaurantId: number, @Request() req) {
-        return this.ordersService.getKitchenQueue(restaurantId, req.user.role === 'chef' ? req.user.userId : undefined);
+    getKitchenQueue(@Param('restaurantId') id: number, @Query('station') station?: string) {
+        return this.ordersService.getKitchenQueue(id, station);
+    }
+
+    @Patch(':orderId/station')
+    @Roles(RoleName.CHEF, RoleName.RESTAURANT_OWNER)
+    updateStation(@Param('orderId') id: number, @Body('station') station: string) {
+        return this.ordersService.updateOrderStation(id, station);
+    }
+
+    @Post(':orderId/bump')
+    @Roles(RoleName.CHEF, RoleName.RESTAURANT_OWNER)
+    bumpOrder(@Param('orderId') id: number, @Request() req) {
+        return this.ordersService.bumpOrder(id, req.user.userId);
+    }
+
+    @Get('kds/stats/:restaurantId')
+    @Roles(RoleName.CHEF, RoleName.RESTAURANT_OWNER)
+    getKdsStats(@Param('restaurantId') id: number) {
+        return this.ordersService.getKdsStats(id);
     }
 }

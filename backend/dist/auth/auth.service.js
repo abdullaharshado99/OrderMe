@@ -54,12 +54,14 @@ const bcrypt = __importStar(require("bcrypt"));
 const user_entity_1 = require("../users/entities/user.entity");
 const role_entity_1 = require("../roles/entities/role.entity");
 const config_1 = require("@nestjs/config"); // ✅ add this
+const subscriptions_service_1 = require("../subscriptions/subscriptions.service");
 let AuthService = class AuthService {
-    constructor(userRepository, roleRepository, jwtService, configService) {
+    constructor(userRepository, roleRepository, jwtService, configService, subscriptionsService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.jwtService = jwtService;
         this.configService = configService;
+        this.subscriptionsService = subscriptionsService;
         // Simple in-memory blacklist – in production use Redis or database
         this.refreshTokenBlacklist = new Set();
     }
@@ -70,8 +72,9 @@ let AuthService = class AuthService {
         const role = await this.roleRepository.findOne({ where: { name: dto.role } });
         if (!role)
             throw new common_1.BadRequestException('Invalid role');
-        if ((dto.role === role_entity_1.RoleName.RESTAURANT_OWNER || dto.role === role_entity_1.RoleName.CHEF) && !dto.restaurantId) {
-            throw new common_1.BadRequestException('restaurantId is required for RESTAURANT_OWNER or CHEF');
+        if ((dto.role === role_entity_1.RoleName.RESTAURANT_OWNER || dto.role === role_entity_1.RoleName.CHEF || dto.role === role_entity_1.RoleName.CASHIER) &&
+            !dto.restaurantId) {
+            throw new common_1.BadRequestException('restaurantId is required for RESTAURANT_OWNER, CHEF, or CASHIER');
         }
         const hashedPassword = await bcrypt.hash(dto.password ?? '', 10);
         const user = this.userRepository.create({
@@ -83,6 +86,14 @@ let AuthService = class AuthService {
             restaurantId: dto.restaurantId || null,
         });
         await this.userRepository.save(user);
+        if (dto.plan && (dto.role === role_entity_1.RoleName.RESTAURANT_OWNER || dto.role === role_entity_1.RoleName.SUPER_ADMIN)) {
+            try {
+                await this.subscriptionsService.createSubscriptionFromPlan(user.restaurantId, dto.plan);
+            }
+            catch (err) {
+                console.error('Failed to create subscription', err);
+            }
+        }
         const payload = { sub: user.id, email: user.email, role: role.name, restaurantId: user.restaurantId };
         const accessToken = this.jwtService.sign(payload, {
             expiresIn: this.configService.get('JWT_ACCESS_EXPIRES_IN')
@@ -167,6 +178,7 @@ exports.AuthService = AuthService = __decorate([
     __metadata("design:paramtypes", [typeorm_2.Repository,
         typeorm_2.Repository,
         jwt_1.JwtService,
-        config_1.ConfigService])
+        config_1.ConfigService,
+        subscriptions_service_1.SubscriptionsService])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map

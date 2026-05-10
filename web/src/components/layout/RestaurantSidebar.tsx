@@ -2,16 +2,21 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/components/auth/AuthProvider';
-import { LayoutDashboard, Utensils, ShoppingCart, Package, Users, LogOut, Settings, CreditCard } from 'lucide-react';
+import { LayoutDashboard, Utensils, ShoppingCart, Package, Users, LogOut, Settings, CreditCard, ChefHat, Store, Receipt, DollarSign, Box } from 'lucide-react';
 
 const navItems = [
     { href: '/restaurant/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/restaurant/menu', label: 'Menu', icon: Utensils },
     { href: '/restaurant/orders', label: 'Orders', icon: ShoppingCart },
     { href: '/restaurant/inventory', label: 'Inventory', icon: Package },
+    { href: '/restaurant/kitchen-inventory', label: 'Kitchen Inv.', icon: ChefHat },
+    { href: '/restaurant/pos', label: 'POS', icon: Store },
+    { href: '/restaurant/kds', label: 'KDS', icon: Receipt },
     { href: '/restaurant/staff', label: 'Staff', icon: Users },
+    { href: '/restaurant/warehouse', label: 'Warehouse', icon: Box },
+    { href: '/restaurant/expenses', label: 'Expenses', icon: DollarSign },
     { href: '/restaurant/settings', label: 'Settings', icon: Settings },
-    { href: '/restaurant/subscription', label: 'Subscription', icon: CreditCard }
+    { href: '/restaurant/subscription', label: 'Subscription', icon: CreditCard },
 ];
 
 export function RestaurantSidebar() {

@@ -2,13 +2,13 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/components/auth/AuthProvider';
-import { LayoutDashboard, Store, CreditCard, Users, LogOut } from 'lucide-react';
+import { LayoutDashboard, Store, CreditCard, Users, LogOut, DollarSign, Package } from 'lucide-react';
 
 const navItems = [
     { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/admin/restaurants', label: 'Restaurants', icon: Store },
+    { href: '/admin/users', label: 'Users', icon: Users },
     { href: '/admin/subscriptions', label: 'Subscriptions', icon: CreditCard },
-    { href: '/admin/users', label: 'Register User', icon: Users },
 ];
 
 export function AdminSidebar() {

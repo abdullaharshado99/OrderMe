@@ -18,6 +18,7 @@ const jwt_strategy_1 = require("./strategies/jwt.strategy");
 const refresh_token_strategy_1 = require("./strategies/refresh-token.strategy");
 const user_entity_1 = require("../users/entities/user.entity");
 const role_entity_1 = require("../roles/entities/role.entity");
+const subscriptions_module_1 = require("../subscriptions/subscriptions.module");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
@@ -37,6 +38,7 @@ exports.AuthModule = AuthModule = __decorate([
                     };
                 },
             }),
+            subscriptions_module_1.SubscriptionsModule,
         ],
         controllers: [auth_controller_1.AuthController],
         providers: [auth_service_1.AuthService, jwt_strategy_1.JwtStrategy, refresh_token_strategy_1.RefreshTokenStrategy],

@@ -1,10 +1,11 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import { Injectable, NotFoundException, ForbiddenException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, LessThan } from 'typeorm';
 import { Subscription } from './entities/subscription.entity';
 import { CreateSubscriptionDto, RenewSubscriptionDto } from './dto/subscription.dto';
 import { RoleName } from '../roles/entities/role.entity';
 import { Restaurant } from '../restaurants/entities/restaurant.entity';
+import { SubscriptionPlan } from './entities/subscription-plan.entity';
 
 @Injectable()
 export class SubscriptionsService {
@@ -13,6 +14,8 @@ export class SubscriptionsService {
         private subRepo: Repository<Subscription>,
         @InjectRepository(Restaurant)
         private restaurantRepo: Repository<Restaurant>,
+        @InjectRepository(SubscriptionPlan)
+        private planRepo: Repository<SubscriptionPlan>,
     ) { }
 
     async create(dto: CreateSubscriptionDto, currentUserRole: string) {
@@ -32,14 +35,57 @@ export class SubscriptionsService {
         return this.subRepo.find({ relations: ['restaurant'], order: { createdAt: 'DESC' } });
     }
 
-    async getPlans() {
-        return [
-            { id: 1, name: 'Basic', price: 49, features: 'Up to 50 orders/month, basic support', durationDays: 30 },
-            { id: 2, name: 'Pro', price: 99, features: 'Unlimited orders, priority support, inventory management', durationDays: 30 },
-            { id: 3, name: 'Enterprise', price: 199, features: 'Everything in Pro + dedicated account manager, API access', durationDays: 30 },
-        ];
+    async createSubscriptionFromPlan(restaurantId: number, planName: string): Promise<Subscription> {
+        const plan = await this.planRepo.findOne({ where: { name: planName, isActive: true } });
+        if (!plan) throw new BadRequestException('Invalid plan');
+        const startDate = new Date();
+        const endDate = new Date();
+        endDate.setDate(endDate.getDate() + plan.durationDays!);
+        const sub = this.subRepo.create({
+            restaurantId,
+            plan: plan.name,
+            price: plan.price,
+            startDate,
+            endDate,
+            isActive: true,
+        });
+        const saved = await this.subRepo.save(sub);
+        await this.restaurantRepo.update(restaurantId, {
+            subscriptionPlan: plan.name,
+            subscriptionExpiry: endDate,
+        });
+        return saved;
     }
 
+    async upgradeSubscription(restaurantId: number, newPlanName: string): Promise<Subscription> {
+        const current = await this.getCurrentSubscription(restaurantId, 'SUPER_ADMIN');
+        if (!current) throw new NotFoundException('No active subscription');
+        const newPlan = await this.planRepo.findOne({ where: { name: newPlanName, isActive: true } });
+        if (!newPlan) throw new BadRequestException('Invalid plan');
+        current.isActive = false;
+        await this.subRepo.save(current);
+        const startDate = new Date();
+        const endDate = new Date();
+        endDate.setDate(endDate.getDate() + newPlan.durationDays!);
+        const newSub = this.subRepo.create({
+            restaurantId,
+            plan: newPlan.name,
+            price: newPlan.price,
+            startDate,
+            endDate,
+            isActive: true,
+        });
+        const saved = await this.subRepo.save(newSub);
+        await this.restaurantRepo.update(restaurantId, {
+            subscriptionPlan: newPlan.name,
+            subscriptionExpiry: endDate,
+        });
+        return saved;
+    }
+
+    async getAllPlans() {
+        return this.planRepo.find({ where: { isActive: true }, order: { createdAt: 'ASC' } });
+    }
 
     async findByRestaurant(restaurantId: number, currentUserRole: string, userRestaurantId?: number) {
         if (currentUserRole !== RoleName.SUPER_ADMIN && userRestaurantId !== restaurantId) {
@@ -84,7 +130,6 @@ export class SubscriptionsService {
         return saved;
     }
 
-    // Cron job to deactivate expired subscriptions
     async deactivateExpiredSubscriptions() {
         const expired = await this.subRepo.find({
             where: { endDate: LessThan(new Date()), isActive: true },
