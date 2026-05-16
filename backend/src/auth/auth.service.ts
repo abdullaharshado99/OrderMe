@@ -32,10 +32,10 @@ export class AuthService {
     if (!role) throw new BadRequestException('Invalid role');
 
     if (
-      (dto.role === RoleName.RESTAURANT_OWNER || dto.role === RoleName.CHEF || dto.role === RoleName.CASHIER) &&
+      (dto.role === RoleName.RESTAURANT_OWNER || dto.role === RoleName.CHEF) &&
       !dto.restaurantId
     ) {
-      throw new BadRequestException('restaurantId is required for RESTAURANT_OWNER, CHEF, or CASHIER');
+      throw new BadRequestException('restaurantId is required for RESTAURANT_OWNER, CHEF');
     }
 
     const hashedPassword = await bcrypt.hash(dto.password ?? '', 10);

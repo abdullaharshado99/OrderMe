@@ -6,47 +6,12 @@ import { useAuth } from '@/components/auth/AuthProvider';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from '@/components/ui/table';
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-} from '@/components/ui/dialog';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
-import {
-    Loader2,
-    Package,
-    DollarSign,
-    AlertCircle,
-    Truck,
-    Users,
-    Search,
-    SlidersHorizontal,
-    ClipboardList,
-    Store,
-    RefreshCw,
-    BarChart3,
-    Monitor,
-    ChevronRight,
-} from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Loader2, Package, DollarSign, AlertCircle, Truck, Users, Search, SlidersHorizontal, ClipboardList, Store, RefreshCw, BarChart3, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
-
-/** --- Types (API shapes) ---------------------------------------------- */
 
 type WarehouseDashboard = {
     totalSkus: number;
@@ -156,10 +121,7 @@ type PosActiveSession = {
     items?: PosCartItem[];
     updatedAt?: string;
     createdAt?: string;
-    cashier?: { name?: string | null } | null;
 };
-
-/** --- Helpers --------------------------------------------------------- */
 
 function formatPkr(amount: number) {
     return `PKR ${Math.round(amount).toLocaleString('en-PK', { maximumFractionDigits: 0 })}`;

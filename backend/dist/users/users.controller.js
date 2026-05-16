@@ -39,6 +39,9 @@ let UsersController = class UsersController {
     async assignRole(id, roleName, req) {
         return this.usersService.assignRole(id, roleName, req.user.role);
     }
+    async getUsersByRestaurant(restaurantId, req, role) {
+        return this.usersService.findByRestaurant(restaurantId, role, req.user.role, req.user.restaurantId);
+    }
 };
 exports.UsersController = UsersController;
 __decorate([
@@ -85,6 +88,16 @@ __decorate([
     __metadata("design:paramtypes", [Number, String, Object]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "assignRole", null);
+__decorate([
+    (0, common_1.Get)('restaurant/:restaurantId'),
+    (0, roles_decorator_1.Roles)(role_entity_1.RoleName.SUPER_ADMIN, role_entity_1.RoleName.RESTAURANT_OWNER),
+    __param(0, (0, common_1.Param)('restaurantId')),
+    __param(1, (0, common_1.Request)()),
+    __param(2, (0, common_1.Query)('role')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object, String]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "getUsersByRestaurant", null);
 exports.UsersController = UsersController = __decorate([
     (0, common_1.Controller)('users'),
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt'), roles_guard_1.RolesGuard),

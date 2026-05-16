@@ -18,7 +18,6 @@ export class KitchenInventoryService {
         @InjectRepository(Sku) private skuRepo: Repository<Sku>,
     ) { }
 
-    // Recipes
     async createRecipe(data: any, role: string) {
         if (role !== RoleName.RESTAURANT_OWNER) throw new ForbiddenException();
         const recipe = this.recipeRepo.create({ name: data.name, description: data.description, yieldQuantity: data.yieldQuantity, prepTimeMinutes: data.prepTimeMinutes, totalCost: 0 });
@@ -37,7 +36,6 @@ export class KitchenInventoryService {
     }
     async getAllRecipes() { return this.recipeRepo.find({ relations: ['ingredients', 'ingredients.sku'] }); }
 
-    // Prep tasks
     async createPrepTask(date: Date, skuId: number, targetQty: number, role: string) {
         if (role !== RoleName.RESTAURANT_OWNER && role !== RoleName.CHEF) throw new ForbiddenException();
         return this.prepTaskRepo.save({ date, skuId, targetQuantity: targetQty });
@@ -52,7 +50,6 @@ export class KitchenInventoryService {
         return this.prepTaskRepo.save(task);
     }
 
-    // Waste log
     async logWaste(skuId: number, quantity: number, reason: string, userId: number) {
         const sku = await this.skuRepo.findOne({ where: { id: skuId } });
         if (!sku) throw new NotFoundException(`SKU ${skuId} not found`);
@@ -61,4 +58,8 @@ export class KitchenInventoryService {
         return this.wasteRepo.save({ skuId, quantity, reason, estimatedCost: cost, reportedById: userId });
     }
     async getWasteLogs() { return this.wasteRepo.find({ relations: ['sku', 'reportedBy'], order: { createdAt: 'DESC' } }); }
+
+    async getPrepTasks() {
+        return this.prepTaskRepo.find({ relations: ['sku'], order: { date: 'ASC' } });
+    }
 }

@@ -17,6 +17,9 @@ import { NotificationsModule } from './notifications/notifications.module';
 import { WarehouseModule } from './warehouse/warehouse.module';
 import { PosModule } from './pos/pos.module';
 import { KdsModule } from './kds/kds.module';
+import { TablesModule } from './tables/tables.module';
+import { WaitersModule } from './waiters/waiters.module';
+import { KitchenInventoryModule } from './kitchen-inventory/kitchen-inventory.module';
 
 @Module({
   imports: [
@@ -35,6 +38,9 @@ import { KdsModule } from './kds/kds.module';
       }),
     }),
     AnalyticsModule,
+    WaitersModule,
+    TablesModule,
+    KitchenInventoryModule,
     AuthModule,
     DocumentsModule,
     ExpensesModule,

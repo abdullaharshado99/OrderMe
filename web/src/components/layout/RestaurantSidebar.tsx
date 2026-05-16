@@ -13,6 +13,7 @@ const navItems = [
     { href: '/restaurant/pos', label: 'POS', icon: Store },
     { href: '/restaurant/kds', label: 'KDS', icon: Receipt },
     { href: '/restaurant/staff', label: 'Staff', icon: Users },
+    { href: '/restaurant/management', label: 'Management', icon: Settings },
     { href: '/restaurant/warehouse', label: 'Warehouse', icon: Box },
     { href: '/restaurant/expenses', label: 'Expenses', icon: DollarSign },
     { href: '/restaurant/settings', label: 'Settings', icon: Settings },

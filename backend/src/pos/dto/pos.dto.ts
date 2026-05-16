@@ -1,5 +1,4 @@
 import { IsNumber, IsOptional, IsString, Min, IsArray, ValidateNested, IsIn, Max } from 'class-validator';
-import { Type } from 'class-transformer';
 import { PaymentMethod } from '../entities/payment.entity';
 
 const PAYMENT_METHODS: PaymentMethod[] = ['cash', 'card', 'jazzcash', 'easypaisa'];
@@ -29,4 +28,7 @@ export class CheckoutDto {
 export class CreateCartDto {
     @IsOptional() @IsNumber() tableId?: number;
     @IsOptional() @IsString() terminalLabel?: string;
+    @IsOptional()
+    @IsIn(['dine-in', 'takeaway', 'delivery'])
+    orderType?: string;
 }

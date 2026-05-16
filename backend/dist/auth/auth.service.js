@@ -72,9 +72,9 @@ let AuthService = class AuthService {
         const role = await this.roleRepository.findOne({ where: { name: dto.role } });
         if (!role)
             throw new common_1.BadRequestException('Invalid role');
-        if ((dto.role === role_entity_1.RoleName.RESTAURANT_OWNER || dto.role === role_entity_1.RoleName.CHEF || dto.role === role_entity_1.RoleName.CASHIER) &&
+        if ((dto.role === role_entity_1.RoleName.RESTAURANT_OWNER || dto.role === role_entity_1.RoleName.CHEF) &&
             !dto.restaurantId) {
-            throw new common_1.BadRequestException('restaurantId is required for RESTAURANT_OWNER, CHEF, or CASHIER');
+            throw new common_1.BadRequestException('restaurantId is required for RESTAURANT_OWNER, CHEF');
         }
         const hashedPassword = await bcrypt.hash(dto.password ?? '', 10);
         const user = this.userRepository.create({

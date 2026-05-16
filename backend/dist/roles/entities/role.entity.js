@@ -16,7 +16,6 @@ var RoleName;
     RoleName["SUPER_ADMIN"] = "SUPER_ADMIN";
     RoleName["RESTAURANT_OWNER"] = "RESTAURANT_OWNER";
     RoleName["CHEF"] = "CHEF";
-    RoleName["CASHIER"] = "CASHIER";
     RoleName["CUSTOMER"] = "CUSTOMER";
 })(RoleName || (exports.RoleName = RoleName = {}));
 let Role = class Role {
