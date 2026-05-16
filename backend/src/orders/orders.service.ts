@@ -16,7 +16,6 @@ export class OrdersService {
     ) { }
 
     async createOrder(restaurantId: number, dto: CreateOrderDto) {
-        // Fetch menu items to get price and name
         const menuItemIds = dto.items?.map(i => i.menuItemId) ?? [];
         const menuItems = await this.menuRepository.findByIds(menuItemIds);
         const itemsWithDetails = dto.items?.map(item => {
@@ -82,8 +81,11 @@ export class OrdersService {
 
     async getKitchenQueue(restaurantId: number, station?: string) {
         const where: any = { restaurantId, status: 'cooking' };
-        if (station) where.station = station;
-        return this.orderRepository.find({ where, order: { createdAt: 'ASC' } });
+        if (station && station !== 'all') where.station = station;
+        return this.orderRepository.find({
+            where,
+            order: { createdAt: 'ASC' },
+        });
     }
 
     async bumpOrder(orderId: number, userId: number) {
