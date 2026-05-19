@@ -16,7 +16,6 @@ export class OrdersService {
     ) { }
 
     async createOrder(restaurantId: number, dto: CreateOrderDto) {
-        // Fetch menu items to get price and name
         const menuItemIds = dto.items?.map(i => i.menuItemId) ?? [];
         const menuItems = await this.menuRepository.findByIds(menuItemIds);
         const itemsWithDetails = dto.items?.map(item => {
@@ -72,10 +71,41 @@ export class OrdersService {
         return this.orderRepository.save(order);
     }
 
-    async getKitchenQueue(restaurantId: number, chefId?: number) {
+    async updateOrderStation(orderId: number, station: string) {
+        const order = await this.orderRepository.findOne({ where: { id: orderId } });
+        if (!order) throw new NotFoundException();
+        order.station = station;
+        order.routingTime = new Date();
+        return this.orderRepository.save(order);
+    }
+
+    async getKitchenQueue(restaurantId: number, station?: string) {
         const where: any = { restaurantId, status: 'cooking' };
-        if (chefId) where.assignedChefId = chefId;
-        return this.orderRepository.find({ where, order: { createdAt: 'ASC' } });
+        if (station && station !== 'all') where.station = station;
+        return this.orderRepository.find({
+            where,
+            order: { createdAt: 'ASC' },
+        });
+    }
+
+    async bumpOrder(orderId: number, userId: number) {
+        const order = await this.orderRepository.findOne({ where: { id: orderId } });
+        if (!order) throw new NotFoundException();
+        order.status = 'ready';
+        order.bumpedAt = new Date();
+        order.bumpedBy = userId.toString();
+        return this.orderRepository.save(order);
+    }
+
+    async getKdsStats(restaurantId: number) {
+        const totalCooking = await this.orderRepository.count({ where: { restaurantId, status: 'cooking' } });
+        const avgTime = await this.orderRepository
+            .createQueryBuilder('order')
+            .select('AVG(EXTRACT(epoch FROM (order.bumpedAt - order.createdAt)))', 'avg')
+            .where('order.restaurantId = :id', { id: restaurantId })
+            .andWhere('order.bumpedAt IS NOT NULL')
+            .getRawOne();
+        return { activeOrders: totalCooking, averageTicketTimeSeconds: Math.floor(avgTime?.avg || 0) };
     }
 
     private checkAccess(restaurantId: number, role: string, userRestaurantId?: number) {

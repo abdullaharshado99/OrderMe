@@ -5,7 +5,6 @@ const api = axios.create({
     headers: { 'Content-Type': 'application/json' },
 });
 
-// Request interceptor – add access token
 api.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('accessToken');
@@ -17,7 +16,6 @@ api.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
-// Response interceptor – handle 401 and refresh token
 api.interceptors.response.use(
     (response) => response,
     async (error) => {
@@ -35,7 +33,6 @@ api.interceptors.response.use(
                     originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
                     return api(originalRequest);
                 } catch (refreshError) {
-                    // Refresh failed – logout
                     localStorage.removeItem('accessToken');
                     localStorage.removeItem('refreshToken');
                     window.location.href = '/login';

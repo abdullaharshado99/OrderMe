@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 16, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/web/middleware.ts"],"sourcesContent":["import { NextResponse } from 'next/server';\nimport type { NextRequest } from 'next/server';\n// import { ACCESS_TOKEN_COOKIE } from '@/lib/auth';\n\nconst ADMIN_PATHS = ['/dashboard', '/media'];\n\nexport function middleware(request: NextRequest) {\n    const { pathname } = request.nextUrl;\n    const requiresAuth = ADMIN_PATHS.some(path => pathname.startsWith(path));\n\n    if (!requiresAuth) return NextResponse.next();\n\n    // const token = request.cookies.get(ACCESS_TOKEN_COOKIE)?.value;\n\n    // if (!token) {\n    //     const loginUrl = new URL('/login', request.url);\n    //     return NextResponse.redirect(loginUrl);\n    // }\n\n    return NextResponse.next();\n}\n\nexport const config = {\n    matcher: ['/dashboard/:path*', '/media/:path*'],\n};"],"names":[],"mappings":";;;;;;AAAA;AAAA;;AAEA,oDAAoD;AAEpD,MAAM,cAAc;IAAC;IAAc;CAAS;AAErC,SAAS,WAAW,OAAoB;IAC3C,MAAM,EAAE,QAAQ,EAAE,GAAG,QAAQ,OAAO;IACpC,MAAM,eAAe,YAAY,IAAI,CAAC,CAAA,OAAQ,SAAS,UAAU,CAAC;IAElE,IAAI,CAAC,cAAc,OAAO,uMAAY,CAAC,IAAI;IAE3C,iEAAiE;IAEjE,gBAAgB;IAChB,uDAAuD;IACvD,8CAA8C;IAC9C,IAAI;IAEJ,OAAO,uMAAY,CAAC,IAAI;AAC5B;AAEO,MAAM,SAAS;IAClB,SAAS;QAAC;QAAqB;KAAgB;AACnD"}}]
-}

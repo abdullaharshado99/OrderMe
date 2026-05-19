@@ -16,7 +16,6 @@ export class NotificationsController {
     // For admin/owner to send broadcast
     @Post('send')
     async send(@Body() payload: any, @Request() req) {
-        // validate role etc. (only owner/super-admin)
         return this.notifService.sendToUser(payload.userId, payload.title, payload.body);
     }
 }

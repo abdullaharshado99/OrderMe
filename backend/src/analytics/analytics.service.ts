@@ -4,6 +4,7 @@ import { Repository, Between } from 'typeorm';
 import { Order } from '../orders/entities/order.entity';
 import { Expense } from '../expenses/entities/expense.entity';
 import { RoleName } from '../roles/entities/role.entity';
+import { Restaurant } from '../restaurants/entities/restaurant.entity';
 
 @Injectable()
 export class AnalyticsService {
@@ -12,6 +13,8 @@ export class AnalyticsService {
         private orderRepo: Repository<Order>,
         @InjectRepository(Expense)
         private expenseRepo: Repository<Expense>,
+        @InjectRepository(Restaurant)
+        private restaurantRepo: Repository<Restaurant>,
     ) { }
 
     async getSalesReport(restaurantId: number, period: 'daily' | 'weekly' | 'monthly', currentUserRole: string, userRestaurantId?: number) {
@@ -56,23 +59,64 @@ export class AnalyticsService {
         return sorted;
     }
 
+    // async getDashboard(restaurantId: number, currentUserRole: string, userRestaurantId?: number) {
+    //     this.checkAccess(restaurantId, currentUserRole, userRestaurantId);
+    //     const today = new Date();
+    //     today.setHours(0, 0, 0, 0);
+    //     const ordersToday = await this.orderRepo.count({ where: { restaurantId, createdAt: Between(today, new Date()) } });
+    //     const pendingOrders = await this.orderRepo.count({ where: { restaurantId, status: 'pending' } });
+    //     const totalRevenue = await this.orderRepo
+    //         .createQueryBuilder('order')
+    //         .select('SUM(order.totalAmount)', 'sum')
+    //         .where('order.restaurantId = :id', { id: restaurantId })
+    //         .getRawOne();
+    //     const lowStock = [];
+    //     return {
+    //         ordersToday,
+    //         pendingOrders,
+    //         totalRevenue: totalRevenue.sum || 0,
+    //         lowStock,
+    //     };
+    // }
+
+    async getAdminStats() {
+        const totalRestaurants = await this.restaurantRepo.count();
+        const totalOrders = await this.orderRepo.count();
+        const revenueResult = await this.orderRepo
+            .createQueryBuilder('order')
+            .select('SUM(order.totalAmount)', 'total')
+            .getRawOne();
+        return {
+            totalRestaurants,
+            totalOrders,
+            revenue: revenueResult?.total || 0,
+        };
+    }
+
     async getDashboard(restaurantId: number, currentUserRole: string, userRestaurantId?: number) {
         this.checkAccess(restaurantId, currentUserRole, userRestaurantId);
+
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        const ordersToday = await this.orderRepo.count({ where: { restaurantId, createdAt: Between(today, new Date()) } });
-        const pendingOrders = await this.orderRepo.count({ where: { restaurantId, status: 'pending' } });
+
+        const ordersToday = await this.orderRepo.count({
+            where: { restaurantId, createdAt: Between(today, new Date()) }
+        });
+
+        const pendingOrders = await this.orderRepo.count({
+            where: { restaurantId, status: 'pending' }
+        });
+
         const totalRevenue = await this.orderRepo
             .createQueryBuilder('order')
             .select('SUM(order.totalAmount)', 'sum')
             .where('order.restaurantId = :id', { id: restaurantId })
             .getRawOne();
-        const lowStock = []; // you can add inventory check here
+
         return {
-            ordersToday,
+            todayOrders: ordersToday,
             pendingOrders,
-            totalRevenue: totalRevenue.sum || 0,
-            lowStock,
+            totalRevenue: totalRevenue?.sum || 0,
         };
     }
 

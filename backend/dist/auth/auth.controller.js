@@ -17,9 +17,13 @@ const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const register_dto_1 = require("./dto/register.dto");
 const passport_1 = require("@nestjs/passport");
+const subscriptions_service_1 = require("../subscriptions/subscriptions.service");
+const roles_decorator_1 = require("../common/decorators/roles.decorator");
+const role_entity_1 = require("../roles/entities/role.entity");
 let AuthController = class AuthController {
-    constructor(authService) {
+    constructor(authService, subscriptionsService) {
         this.authService = authService;
+        this.subscriptionsService = subscriptionsService;
     }
     async register(dto) {
         return this.authService.register(dto);
@@ -27,11 +31,20 @@ let AuthController = class AuthController {
     async login(dto) {
         return this.authService.login(dto);
     }
-    async refresh(dto) {
-        return this.authService.refreshTokens(dto.refreshToken ?? '');
+    async refresh(refreshToken) {
+        return this.authService.refreshTokens(refreshToken);
     }
-    async logout() {
-        return this.authService.logout();
+    async logout(refreshToken) {
+        return this.authService.logout(refreshToken);
+    }
+    async getPlans() {
+        return this.subscriptionsService.getAllPlans();
+    }
+    async upgradeSubscription(id, plan, req) {
+        if (req.user.restaurantId !== id && req.user.role !== role_entity_1.RoleName.SUPER_ADMIN) {
+            throw new common_1.ForbiddenException();
+        }
+        return this.subscriptionsService.upgradeSubscription(id, plan);
     }
 };
 exports.AuthController = AuthController;
@@ -53,21 +66,39 @@ __decorate([
 __decorate([
     (0, common_1.Post)('refresh'),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
-    __param(0, (0, common_1.Body)()),
+    __param(0, (0, common_1.Body)('refreshToken')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [register_dto_1.RefreshTokenDto]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "refresh", null);
 __decorate([
     (0, common_1.Post)('logout'),
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)('jwt')),
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
+    __param(0, (0, common_1.Body)('refreshToken')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "logout", null);
+__decorate([
+    (0, common_1.Get)('plans'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], AuthController.prototype, "logout", null);
+], AuthController.prototype, "getPlans", null);
+__decorate([
+    (0, common_1.Post)('upgrade/:restaurantId'),
+    (0, roles_decorator_1.Roles)(role_entity_1.RoleName.RESTAURANT_OWNER),
+    __param(0, (0, common_1.Param)('restaurantId')),
+    __param(1, (0, common_1.Body)('plan')),
+    __param(2, (0, common_1.Request)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, String, Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "upgradeSubscription", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
-    __metadata("design:paramtypes", [auth_service_1.AuthService])
+    __metadata("design:paramtypes", [auth_service_1.AuthService,
+        subscriptions_service_1.SubscriptionsService])
 ], AuthController);
 //# sourceMappingURL=auth.controller.js.map

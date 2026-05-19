@@ -23,6 +23,10 @@ export class RegisterDto {
   @IsNumber()
   @IsOptional()
   restaurantId?: number;
+
+  @IsOptional()
+  @IsString()
+  plan?: string;
 }
 
 export class LoginDto {

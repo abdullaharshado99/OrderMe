@@ -4,9 +4,10 @@ import { SubscriptionsController } from './subscriptions.controller';
 import { SubscriptionsService } from './subscriptions.service';
 import { Subscription } from './entities/subscription.entity';
 import { Restaurant } from '../restaurants/entities/restaurant.entity';
+import { SubscriptionPlan } from './entities/subscription-plan.entity';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Subscription, Restaurant])],
+    imports: [TypeOrmModule.forFeature([Subscription, Restaurant, SubscriptionPlan])],
     controllers: [SubscriptionsController],
     providers: [SubscriptionsService],
     exports: [SubscriptionsService],

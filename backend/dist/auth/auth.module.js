@@ -18,6 +18,7 @@ const jwt_strategy_1 = require("./strategies/jwt.strategy");
 const refresh_token_strategy_1 = require("./strategies/refresh-token.strategy");
 const user_entity_1 = require("../users/entities/user.entity");
 const role_entity_1 = require("../roles/entities/role.entity");
+const subscriptions_module_1 = require("../subscriptions/subscriptions.module");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
@@ -28,11 +29,16 @@ exports.AuthModule = AuthModule = __decorate([
             passport_1.PassportModule,
             jwt_1.JwtModule.registerAsync({
                 inject: [config_1.ConfigService],
-                useFactory: (config) => ({
-                    secret: config.get('JWT_ACCESS_SECRET') || 'JWT_ACCESS_SECRET',
-                    signOptions: { expiresIn: '1d' },
-                }),
+                useFactory: (config) => {
+                    const secret = config.get('JWT_ACCESS_SECRET') ?? 'default_secret_change_me';
+                    const expiresIn = config.get('JWT_ACCESS_EXPIRES_IN') ?? '15m';
+                    return {
+                        secret,
+                        signOptions: { expiresIn: expiresIn },
+                    };
+                },
             }),
+            subscriptions_module_1.SubscriptionsModule,
         ],
         controllers: [auth_controller_1.AuthController],
         providers: [auth_service_1.AuthService, jwt_strategy_1.JwtStrategy, refresh_token_strategy_1.RefreshTokenStrategy],

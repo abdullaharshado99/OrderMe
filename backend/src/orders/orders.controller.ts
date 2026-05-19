@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Body, Param, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Body, Param, UseGuards, Request, Header, Query } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../common/guards/roles.guard';
@@ -11,12 +11,13 @@ export class OrdersController {
     constructor(private ordersService: OrdersService) { }
 
     @Post('restaurant/:restaurantId')
-    @Roles(RoleName.CUSTOMER, RoleName.RESTAURANT_OWNER) // customer can place order without role? We'll allow all authenticated
+    @Roles(RoleName.CUSTOMER, RoleName.RESTAURANT_OWNER)
     create(@Param('restaurantId') restaurantId: number, @Body() dto: any, @Request() req) {
         return this.ordersService.createOrder(restaurantId, dto);
     }
 
     @Get('restaurant/:restaurantId')
+    @Header('Cache-Control', 'no-cache, no-store, must-revalidate')
     @Roles(RoleName.SUPER_ADMIN, RoleName.RESTAURANT_OWNER, RoleName.CHEF)
     getRestaurantOrders(@Param('restaurantId') restaurantId: number, @Request() req) {
         return this.ordersService.getOrdersForRestaurant(restaurantId, req.user.role, req.user.restaurantId);
@@ -39,9 +40,27 @@ export class OrdersController {
         return this.ordersService.assignChef(orderId, chefId, req.user.role, req.user.restaurantId);
     }
 
-    @Get('kitchen/:restaurantId')
+    @Get('kitchen/queue/:restaurantId')
     @Roles(RoleName.CHEF, RoleName.RESTAURANT_OWNER)
-    getKitchenQueue(@Param('restaurantId') restaurantId: number, @Request() req) {
-        return this.ordersService.getKitchenQueue(restaurantId, req.user.role === 'chef' ? req.user.userId : undefined);
+    getKitchenQueue(@Param('restaurantId') id: number, @Query('station') station?: string) {
+        return this.ordersService.getKitchenQueue(id, station);
+    }
+
+    @Patch(':orderId/station')
+    @Roles(RoleName.CHEF, RoleName.RESTAURANT_OWNER)
+    updateStation(@Param('orderId') id: number, @Body('station') station: string) {
+        return this.ordersService.updateOrderStation(id, station);
+    }
+
+    @Post(':orderId/bump')
+    @Roles(RoleName.CHEF, RoleName.RESTAURANT_OWNER)
+    bumpOrder(@Param('orderId') id: number, @Request() req) {
+        return this.ordersService.bumpOrder(id, req.user.userId);
+    }
+
+    @Get('kds/stats/:restaurantId')
+    @Roles(RoleName.CHEF, RoleName.RESTAURANT_OWNER)
+    getKdsStats(@Param('restaurantId') id: number) {
+        return this.ordersService.getKdsStats(id);
     }
 }

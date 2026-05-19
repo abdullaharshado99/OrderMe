@@ -16,7 +16,13 @@ export class MenuItem {
   price?: number;
 
   @Column({ nullable: true })
-  category?: string; // e.g., appetizer, main, dessert
+  cuisine?: string;
+
+  @Column({ nullable: true })
+  foodCategory?: string;
+
+  @Column({ nullable: true })
+  category?: string;
 
   @Column({ nullable: true })
   imageUrl?: string;
@@ -25,9 +31,9 @@ export class MenuItem {
   isAvailable?: boolean;
 
   @Column({ nullable: true })
-  preparationTime?: number; // in minutes
+  preparationTime?: number;
 
-  @ManyToOne(() => Restaurant, (restaurant: Restaurant) => restaurant.menuItems, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Restaurant, restaurant => restaurant.menuItems, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'restaurantId' })
   restaurant?: Restaurant;
 

@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Param, Query, UseGuards, Request, Header } from '@nestjs/common';
 import { AnalyticsService } from './analytics.service';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../common/guards/roles.guard';
@@ -31,8 +31,15 @@ export class AnalyticsController {
     }
 
     @Get('dashboard/:restaurantId')
+    @Header('Cache-Control', 'no-cache, no-store, must-revalidate')
     @Roles(RoleName.SUPER_ADMIN, RoleName.RESTAURANT_OWNER)
     dashboard(@Param('restaurantId') restaurantId: number, @Request() req) {
         return this.analyticsService.getDashboard(restaurantId, req.user.role, req.user.restaurantId);
+    }
+
+    @Get('admin-stats')
+    @Roles(RoleName.SUPER_ADMIN)
+    async getAdminStats() {
+        return this.analyticsService.getAdminStats();
     }
 }
