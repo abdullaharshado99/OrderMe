@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["file:///home/tech-lady/dev/OrderMe/web/src/app/%28admin%29/dashboard/dashboard.module.css"],"sourcesContent":[".card {\n    border-radius: 0.75rem;\n    border-width: 1px solid #C9B6B6;\n    background-color: hsl(0 0% 100%);\n    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);\n}\n\n.cardHeader {\n    padding: 1.25rem 1.75rem 0.25rem 1.75rem;\n}\n\n.cardTitle {\n    font-size: 1.5rem;\n    line-height: 2rem;\n    font-weight: 600;\n    letter-spacing: -0.025em;\n    margin: 0;\n    color: #af4e4f;\n    font-family: var(--font-quicksand);\n}\n\n.cardContent {\n    padding: 1.25rem 1.75rem 1.75rem 1.75rem;\n}\n\n.infoText {\n    font-size: 0.875rem;\n    line-height: 1.25rem;\n    color: #af4e4f;\n    margin-top: 0.5rem;\n    font-family: var(--font-quicksand);\n}"],"names":[],"mappings":"AAAA;;;;;;;AAOA;;;;AAIA;;;;;;;;;;AAUA;;;;AAIA"}}]
-}

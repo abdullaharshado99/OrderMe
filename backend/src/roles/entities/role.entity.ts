@@ -1,10 +1,10 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 export enum RoleName {
-  SUPER_ADMIN = 'super-admin',
-  RESTAURANT_OWNER = 'restaurant-owner',
-  CHEF = 'chef',
-  CUSTOMER = 'customer',
+  SUPER_ADMIN = 'SUPER_ADMIN',
+  RESTAURANT_OWNER = 'RESTAURANT_OWNER',
+  CHEF = 'CHEF',
+  CUSTOMER = 'CUSTOMER',
 }
 
 @Entity('roles')

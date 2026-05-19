@@ -4,12 +4,23 @@ import { Between, Repository } from 'typeorm';
 import { Expense } from './entities/expense.entity';
 import { CreateExpenseDto } from './dto/expense.dto';
 import { RoleName } from '../roles/entities/role.entity';
+import { ExpenseBudget } from './entities/budget.entity';
+import { ExpenseApproval } from './entities/approval.entity';
+import { RecurringExpense } from './entities/recurring-expense.entity';
+import { CreateBudgetDto } from './dto/budget.dto';
+import { CreateRecurringDto } from './dto/recurring.dto';
 
 @Injectable()
 export class ExpensesService {
     constructor(
         @InjectRepository(Expense)
         private expenseRepository: Repository<Expense>,
+        @InjectRepository(ExpenseBudget)
+        private budgetRepo: Repository<ExpenseBudget>,
+        @InjectRepository(ExpenseApproval)
+        private approvalRepo: Repository<ExpenseApproval>,
+        @InjectRepository(RecurringExpense)
+        private recurringRepo: Repository<RecurringExpense>,
     ) { }
 
     async create(restaurantId: number, dto: CreateExpenseDto, currentUserRole: string, userRestaurantId?: number) {
@@ -59,5 +70,53 @@ export class ExpensesService {
         if (role === RoleName.RESTAURANT_OWNER && userRestaurantId === restaurantId) return;
         if (role === RoleName.CHEF && userRestaurantId === restaurantId) return;
         throw new ForbiddenException('Access denied');
+    }
+
+    async createBudget(restaurantId: number, dto: CreateBudgetDto, role: string) {
+        if (role !== RoleName.RESTAURANT_OWNER && role !== RoleName.SUPER_ADMIN) throw new ForbiddenException();
+        const budget = this.budgetRepo.create({ ...dto, restaurantId, month: new Date(dto.month!) });
+        return this.budgetRepo.save(budget);
+    }
+
+    async getBudgets(restaurantId: number, role: string, userRestaurantId?: number) {
+        this.checkAccess(restaurantId, role, userRestaurantId);
+        return this.budgetRepo.find({ where: { restaurantId }, order: { month: 'DESC' } });
+    }
+
+    async getBudgetUtilization(restaurantId: number, role: string, userRestaurantId?: number) {
+        this.checkAccess(restaurantId, role, userRestaurantId);
+        const budgets = await this.budgetRepo.find({ where: { restaurantId } });
+        const expenses = await this.expenseRepository.find({ where: { restaurantId } });
+        const utilization = budgets.map((b: any) => {
+            const spent = expenses.filter((e: any) => e.category === b.category && e.date && e.date >= b.month && e.date <= new Date(b.month.getFullYear(), b.month.getMonth() + 1, 0)).reduce((s, e) => s + Number(e.amount), 0);
+            return { category: b.category, budget: Number(b.amount), spent, month: b.month };
+        });
+        return utilization;
+    }
+
+    async getPendingApprovals(restaurantId: number, role: string, userRestaurantId?: number) {
+        this.checkAccess(restaurantId, role, userRestaurantId);
+        return this.approvalRepo.find({ where: { status: 'pending' }, relations: ['expense'], order: { createdAt: 'ASC' } });
+    }
+
+    async approveExpense(approvalId: number, approverId: number, comment: string) {
+        const approval = await this.approvalRepo.findOne({ where: { id: approvalId }, relations: ['expense'] });
+        if (!approval) throw new NotFoundException();
+        approval.status = 'approved';
+        approval.approvedById = approverId;
+        approval.comment = comment;
+        await this.approvalRepo.save(approval);
+        return approval;
+    }
+
+    async createRecurring(restaurantId: number, dto: CreateRecurringDto, role: string) {
+        if (role !== RoleName.RESTAURANT_OWNER && role !== RoleName.SUPER_ADMIN) throw new ForbiddenException();
+        const rec = this.recurringRepo.create({ ...dto, restaurantId, isActive: true });
+        return this.recurringRepo.save(rec);
+    }
+
+    async getRecurring(restaurantId: number, role: string, userRestaurantId?: number) {
+        this.checkAccess(restaurantId, role, userRestaurantId);
+        return this.recurringRepo.find({ where: { restaurantId, isActive: true }, order: { category: 'ASC' } });
     }
 }

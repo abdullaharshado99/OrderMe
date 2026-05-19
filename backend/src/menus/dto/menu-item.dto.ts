@@ -1,4 +1,4 @@
-import { IsString, IsNumber, IsOptional, IsBoolean } from 'class-validator';
+import { IsString, IsNumber, IsOptional, IsBoolean, IsIn } from 'class-validator';
 
 export class CreateMenuItemDto {
   @IsString()
@@ -11,6 +11,15 @@ export class CreateMenuItemDto {
   @IsNumber()
   price?: number;
 
+  @IsOptional()
+  @IsString()
+  cuisine?: string;   // e.g., 'Pakistani', 'Italian'
+
+  @IsOptional()
+  @IsString()
+  foodCategory?: string; // e.g., 'Karahi', 'Pizza'
+
+  // optional legacy field
   @IsOptional()
   @IsString()
   category?: string;

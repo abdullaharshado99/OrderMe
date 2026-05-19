@@ -75,4 +75,13 @@ export class UsersService {
     user.roleId = role.id;
     return this.userRepository.save(user);
   }
+
+  async findByRestaurant(restaurantId: number, role?: RoleName, currentUserRole?: string, currentUserRestaurantId?: number) {
+    if (currentUserRole !== RoleName.SUPER_ADMIN && currentUserRestaurantId !== restaurantId) {
+      throw new ForbiddenException('Access denied');
+    }
+    const where: any = { restaurantId };
+    if (role) where.role = { name: role };
+    return this.userRepository.find({ where, relations: ['role'] });
+  }
 }

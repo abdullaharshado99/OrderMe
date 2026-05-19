@@ -16,11 +16,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         database: config.get<string>('DB_NAME'),
         autoLoadEntities: true,
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: false,
+        synchronize: true,
         migrationsRun: true,
         migrations: [__dirname + '/migrations/*{.ts,.js}'],
       }),
     }),
   ],
 })
-export class CliModule {}
+export class CliModule { }

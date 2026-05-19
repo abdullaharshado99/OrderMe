@@ -53,26 +53,29 @@ const jwt_1 = require("@nestjs/jwt");
 const bcrypt = __importStar(require("bcrypt"));
 const user_entity_1 = require("../users/entities/user.entity");
 const role_entity_1 = require("../roles/entities/role.entity");
+const config_1 = require("@nestjs/config"); // ✅ add this
+const subscriptions_service_1 = require("../subscriptions/subscriptions.service");
 let AuthService = class AuthService {
-    constructor(userRepository, roleRepository, jwtService) {
+    constructor(userRepository, roleRepository, jwtService, configService, subscriptionsService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.jwtService = jwtService;
+        this.configService = configService;
+        this.subscriptionsService = subscriptionsService;
+        // Simple in-memory blacklist – in production use Redis or database
+        this.refreshTokenBlacklist = new Set();
     }
     async register(dto) {
-        // Check if user exists
         const existing = await this.userRepository.findOne({ where: { email: dto.email } });
         if (existing)
             throw new common_1.ConflictException('Email already exists');
-        // Get role entity
         const role = await this.roleRepository.findOne({ where: { name: dto.role } });
         if (!role)
             throw new common_1.BadRequestException('Invalid role');
-        // Validation for restaurant-owner and chef require restaurantId
-        if ((dto.role === role_entity_1.RoleName.RESTAURANT_OWNER || dto.role === role_entity_1.RoleName.CHEF) && !dto.restaurantId) {
-            throw new common_1.BadRequestException('restaurantId is required for restaurant-owner or chef');
+        if ((dto.role === role_entity_1.RoleName.RESTAURANT_OWNER || dto.role === role_entity_1.RoleName.CHEF) &&
+            !dto.restaurantId) {
+            throw new common_1.BadRequestException('restaurantId is required for RESTAURANT_OWNER, CHEF');
         }
-        // Hash password
         const hashedPassword = await bcrypt.hash(dto.password ?? '', 10);
         const user = this.userRepository.create({
             email: dto.email,
@@ -83,10 +86,22 @@ let AuthService = class AuthService {
             restaurantId: dto.restaurantId || null,
         });
         await this.userRepository.save(user);
-        // Generate tokens
+        if (dto.plan && (dto.role === role_entity_1.RoleName.RESTAURANT_OWNER || dto.role === role_entity_1.RoleName.SUPER_ADMIN)) {
+            try {
+                await this.subscriptionsService.createSubscriptionFromPlan(user.restaurantId, dto.plan);
+            }
+            catch (err) {
+                console.error('Failed to create subscription', err);
+            }
+        }
         const payload = { sub: user.id, email: user.email, role: role.name, restaurantId: user.restaurantId };
-        const accessToken = this.jwtService.sign(payload, { expiresIn: '1d' });
-        const refreshToken = this.jwtService.sign(payload, { expiresIn: '7d' });
+        const accessToken = this.jwtService.sign(payload, {
+            expiresIn: this.configService.get('JWT_ACCESS_EXPIRES_IN')
+        });
+        const refreshToken = this.jwtService.sign(payload, {
+            expiresIn: this.configService.get('JWT_REFRESH_EXPIRES_IN'),
+            secret: this.configService.get('JWT_REFRESH_SECRET')
+        });
         return { accessToken, refreshToken, user: { id: user.id, email: user.email, name: user.name, role: role.name } };
     }
     async login(dto) {
@@ -99,26 +114,43 @@ let AuthService = class AuthService {
         if (!user.isActive)
             throw new common_1.UnauthorizedException('Account disabled');
         const payload = { sub: user.id, email: user.email, role: user.role?.name, restaurantId: user.restaurantId };
-        const accessToken = this.jwtService.sign(payload, { expiresIn: '1d' });
-        const refreshToken = this.jwtService.sign(payload, { expiresIn: '7d' });
+        const accessToken = this.jwtService.sign(payload, {
+            expiresIn: this.configService.get('JWT_ACCESS_EXPIRES_IN')
+        });
+        const refreshToken = this.jwtService.sign(payload, {
+            expiresIn: this.configService.get('JWT_REFRESH_EXPIRES_IN'),
+            secret: this.configService.get('JWT_REFRESH_SECRET')
+        });
         return { accessToken, refreshToken, user: { id: user.id, email: user.email, name: user.name, role: user.role?.name } };
     }
     async refreshTokens(refreshToken) {
+        // Check blacklist
+        if (this.refreshTokenBlacklist.has(refreshToken)) {
+            throw new common_1.UnauthorizedException('Token revoked');
+        }
         try {
-            const payload = this.jwtService.verify(refreshToken);
+            const payload = this.jwtService.verify(refreshToken, {
+                secret: this.configService.get('JWT_REFRESH_SECRET')
+            });
             const user = await this.userRepository.findOne({ where: { id: payload.sub }, relations: ['role'] });
             if (!user)
                 throw new common_1.UnauthorizedException('User not found');
             const newPayload = { sub: user.id, email: user.email, role: user.role?.name, restaurantId: user.restaurantId };
-            const newAccessToken = this.jwtService.sign(newPayload, { expiresIn: '1d' });
-            return { accessToken: newAccessToken };
+            const newAccessToken = this.jwtService.sign(newPayload, {
+                expiresIn: this.configService.get('JWT_ACCESS_EXPIRES_IN')
+            });
+            const newRefreshToken = this.jwtService.sign(newPayload, {
+                expiresIn: this.configService.get('JWT_REFRESH_EXPIRES_IN'),
+                secret: this.configService.get('JWT_REFRESH_SECRET')
+            });
+            return { accessToken: newAccessToken, refreshToken: newRefreshToken };
         }
         catch (error) {
-            throw new common_1.UnauthorizedException('Invalid refresh token');
+            throw new common_1.UnauthorizedException('Invalid or expired refresh token');
         }
     }
-    async logout() {
-        // In production, you might blacklist the token. For now, just return.
+    async logout(refreshToken) {
+        this.refreshTokenBlacklist.add(refreshToken);
         return { message: 'Logged out successfully' };
     }
     async validateSessionToken(token) {
@@ -134,6 +166,9 @@ let AuthService = class AuthService {
             return null;
         }
     }
+    async validateUser(userId) {
+        return this.userRepository.findOne({ where: { id: userId }, relations: ['role'] });
+    }
 };
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
@@ -142,6 +177,8 @@ exports.AuthService = AuthService = __decorate([
     __param(1, (0, typeorm_1.InjectRepository)(role_entity_1.Role)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
         typeorm_2.Repository,
-        jwt_1.JwtService])
+        jwt_1.JwtService,
+        config_1.ConfigService,
+        subscriptions_service_1.SubscriptionsService])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map

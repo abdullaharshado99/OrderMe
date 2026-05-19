@@ -1,11 +1,17 @@
-import { Controller, Post, Body, HttpCode, HttpStatus, UseGuards, Request } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, HttpStatus, UseGuards, Request, Get, Param, ForbiddenException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto, LoginDto, RefreshTokenDto } from './dto/register.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { SubscriptionsService } from '../subscriptions/subscriptions.service';
+import { Roles } from '../common/decorators/roles.decorator';
+import { RoleName } from '../roles/entities/role.entity';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    private subscriptionsService: SubscriptionsService
+  ) { }
 
   @Post('register')
   async register(@Body() dto: RegisterDto) {
@@ -29,5 +35,19 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async logout(@Body('refreshToken') refreshToken: string) {
     return this.authService.logout(refreshToken);
+  }
+
+  @Get('plans')
+  async getPlans() {
+    return this.subscriptionsService.getAllPlans();
+  }
+
+  @Post('upgrade/:restaurantId')
+  @Roles(RoleName.RESTAURANT_OWNER)
+  async upgradeSubscription(@Param('restaurantId') id: number, @Body('plan') plan: string, @Request() req) {
+    if (req.user.restaurantId !== id && req.user.role !== RoleName.SUPER_ADMIN) {
+      throw new ForbiddenException();
+    }
+    return this.subscriptionsService.upgradeSubscription(id, plan);
   }
 }
