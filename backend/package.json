@@ -1,5 +1,5 @@
 {
-  "name": "live-with-quran-backend",
+  "name": "backend",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -24,15 +24,7 @@
     "migration:revert": "ts-node ./node_modules/typeorm/cli.js migration:revert -d src/data-source.ts",
     "seed": "ts-node src/seed.ts",
     "seed:roles": "ts-node src/seeders/run-roles.ts",
-    "seed:users": "ts-node src/seeders/run-users.ts",
-    "seed:paras": "ts-node src/seeders/run-paras.ts",
-    "seed:surahs": "ts-node src/seeders/run-surahs.ts",
-    "seed:surah-paras": "ts-node src/seeders/run-surah-paras.ts",
-    "seed:rukus": "ts-node src/seeders/run-rukus.ts",
-    "seed:ayahs": "ts-node src/seeders/run-ayahs.ts",
-    "sync:surahs": "ts-node -r tsconfig-paths/register src/cli.ts sync:surahs",
-    "sync:rukus": "ts-node -r tsconfig-paths/register src/cli.ts sync:rukus",
-    "sync:quran": "ts-node -r tsconfig-paths/register src/cli.ts sync:quran"
+    "seed:users": "ts-node src/seeders/run-users.ts"
   },
   "dependencies": {
     "@nestjs/axios": "^4.0.1",
