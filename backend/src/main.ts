@@ -16,9 +16,9 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '..', 'uploads'), { prefix: '/uploads/' });
   app.use(urlencoded({ extended: true, limit: BODY_LIMIT }));
   app.enableCors({
-    origin: 'http://localhost:3001',
+    origin: ['https://order-me-omega.vercel.app', 'http://localhost:4001'],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
     credentials: true,
   });
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
@@ -52,7 +52,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
-  const server = await app.listen(3000, '0.0.0.0');
+  const server = await app.listen(process.env.PORT ?? 4000, '0.0.0.0');
   server.requestTimeout = 3_600_000;
   server.headersTimeout = 3_610_000;
   server.keepAliveTimeout = 120_000;

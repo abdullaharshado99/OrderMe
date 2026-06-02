@@ -34,7 +34,7 @@ import { KitchenInventoryModule } from './kitchen-inventory/kitchen-inventory.mo
         password: config.get('DB_PASSWORD'),
         database: config.get('DB_NAME'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: true,
+        synchronize: false,
       }),
     }),
     AnalyticsModule,
