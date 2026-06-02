@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "PORT=3001 next dev --webpack",
+    "dev": "PORT=4001 next dev --webpack",
     "build": "next build",
-    "start": "PORT=3001 next start",
+    "start": "PORT=4001 next start",
     "lint": "eslint"
   },
   "dependencies": {
