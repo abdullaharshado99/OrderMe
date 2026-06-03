@@ -127,6 +127,23 @@ let UsersService = class UsersService {
             where.role = { name: role };
         return this.userRepository.find({ where, relations: ['role'] });
     }
+    async findByEmail(email) {
+        return this.userRepository.findOne({ where: { email }, relations: ['role'] });
+    }
+    async createSuperAdmin(data) {
+        const role = await this.roleRepository.findOne({ where: { name: role_entity_1.RoleName.SUPER_ADMIN } });
+        if (!role)
+            throw new common_1.BadRequestException('SUPER_ADMIN role not found');
+        const hashedPassword = await bcrypt.hash(data.password, 10);
+        const user = this.userRepository.create({
+            email: data.email,
+            password: hashedPassword,
+            name: data.name,
+            roleId: role.id,
+            isActive: true,
+        });
+        return this.userRepository.save(user);
+    }
 };
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([

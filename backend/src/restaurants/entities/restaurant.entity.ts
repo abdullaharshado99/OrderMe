@@ -19,7 +19,10 @@ export class Restaurant {
   @Column({ nullable: true })
   phone?: string;
 
-  @Column({ default: 'basic' })
+  @Column({ nullable: true })
+  email?: string;
+
+  @Column()
   subscriptionPlan?: string; // basic, pro, enterprise
 
   @Column({ nullable: true })
@@ -38,5 +41,5 @@ export class Restaurant {
   users?: User[];
 
   @OneToMany(() => MenuItem, (menu: MenuItem) => menu.restaurant)
-  menuItems?    : MenuItem[];
+  menuItems?: MenuItem[];
 }

@@ -22,8 +22,13 @@ export class RestaurantsController {
   }
 
   @Get()
-  findAll(@Request() req) {
-    return this.restaurantsService.findAll(req.user.role, req.user.restaurantId);
+  async findAll(@Request() req) {
+    try {
+      return await this.restaurantsService.findAll(req.user.role, req.user.restaurantId);
+    } catch (err) {
+      console.error('Error in RestaurantsController.findAll:', err);
+      throw err;
+    }
   }
 
   @Get(':id')

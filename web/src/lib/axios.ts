@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from '@/components/ui/use-toast';
 
 const api = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
@@ -17,7 +18,21 @@ api.interceptors.request.use(
 );
 
 api.interceptors.response.use(
-    (response) => response,
+    (response) => {
+        try {
+            const method = response.config.method?.toLowerCase();
+            const url = response.config.url || '';
+            if (method && ['post', 'put', 'patch', 'delete'].includes(method)) {
+                let message = 'Operation successful';
+                if (url.includes('/restaurants') && method === 'post') message = 'Restaurant created successfully';
+                else if (url.includes('/users') && method === 'post') message = 'User created successfully';
+                toast({ title: 'Success', description: message, variant: 'success' });
+            }
+        } catch (e) {
+            console.error('Toast error', e);
+        }
+        return response;
+    },
     async (error) => {
         const originalRequest = error.config;
         if (error.response?.status === 401 && !originalRequest._retry) {
@@ -39,6 +54,12 @@ api.interceptors.response.use(
                     return Promise.reject(refreshError);
                 }
             }
+        }
+        try {
+            const msg = error.response?.data?.message || error.message || 'Request failed';
+            toast({ title: 'Error', description: msg, variant: 'destructive' });
+        } catch (e) {
+            console.error(e);
         }
         return Promise.reject(error);
     }
