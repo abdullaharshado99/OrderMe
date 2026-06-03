@@ -1,4 +1,4 @@
-import { IsString, IsOptional, IsBoolean } from 'class-validator';
+import { IsString, IsOptional, IsBoolean, IsIn, IsEmail } from 'class-validator';
 
 export class CreateRestaurantDto {
   @IsString()
@@ -15,6 +15,15 @@ export class CreateRestaurantDto {
   @IsOptional()
   @IsString()
   phone?: string;
+
+  @IsOptional()
+  @IsEmail()
+  email?: string;
+
+  @IsOptional()
+  @IsString()
+  @IsIn(['basic', 'pro', 'enterprise'])
+  subscriptionPlan?: string;
 }
 
 export class UpdateRestaurantDto extends CreateRestaurantDto {

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styles from './login.module.css';
 import { Loader2, Eye, EyeOff } from 'lucide-react';
+import { toast } from '@/components/ui/use-toast';
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
@@ -17,15 +18,23 @@ export default function LoginPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
+            setSubmitting(true);
             await login(email, password);
             const token = localStorage.getItem('accessToken');
             const decoded = JSON.parse(atob(token!.split('.')[1]));
+            toast({ title: 'Login successful', description: 'Welcome back!', variant: 'success' });
             if (decoded.role === 'SUPER_ADMIN') router.push('/admin/dashboard');
             else if (decoded.role === 'RESTAURANT_OWNER') router.push('/restaurant/dashboard');
             else if (decoded.role === 'CHEF') router.push('/chef/kitchen')
             else router.push('/menu');
         } catch (err) {
-            alert('Login failed');
+            console.error(err);
+            // Friendly error messages
+            const msg = (err as any)?.response?.data?.message || (err as any)?.message || 'Login failed. Check your credentials.';
+            toast({ title: 'Login failed', description: msg, variant: 'destructive' });
+        }
+        finally {
+            setSubmitting(false);
         }
     };
 
