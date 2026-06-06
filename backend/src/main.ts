@@ -16,8 +16,13 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '..', 'uploads'), { prefix: '/uploads/' });
   app.use(urlencoded({ extended: true, limit: BODY_LIMIT }));
   app.enableCors({
-    origin: ['https://order-me-omega.vercel.app', 'http://localhost:4001'],
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    origin: [
+      'https://order-me-omega.vercel.app',
+      'http://localhost:4001',
+      'https://orderme.arnaindustry.com',
+      'https://www.orderme.arnaindustry.com'
+    ],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS', 'HEAD'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
     credentials: true,
   });
