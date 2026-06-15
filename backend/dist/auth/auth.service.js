@@ -53,7 +53,7 @@ const jwt_1 = require("@nestjs/jwt");
 const bcrypt = __importStar(require("bcrypt"));
 const user_entity_1 = require("../users/entities/user.entity");
 const role_entity_1 = require("../roles/entities/role.entity");
-const config_1 = require("@nestjs/config"); // ✅ add this
+const config_1 = require("@nestjs/config");
 const subscriptions_service_1 = require("../subscriptions/subscriptions.service");
 let AuthService = class AuthService {
     constructor(userRepository, roleRepository, jwtService, configService, subscriptionsService) {
@@ -62,7 +62,6 @@ let AuthService = class AuthService {
         this.jwtService = jwtService;
         this.configService = configService;
         this.subscriptionsService = subscriptionsService;
-        // Simple in-memory blacklist – in production use Redis or database
         this.refreshTokenBlacklist = new Set();
     }
     async register(dto) {
@@ -124,7 +123,6 @@ let AuthService = class AuthService {
         return { accessToken, refreshToken, user: { id: user.id, email: user.email, name: user.name, role: user.role?.name } };
     }
     async refreshTokens(refreshToken) {
-        // Check blacklist
         if (this.refreshTokenBlacklist.has(refreshToken)) {
             throw new common_1.UnauthorizedException('Token revoked');
         }

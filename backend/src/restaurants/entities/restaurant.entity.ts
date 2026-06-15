@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 import { MenuItem } from '../../menus/entities/menu-item.entity';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 
 @Entity('restaurants')
 export class Restaurant {
@@ -23,7 +23,7 @@ export class Restaurant {
   email?: string;
 
   @Column()
-  subscriptionPlan?: string; // basic, pro, enterprise
+  subscriptionPlan?: string;
 
   @Column({ nullable: true })
   subscriptionExpiry?: Date;

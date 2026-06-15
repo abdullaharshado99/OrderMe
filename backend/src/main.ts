@@ -1,10 +1,10 @@
+import { join } from 'path';
 import { AppModule } from './app.module';
 import { json, urlencoded } from 'express';
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { join } from 'path';
 
 const BODY_LIMIT = '5gb';
 
@@ -17,8 +17,8 @@ async function bootstrap() {
   app.use(urlencoded({ extended: true, limit: BODY_LIMIT }));
   app.enableCors({
     origin: [
-      'https://order-me-omega.vercel.app',
       'http://localhost:4001',
+      'https://order-me-omega.vercel.app',
       'https://orderme.arnaindustry.com',
       'https://www.orderme.arnaindustry.com'
     ],

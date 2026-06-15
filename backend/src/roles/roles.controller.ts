@@ -1,19 +1,13 @@
 import { RolesService } from './roles.service';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import {
-  Controller,
-  Get,
-  Param,
-  ParseIntPipe,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, UseGuards } from '@nestjs/common';
 
 @ApiTags('roles')
 @Controller('roles')
 @UseGuards(JwtAuthGuard)
 export class RolesController {
-  constructor(private readonly rolesService: RolesService) {}
+  constructor(private readonly rolesService: RolesService) { }
 
   @Get()
   @ApiOperation({ summary: 'List all roles' })

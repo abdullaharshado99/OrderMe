@@ -8,5 +8,5 @@ export class CreateBudgetDto {
     amount?: number;
 
     @IsDateString()
-    month?: string; // YYYY-MM-DD (first day of month)
+    month?: string;
 }

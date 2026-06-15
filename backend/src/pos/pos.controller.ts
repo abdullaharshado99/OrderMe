@@ -1,10 +1,10 @@
-import { Controller, Post, Get, Patch, Body, Param, UseGuards, Request, BadRequestException } from '@nestjs/common';
 import { PosService } from './pos.service';
 import { AuthGuard } from '@nestjs/passport';
+import { RoleName } from '../roles/entities/role.entity';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
-import { RoleName } from '../roles/entities/role.entity';
 import { AddItemDto, UpdateQuantityDto, ApplyDiscountDto, CheckoutDto, CreateCartDto } from './dto/pos.dto';
+import { Controller, Post, Get, Patch, Body, Param, UseGuards, Request, BadRequestException } from '@nestjs/common';
 
 @Controller('pos')
 @UseGuards(AuthGuard('jwt'), RolesGuard)

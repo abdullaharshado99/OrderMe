@@ -1,21 +1,16 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { FcmToken } from './entities/fcm-token.entity';
 import * as admin from 'firebase-admin';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable, Logger } from '@nestjs/common';
+import { FcmToken } from './entities/fcm-token.entity';
 
 @Injectable()
 export class NotificationsService {
     private readonly logger = new Logger(NotificationsService.name);
-    constructor(
-        @InjectRepository(FcmToken)
-        private tokenRepo: Repository<FcmToken>,
-    ) {
-        // Initialize Firebase Admin SDK (once)
+    constructor(@InjectRepository(FcmToken) private tokenRepo: Repository<FcmToken>) {
         if (!admin.apps.length) {
             admin.initializeApp({
                 credential: admin.credential.applicationDefault(),
-                // or provide service account JSON
             });
         }
     }
@@ -45,8 +40,6 @@ export class NotificationsService {
     }
 
     async sendToRestaurantStaff(restaurantId: number, title: string, body: string, role?: string) {
-        // You need to query users with this restaurantId and role, then get their tokens
-        // For brevity, we skip full implementation – you can extend.
         return { message: 'implement based on user query' };
     }
 }

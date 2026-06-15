@@ -1,5 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { Role } from '../../roles/entities/role.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('users')
 export class User {
@@ -10,7 +10,7 @@ export class User {
   email?: string;
 
   @Column()
-  password?: string; // hashed
+  password?: string;
 
   @Column({ nullable: true })
   name?: string;

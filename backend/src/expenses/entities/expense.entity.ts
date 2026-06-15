@@ -9,7 +9,7 @@ export class Expense {
     restaurantId?: number;
 
     @Column()
-    category?: string; // salaries, utilities, raw material, etc.
+    category?: string;
 
     @Column('decimal', { precision: 10, scale: 2 })
     amount?: number;

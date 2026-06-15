@@ -1,10 +1,10 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Order, OrderStatus } from './entities/order.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { MenuItem } from '../menus/entities/menu-item.entity';
 import { RoleName } from '../roles/entities/role.entity';
+import { Order, OrderStatus } from './entities/order.entity';
+import { MenuItem } from '../menus/entities/menu-item.entity';
+import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 
 @Injectable()
 export class OrdersService {
@@ -50,7 +50,7 @@ export class OrdersService {
         const order = await this.orderRepository.findOne({ where: { id: orderId } });
         if (!order) throw new NotFoundException('Order not found');
         if (currentUserRole === RoleName.SUPER_ADMIN) return order;
-        if (currentUserRole === RoleName.CUSTOMER) return order; // customer can track
+        if (currentUserRole === RoleName.CUSTOMER) return order;
         if (currentUserRestaurantId === order.restaurantId) return order;
         throw new ForbiddenException('Access denied');
     }
@@ -113,5 +113,32 @@ export class OrdersService {
         if (role === RoleName.RESTAURANT_OWNER && userRestaurantId === restaurantId) return;
         if (role === RoleName.CHEF && userRestaurantId === restaurantId) return;
         throw new ForbiddenException('Access denied');
+    }
+
+    async getOrderProgress(orderId: number) {
+        const order = await this.orderRepository.findOne({ where: { id: orderId } });
+        if (!order) throw new NotFoundException();
+
+        const steps = ['start', 'preparation', 'cooking', 'completed'];
+        const statusMap: Record<string, number> = {
+            pending: 0,
+            confirmed: 0,
+            cooking: 2,
+            ready: 3,
+            delivered: 3,
+            cancelled: -1,
+        };
+        const status = order.status ?? 'pending';
+        const currentStepIndex = statusMap[status] ?? 0;
+        const title = steps[currentStepIndex] || 'cancelled';
+        const icon = title;
+
+        return {
+            currentStep: currentStepIndex >= 0 ? currentStepIndex + 1 : 0,
+            totalSteps: 4,
+            title: title.charAt(0).toUpperCase() + title.slice(1),
+            icon,
+            status: order.status,
+        };
     }
 }

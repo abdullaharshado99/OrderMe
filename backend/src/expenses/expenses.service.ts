@@ -1,14 +1,14 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Between, Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CreateBudgetDto } from './dto/budget.dto';
 import { Expense } from './entities/expense.entity';
 import { CreateExpenseDto } from './dto/expense.dto';
 import { RoleName } from '../roles/entities/role.entity';
 import { ExpenseBudget } from './entities/budget.entity';
+import { CreateRecurringDto } from './dto/recurring.dto';
 import { ExpenseApproval } from './entities/approval.entity';
 import { RecurringExpense } from './entities/recurring-expense.entity';
-import { CreateBudgetDto } from './dto/budget.dto';
-import { CreateRecurringDto } from './dto/recurring.dto';
+import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 
 @Injectable()
 export class ExpensesService {
@@ -53,9 +53,7 @@ export class ExpensesService {
         this.checkAccess(restaurantId, currentUserRole, userRestaurantId);
         const start = new Date(year, month - 1, 1);
         const end = new Date(year, month, 0);
-        const expenses = await this.expenseRepository.find({
-            where: { restaurantId, date: Between(start, end) },
-        });
+        const expenses = await this.expenseRepository.find({ where: { restaurantId, date: Between(start, end) } });
         const total = expenses.reduce((sum, e) => sum + Number(e.amount), 0);
         const byCategory: Record<string, number> = {};
         expenses.forEach(e => {

@@ -6,4 +6,4 @@ import { KdsController } from './kds.controller';
   providers: [KdsService],
   controllers: [KdsController]
 })
-export class KdsModule {}
+export class KdsModule { }

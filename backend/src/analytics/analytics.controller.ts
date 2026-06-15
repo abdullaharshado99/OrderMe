@@ -1,9 +1,9 @@
-import { Controller, Get, Param, Query, UseGuards, Request, Header } from '@nestjs/common';
-import { AnalyticsService } from './analytics.service';
 import { AuthGuard } from '@nestjs/passport';
+import { AnalyticsService } from './analytics.service';
+import { RoleName } from '../roles/entities/role.entity';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
-import { RoleName } from '../roles/entities/role.entity';
+import { Controller, Get, Param, Query, UseGuards, Request, Header } from '@nestjs/common';
 
 @Controller('analytics')
 @UseGuards(AuthGuard('jwt'), RolesGuard)

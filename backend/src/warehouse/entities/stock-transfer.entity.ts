@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Sku } from './sku.entity';
 import { User } from '../../users/entities/user.entity';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 
 export type TransferStatus = 'pending' | 'approved' | 'completed' | 'cancelled';
 
@@ -10,10 +10,10 @@ export class StockTransfer {
     id?: number;
 
     @Column()
-    fromLocation?: string; // e.g., 'Warehouse A-01'
+    fromLocation?: string;
 
     @Column()
-    toLocation?: string; // e.g., 'Main Kitchen'
+    toLocation?: string;
 
     @ManyToOne(() => Sku)
     @JoinColumn({ name: 'skuId' })

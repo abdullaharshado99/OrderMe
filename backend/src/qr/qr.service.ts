@@ -1,27 +1,23 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as QRCode from 'qrcode';
+import { v4 as uuidv4 } from 'uuid';
 import { Repository } from 'typeorm';
 import { QrCode } from './entities/qr.entity';
-import * as QRCode from 'qrcode';
-import * as path from 'path';
-import * as fs from 'fs';
-import { v4 as uuidv4 } from 'uuid';
+import { InjectRepository } from '@nestjs/typeorm';
 import { RoleName } from '../roles/entities/role.entity';
+import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 
 @Injectable()
 export class QrService {
-    constructor(
-        @InjectRepository(QrCode)
-        private qrRepo: Repository<QrCode>,
-    ) { }
+    constructor(@InjectRepository(QrCode) private qrRepo: Repository<QrCode>) { }
 
     async generateQR(restaurantId: number, tableId: string, baseUrl: string, currentUserRole: string, userRestaurantId?: number) {
         this.checkAccess(restaurantId, currentUserRole, userRestaurantId);
         let qr = await this.qrRepo.findOne({ where: { restaurantId, tableId } });
-        if (qr) return qr; // already exists
+        if (qr) return qr;
         const qrToken = uuidv4();
         const qrDataUrl = `${baseUrl}/order/menu?restaurant=${restaurantId}&table=${tableId}&token=${qrToken}`;
-        // Generate QR image
         const qrImageBuffer = await QRCode.toBuffer(qrDataUrl);
         const uploadDir = path.join(process.cwd(), 'uploads', 'qr', restaurantId.toString());
         if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });

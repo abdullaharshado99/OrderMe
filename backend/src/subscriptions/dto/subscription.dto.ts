@@ -1,4 +1,4 @@
-import { IsNumber, IsString, IsDateString, IsOptional, IsBoolean } from 'class-validator';
+import { IsNumber, IsString, IsDateString, IsOptional } from 'class-validator';
 
 export class CreateSubscriptionDto {
     @IsNumber()

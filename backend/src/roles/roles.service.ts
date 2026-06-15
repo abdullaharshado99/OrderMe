@@ -5,10 +5,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class RolesService {
-  constructor(
-    @InjectRepository(Role)
-    private readonly roleRepo: Repository<Role>,
-  ) {}
+  constructor(@InjectRepository(Role) private readonly roleRepo: Repository<Role>) { }
 
   async findAll(): Promise<Role[]> {
     return this.roleRepo.find({ order: { id: 'ASC' } });

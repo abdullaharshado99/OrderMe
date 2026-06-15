@@ -1,11 +1,11 @@
-import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Cart } from './entities/cart.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Payment } from './entities/payment.entity';
-import { OrdersService } from '../orders/orders.service';
-import { AddItemDto, UpdateQuantityDto, ApplyDiscountDto, CheckoutDto } from './dto/pos.dto';
 import { RoleName } from '../roles/entities/role.entity';
+import { OrdersService } from '../orders/orders.service';
+import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
+import { AddItemDto, UpdateQuantityDto, ApplyDiscountDto, CheckoutDto } from './dto/pos.dto';
 
 @Injectable()
 export class PosService {

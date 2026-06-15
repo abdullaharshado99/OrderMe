@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 import { Supplier } from './supplier.entity';
 import { PurchaseOrderItem } from './purchase-order-item.entity';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 
 export type PoStatus = 'draft' | 'pending' | 'in-transit' | 'received' | 'cancelled';
 
@@ -28,7 +28,7 @@ export class PurchaseOrder {
     @Column({ type: 'date', nullable: true })
     expectedDelivery?: Date;
 
-    @Column({ type: 'int' })   // ✅ explicitly define as integer column
+    @Column({ type: 'int' })
     restaurantId?: number
 
     @Column({ nullable: true })

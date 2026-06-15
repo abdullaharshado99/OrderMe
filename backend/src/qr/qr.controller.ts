@@ -1,10 +1,9 @@
-import { Controller, Get, Post, Param, Query, UseGuards, Request, Res } from '@nestjs/common';
-import { Response } from 'express';
 import { QrService } from './qr.service';
 import { AuthGuard } from '@nestjs/passport';
+import { RoleName } from '../roles/entities/role.entity';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
-import { RoleName } from '../roles/entities/role.entity';
+import { Controller, Get, Post, Param, UseGuards, Request } from '@nestjs/common';
 
 @Controller('qr')
 @UseGuards(AuthGuard('jwt'), RolesGuard)

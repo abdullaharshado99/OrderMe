@@ -1,9 +1,9 @@
-import { Controller, Get, Post, Patch, Body, Param, UseGuards, Request, Query } from '@nestjs/common';
-import { WarehouseService } from './warehouse.service';
 import { AuthGuard } from '@nestjs/passport';
+import { WarehouseService } from './warehouse.service';
+import { RoleName } from '../roles/entities/role.entity';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
-import { RoleName } from '../roles/entities/role.entity';
+import { Controller, Get, Post, Patch, Body, Param, UseGuards, Request, Query } from '@nestjs/common';
 import { CreateSkuDto, CreateSupplierDto, CreatePurchaseOrderDto, ReceivePurchaseOrderDto, CreateStockTransferDto, UpdateTransferStatusDto } from './dto/warehouse.dto';
 
 @Controller('warehouse')
@@ -17,7 +17,6 @@ export class WarehouseController {
         return this.service.getDashboard(req.user.restaurantId, req.user.role);
     }
 
-    // SKUs
     @Post('skus')
     @Roles(RoleName.SUPER_ADMIN, RoleName.RESTAURANT_OWNER)
     createSku(@Body() dto: CreateSkuDto, @Request() req: { user: { restaurantId?: number | null; role: string } }) {
@@ -46,7 +45,6 @@ export class WarehouseController {
         return this.service.adjustStock(id, body.adjustment, body.reason, req.user.userId);
     }
 
-    // Suppliers
     @Post('suppliers')
     @Roles(RoleName.SUPER_ADMIN, RoleName.RESTAURANT_OWNER)
     createSupplier(@Body() dto: CreateSupplierDto, @Request() req: { user: { restaurantId?: number | null; role: string } }) {
@@ -59,7 +57,6 @@ export class WarehouseController {
         return this.service.getSuppliers(req.user.restaurantId, req.user.role);
     }
 
-    // Purchase Orders
     @Get('purchase-orders')
     @Roles(RoleName.SUPER_ADMIN, RoleName.RESTAURANT_OWNER)
     getPurchaseOrders(@Request() req: { user: { restaurantId?: number | null; role: string } }) {
@@ -81,7 +78,6 @@ export class WarehouseController {
         return this.service.receivePurchaseOrder(dto, req.user.userId);
     }
 
-    // Transfers
     @Get('transfers')
     @Roles(RoleName.SUPER_ADMIN, RoleName.RESTAURANT_OWNER)
     getTransfers(@Request() req: { user: { restaurantId?: number | null; role: string } }) {

@@ -20,7 +20,7 @@ export class Inventory {
     quantity?: number;
 
     @Column({ nullable: true })
-    unit?: string; // kg, liter, piece
+    unit?: string;
 
     @Column({ nullable: true })
     reorderLevel?: number;

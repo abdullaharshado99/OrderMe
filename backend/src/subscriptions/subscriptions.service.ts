@@ -1,11 +1,11 @@
-import { Injectable, NotFoundException, ForbiddenException, BadRequestException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, LessThan } from 'typeorm';
-import { Subscription } from './entities/subscription.entity';
-import { CreateSubscriptionDto, RenewSubscriptionDto } from './dto/subscription.dto';
+import { InjectRepository } from '@nestjs/typeorm';
 import { RoleName } from '../roles/entities/role.entity';
+import { Subscription } from './entities/subscription.entity';
 import { Restaurant } from '../restaurants/entities/restaurant.entity';
 import { SubscriptionPlan } from './entities/subscription-plan.entity';
+import { CreateSubscriptionDto, RenewSubscriptionDto } from './dto/subscription.dto';
+import { Injectable, NotFoundException, ForbiddenException, BadRequestException } from '@nestjs/common';
 
 @Injectable()
 export class SubscriptionsService {
@@ -110,10 +110,8 @@ export class SubscriptionsService {
         }
         const sub = await this.subRepo.findOne({ where: { id: subscriptionId } });
         if (!sub) throw new NotFoundException('Subscription not found');
-        // Mark old as inactive
         sub.isActive = false;
         await this.subRepo.save(sub);
-        // Create new
         const newSub = this.subRepo.create({
             restaurantId: sub.restaurantId,
             plan: dto.plan,

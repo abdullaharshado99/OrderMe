@@ -1,14 +1,14 @@
-import { Injectable, NotFoundException, BadRequestException, ForbiddenException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Sku } from './entities/sku.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Supplier } from './entities/supplier.entity';
-import { PurchaseOrder } from './entities/purchase-order.entity';
-import { PurchaseOrderItem } from './entities/purchase-order-item.entity';
-import { StockTransfer } from './entities/stock-transfer.entity';
 import { AuditLog } from './entities/audit-log.entity';
-import { CreateSkuDto, CreateSupplierDto, CreatePurchaseOrderDto, ReceivePurchaseOrderDto, CreateStockTransferDto, UpdateTransferStatusDto } from './dto/warehouse.dto';
 import { RoleName } from '../roles/entities/role.entity';
+import { PurchaseOrder } from './entities/purchase-order.entity';
+import { StockTransfer } from './entities/stock-transfer.entity';
+import { PurchaseOrderItem } from './entities/purchase-order-item.entity';
+import { Injectable, NotFoundException, BadRequestException, ForbiddenException } from '@nestjs/common';
+import { CreateSkuDto, CreateSupplierDto, CreatePurchaseOrderDto, ReceivePurchaseOrderDto, CreateStockTransferDto, UpdateTransferStatusDto } from './dto/warehouse.dto';
 
 function startOfToday(): Date {
     const d = new Date();
@@ -58,12 +58,10 @@ export class WarehouseService {
 
         const now = new Date();
         const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-
         const skus = await this.skuRepo.find({ where: { restaurantId: rid } });
         const skuAddedThisMonth = skus.filter((s) => s.createdAt && new Date(s.createdAt) >= startOfMonth).length;
         const stockValuePkr = skus.reduce((sum, s) => sum + Number(s.currentStock ?? 0) * Number(s.unitPrice ?? 0), 0);
         const belowMinLevelCount = skus.filter((s) => Number(s.currentStock ?? 0) <= Number(s.minLevel ?? 0)).length;
-
         const pos = await this.poRepo.find({ where: { restaurantId: rid } });
         const activePurchaseOrders = pos.filter((p) => p.status !== 'received' && p.status !== 'cancelled').length;
         const today = startOfToday();

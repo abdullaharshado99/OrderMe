@@ -1,9 +1,9 @@
-import { Injectable, NotFoundException, ForbiddenException, BadRequestException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Role, RoleName } from '../roles/entities/role.entity';
-import * as bcrypt from 'bcrypt';
+import { Injectable, NotFoundException, ForbiddenException, BadRequestException } from '@nestjs/common';
 
 @Injectable()
 export class UsersService {
@@ -15,11 +15,9 @@ export class UsersService {
   ) { }
 
   async findAll(restaurantId?: number, currentUserRole?: string, currentUserRestaurantId?: number) {
-    // Super admin can see all users
     if (currentUserRole === RoleName.SUPER_ADMIN) {
       return this.userRepository.find({ relations: ['role'] });
     }
-    // Restaurant owner and chef see only users in their restaurant
     if (restaurantId && currentUserRestaurantId === restaurantId) {
       return this.userRepository.find({ where: { restaurantId }, relations: ['role'] });
     }

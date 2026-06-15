@@ -1,12 +1,12 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Recipe } from './entities/recipe.entity';
-import { RecipeIngredient } from './entities/recipe-ingredient.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Sku } from '../warehouse/entities/sku.entity';
 import { PrepTask } from './entities/prep-task.entity';
 import { WasteLog } from './entities/waste-log.entity';
-import { Sku } from '../warehouse/entities/sku.entity';
 import { RoleName } from '../roles/entities/role.entity';
+import { RecipeIngredient } from './entities/recipe-ingredient.entity';
+import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 
 @Injectable()
 export class KitchenInventoryService {
@@ -34,12 +34,14 @@ export class KitchenInventoryService {
         saved.totalCost = totalCost;
         return this.recipeRepo.save(saved);
     }
+
     async getAllRecipes() { return this.recipeRepo.find({ relations: ['ingredients', 'ingredients.sku'] }); }
 
     async createPrepTask(date: Date, skuId: number, targetQty: number, role: string) {
         if (role !== RoleName.RESTAURANT_OWNER && role !== RoleName.CHEF) throw new ForbiddenException();
         return this.prepTaskRepo.save({ date, skuId, targetQuantity: targetQty });
     }
+
     async updatePrepTask(id: number, completedQty: number) {
         const task = await this.prepTaskRepo.findOne({ where: { id } });
         if (!task) throw new NotFoundException();
@@ -57,6 +59,7 @@ export class KitchenInventoryService {
         const cost = unitPrice * quantity;
         return this.wasteRepo.save({ skuId, quantity, reason, estimatedCost: cost, reportedById: userId });
     }
+
     async getWasteLogs() { return this.wasteRepo.find({ relations: ['sku', 'reportedBy'], order: { createdAt: 'DESC' } }); }
 
     async getPrepTasks() {

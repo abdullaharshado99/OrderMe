@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { SubscriptionsController } from './subscriptions.controller';
-import { SubscriptionsService } from './subscriptions.service';
 import { Subscription } from './entities/subscription.entity';
+import { SubscriptionsService } from './subscriptions.service';
+import { SubscriptionsController } from './subscriptions.controller';
 import { Restaurant } from '../restaurants/entities/restaurant.entity';
 import { SubscriptionPlan } from './entities/subscription-plan.entity';
 

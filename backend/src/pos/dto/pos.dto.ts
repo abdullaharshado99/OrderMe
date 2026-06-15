@@ -1,5 +1,5 @@
-import { IsNumber, IsOptional, IsString, Min, IsArray, ValidateNested, IsIn, Max } from 'class-validator';
 import { PaymentMethod } from '../entities/payment.entity';
+import { IsNumber, IsOptional, IsString, Min, IsArray, IsIn, Max } from 'class-validator';
 
 const PAYMENT_METHODS: PaymentMethod[] = ['cash', 'card', 'jazzcash', 'easypaisa'];
 

@@ -11,7 +11,7 @@ export class Order {
     restaurantId?: number;
 
     @Column({ nullable: true })
-    tableId?: string; // QR table identifier
+    tableId?: string;
 
     @Column({ nullable: true })
     customerName?: string;
@@ -20,12 +20,7 @@ export class Order {
     customerPhone?: string;
 
     @Column({ type: 'jsonb' })
-    items?: Array<{
-        menuItemId: number;
-        name: string;
-        quantity: number;
-        price: number;
-    }>;
+    items?: Array<{ menuItemId: number; name: string; quantity: number; price: number }>;
 
     @Column('decimal', { precision: 10, scale: 2 })
     totalAmount?: number;
@@ -34,20 +29,19 @@ export class Order {
     status?: OrderStatus;
 
     @Column({ nullable: true })
-    assignedChefId?: number; // user id with role chef
+    assignedChefId?: number;
 
     @Column({ nullable: true })
-    estimatedTime?: number; // in minutes
+    estimatedTime?: number;
 
-    // add to existing entity:
     @Column({ nullable: true })
-    station?: string; // 'grill', 'pasta', 'cold', etc.
+    station?: string;
 
     @Column({ nullable: true, type: 'timestamp' })
     routingTime?: Date;
 
     @Column({ nullable: true })
-    priority?: string; // 'rush', 'vip', 'normal'
+    priority?: string;
 
     @Column({ nullable: true, type: 'timestamp' })
     cookTimeStart?: Date;

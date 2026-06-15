@@ -9,10 +9,10 @@ export class QrCode {
     restaurantId?: number;
 
     @Column()
-    tableId?: string; // table number or identifier
+    tableId?: string;
 
     @Column({ unique: true })
-    qrToken?: string; // unique token for URL
+    qrToken?: string;
 
     @Column({ nullable: true })
     qrImageUrl?: string;

@@ -1,10 +1,10 @@
-import { Controller, Get, Post, Patch, Delete, Body, Param, UseGuards, Request } from '@nestjs/common';
-import { TablesService } from './tables.service';
 import { AuthGuard } from '@nestjs/passport';
+import { TablesService } from './tables.service';
+import { RoleName } from '../roles/entities/role.entity';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
-import { RoleName } from '../roles/entities/role.entity';
 import { CreateTableDto, UpdateTableDto } from './dto/table.dto';
+import { Controller, Get, Post, Patch, Delete, Body, Param, UseGuards, Request } from '@nestjs/common';
 
 @Controller('tables')
 @UseGuards(AuthGuard('jwt'), RolesGuard)

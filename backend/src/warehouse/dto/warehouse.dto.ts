@@ -1,6 +1,6 @@
-import { IsString, IsOptional, IsNumber, IsEnum, Min, IsArray, ValidateNested, IsDateString } from 'class-validator';
 import { Type } from 'class-transformer';
 import { TransferStatus } from '../entities/stock-transfer.entity';
+import { IsString, IsOptional, IsNumber, IsEnum, Min, IsArray, ValidateNested, IsDateString } from 'class-validator';
 
 export class CreateSkuDto {
     @IsString() skuCode?: string;

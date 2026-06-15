@@ -1,9 +1,9 @@
-import { Controller, Get, Post, Patch, Delete, Body, Param, Query, UseGuards, Request, Header } from '@nestjs/common';
-import { InventoryService } from './inventory.service';
 import { AuthGuard } from '@nestjs/passport';
+import { InventoryService } from './inventory.service';
+import { RoleName } from '../roles/entities/role.entity';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
-import { RoleName } from '../roles/entities/role.entity';
+import { Controller, Get, Post, Patch, Delete, Body, Param, Query, UseGuards, Request, Header } from '@nestjs/common';
 
 @Controller('inventory')
 @UseGuards(AuthGuard('jwt'), RolesGuard)

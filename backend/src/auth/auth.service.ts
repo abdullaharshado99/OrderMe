@@ -1,17 +1,16 @@
-import { Injectable, UnauthorizedException, ConflictException, BadRequestException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcrypt';
+import { ConfigService } from '@nestjs/config';
+import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../users/entities/user.entity';
-import { Role, RoleName } from '../roles/entities/role.entity';
 import { RegisterDto, LoginDto } from './dto/register.dto';
-import { ConfigService } from '@nestjs/config'; // ✅ add this
+import { Role, RoleName } from '../roles/entities/role.entity';
 import { SubscriptionsService } from '../subscriptions/subscriptions.service';
+import { Injectable, UnauthorizedException, ConflictException, BadRequestException } from '@nestjs/common';
 
 @Injectable()
 export class AuthService {
-  // Simple in-memory blacklist – in production use Redis or database
   private refreshTokenBlacklist: Set<string> = new Set();
 
   constructor(
@@ -89,7 +88,6 @@ export class AuthService {
   }
 
   async refreshTokens(refreshToken: string) {
-    // Check blacklist
     if (this.refreshTokenBlacklist.has(refreshToken)) {
       throw new UnauthorizedException('Token revoked');
     }

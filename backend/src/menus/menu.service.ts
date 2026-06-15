@@ -1,9 +1,9 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 import { MenuItem } from './entities/menu-item.entity';
 import { CreateMenuItemDto } from './dto/menu-item.dto';
 import { RoleName } from '../roles/entities/role.entity';
+import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 
 @Injectable()
 export class MenusService {
@@ -19,7 +19,6 @@ export class MenusService {
   }
 
   async findAllByRestaurant(restaurantId: number, currentUserRole: string, currentUserRestaurantId?: number) {
-    // Customer and any authenticated user can view menu (no strict restriction)
     return this.menuRepository.find({ where: { restaurantId, isAvailable: true } });
   }
 

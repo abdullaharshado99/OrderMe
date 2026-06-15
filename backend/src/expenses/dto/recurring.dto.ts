@@ -12,5 +12,5 @@ export class CreateRecurringDto {
 
     @IsOptional()
     @IsNumber()
-    dayOfMonth?: number; // for monthly
+    dayOfMonth?: number;
 }

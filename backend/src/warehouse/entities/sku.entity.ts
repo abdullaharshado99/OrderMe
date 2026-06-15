@@ -1,5 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Supplier } from './supplier.entity';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 
 @Entity('warehouse_skus')
 export class Sku {
@@ -7,16 +7,16 @@ export class Sku {
     id?: number;
 
     @Column({ unique: true })
-    skuCode?: string; // e.g., WH-001
+    skuCode?: string;
 
     @Column()
     name?: string;
 
     @Column({ nullable: true })
-    category?: string; // Proteins, Dry Goods, etc.
+    category?: string;
 
     @Column({ nullable: true })
-    binLocation?: string; // A-01-R3
+    binLocation?: string;
 
     @Column('decimal', { precision: 10, scale: 2 })
     unitPrice?: number;

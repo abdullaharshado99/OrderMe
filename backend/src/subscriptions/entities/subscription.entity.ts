@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, JoinColumn, ManyToOne } from 'typeorm';
-import { Restaurant } from '../../restaurants/entities/restaurant.entity';
 import { SubscriptionPlan } from './subscription-plan.entity';
+import { Restaurant } from '../../restaurants/entities/restaurant.entity';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, JoinColumn, ManyToOne } from 'typeorm';
 
 @Entity('subscriptions')
 export class Subscription {
@@ -11,7 +11,7 @@ export class Subscription {
     restaurantId?: number;
 
     @Column()
-    plan?: string; // basic, pro, enterprise
+    plan?: string;
 
     @Column('decimal', { precision: 10, scale: 2 })
     price?: number;

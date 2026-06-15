@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
-import { Sku } from '../../warehouse/entities/sku.entity';
 import { User } from '../../users/entities/user.entity';
+import { Sku } from '../../warehouse/entities/sku.entity';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 
 @Entity('waste_logs')
 export class WasteLog {

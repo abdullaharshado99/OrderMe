@@ -1,5 +1,5 @@
-import { IsString, IsNumber, IsEnum, IsOptional } from 'class-validator';
 import { InventoryType } from '../entities/inventory.entity';
+import { IsString, IsNumber, IsEnum, IsOptional } from 'class-validator';
 
 export class CreateInventoryDto {
     @IsEnum(['warehouse', 'kitchen'])

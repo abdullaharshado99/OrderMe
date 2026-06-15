@@ -1,9 +1,9 @@
-import { Controller, Get, Post, Patch, Body, Param, UseGuards, Request, Header, Query } from '@nestjs/common';
-import { OrdersService } from './orders.service';
 import { AuthGuard } from '@nestjs/passport';
+import { OrdersService } from './orders.service';
+import { RoleName } from '../roles/entities/role.entity';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
-import { RoleName } from '../roles/entities/role.entity';
+import { Controller, Get, Post, Patch, Body, Param, UseGuards, Request, Header, Query } from '@nestjs/common';
 
 @Controller('orders')
 @UseGuards(AuthGuard('jwt'), RolesGuard)
@@ -62,5 +62,10 @@ export class OrdersController {
     @Roles(RoleName.CHEF, RoleName.RESTAURANT_OWNER)
     getKdsStats(@Param('restaurantId') id: number) {
         return this.ordersService.getKdsStats(id);
+    }
+
+    @Get(':orderId/progress')
+    async getProgress(@Param('orderId') id: number) {
+        return this.ordersService.getOrderProgress(id);
     }
 }

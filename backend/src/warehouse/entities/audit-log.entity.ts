@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
-import { User } from '../../users/entities/user.entity';
 import { Sku } from './sku.entity';
+import { User } from '../../users/entities/user.entity';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
 
 @Entity('warehouse_audit_logs')
 export class AuditLog {
@@ -21,10 +21,10 @@ export class AuditLog {
     newStock?: number;
 
     @Column({ type: 'decimal', precision: 10, scale: 2 })
-    adjustment?: number; // positive or negative
+    adjustment?: number;
 
     @Column()
-    reason?: string; // e.g., 'stock take', 'damaged', 'received'
+    reason?: string;
 
     @Column({ type: 'int' })
     restaurantId?: number;

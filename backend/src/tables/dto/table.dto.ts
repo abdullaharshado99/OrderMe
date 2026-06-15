@@ -1,4 +1,4 @@
-import { IsNumber, IsOptional, IsEnum, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsEnum } from 'class-validator';
 
 export class CreateTableDto {
     @IsNumber()

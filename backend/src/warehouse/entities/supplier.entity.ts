@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { Sku } from './sku.entity';
 import { PurchaseOrder } from './purchase-order.entity';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 
 @Entity('suppliers')
 export class Supplier {
@@ -29,13 +29,13 @@ export class Supplier {
     primaryCategory?: string;
 
     @Column({ nullable: true })
-    leadTimeDays?: number; // average days to deliver
+    leadTimeDays?: number;
 
     @Column({ nullable: true })
-    paymentTerms?: string; // Net 30, COD, etc.
+    paymentTerms?: string;
 
     @Column('decimal', { precision: 2, scale: 1, default: 0 })
-    rating?: number; // 0–5
+    rating?: number;
 
     @Column({ default: true })
     isActive?: boolean;

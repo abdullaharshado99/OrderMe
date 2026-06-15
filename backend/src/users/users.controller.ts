@@ -1,20 +1,9 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Patch,
-  Delete,
-  Body,
-  Param,
-  UseGuards,
-  Request,
-  Query,
-} from '@nestjs/common';
-import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
+import { UsersService } from './users.service';
+import { RoleName } from '../roles/entities/role.entity';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
-import { RoleName } from '../roles/entities/role.entity';
+import { Controller, Get, Post, Patch, Delete, Body, Param, UseGuards, Request, Query } from '@nestjs/common';
 
 @Controller('users')
 @UseGuards(AuthGuard('jwt'), RolesGuard)
@@ -34,11 +23,7 @@ export class UsersController {
   }
 
   @Patch(':id')
-  async update(
-    @Param('id') id: number,
-    @Body() updateData: any,
-    @Request() req,
-  ) {
+  async update(@Param('id') id: number, @Body() updateData: any, @Request() req) {
     return this.usersService.updateProfile(
       id,
       updateData,
@@ -59,11 +44,7 @@ export class UsersController {
 
   @Post(':id/role')
   @Roles(RoleName.SUPER_ADMIN)
-  async assignRole(
-    @Param('id') id: number,
-    @Body('roleName') roleName: RoleName,
-    @Request() req,
-  ) {
+  async assignRole(@Param('id') id: number, @Body('roleName') roleName: RoleName, @Request() req) {
     return this.usersService.assignRole(id, roleName, req.user.role);
   }
 

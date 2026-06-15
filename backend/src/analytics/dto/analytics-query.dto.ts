@@ -1,5 +1,5 @@
-import { IsOptional, IsEnum, IsNumber, Min } from 'class-validator';
 import { Transform } from 'class-transformer';
+import { IsOptional, IsEnum, IsNumber, Min } from 'class-validator';
 
 export class SalesReportQueryDto {
     @IsEnum(['daily', 'weekly', 'monthly'])

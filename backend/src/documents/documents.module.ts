@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DocumentsController } from './documents.controller';
 import { DocumentsService } from './documents.service';
 import { ChatbotDocument } from './entities/document.entity';
+import { DocumentsController } from './documents.controller';
 
 @Module({
     imports: [TypeOrmModule.forFeature([ChatbotDocument])],

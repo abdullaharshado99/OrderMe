@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
+import { MenusService } from './menu.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MenusController } from './menu.controller';
-import { MenusService } from './menu.service';
 import { MenuItem } from './entities/menu-item.entity';
 
 @Module({

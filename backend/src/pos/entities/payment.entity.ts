@@ -17,7 +17,7 @@ export class Payment {
     amount?: number;
 
     @Column({ nullable: true })
-    reference?: string; // transaction ID
+    reference?: string;
 
     @CreateDateColumn()
     createdAt?: Date;

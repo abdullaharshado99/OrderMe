@@ -1,9 +1,9 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Waiter } from './entities/waiter.entity';
-import { CreateWaiterDto, UpdateWaiterDto } from './dto/waiter.dto';
+import { InjectRepository } from '@nestjs/typeorm';
 import { RoleName } from '../roles/entities/role.entity';
+import { CreateWaiterDto, UpdateWaiterDto } from './dto/waiter.dto';
+import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 
 @Injectable()
 export class WaitersService {

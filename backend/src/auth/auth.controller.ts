@@ -1,10 +1,10 @@
-import { Controller, Post, Body, HttpCode, HttpStatus, UseGuards, Request, Get, Param, ForbiddenException } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { RegisterDto, LoginDto, RefreshTokenDto } from './dto/register.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { SubscriptionsService } from '../subscriptions/subscriptions.service';
-import { Roles } from '../common/decorators/roles.decorator';
 import { RoleName } from '../roles/entities/role.entity';
+import { RegisterDto, LoginDto } from './dto/register.dto';
+import { Roles } from '../common/decorators/roles.decorator';
+import { SubscriptionsService } from '../subscriptions/subscriptions.service';
+import { Controller, Post, Body, HttpCode, HttpStatus, UseGuards, Request, Get, Param, ForbiddenException } from '@nestjs/common';
 
 @Controller('auth')
 export class AuthController {

@@ -1,6 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { Recipe } from './recipe.entity';
 import { Sku } from '../../warehouse/entities/sku.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 
 @Entity('recipe_ingredients')
 export class RecipeIngredient {

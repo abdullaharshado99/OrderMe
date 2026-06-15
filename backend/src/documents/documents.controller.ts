@@ -1,10 +1,10 @@
-import { Controller, Post, Get, Delete, Param, UseGuards, Request, UploadedFile, UseInterceptors } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { DocumentsService } from './documents.service';
 import { AuthGuard } from '@nestjs/passport';
-import { RolesGuard } from '../common/guards/roles.guard';
-import { Roles } from '../common/decorators/roles.decorator';
+import { DocumentsService } from './documents.service';
 import { RoleName } from '../roles/entities/role.entity';
+import { RolesGuard } from '../common/guards/roles.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Roles } from '../common/decorators/roles.decorator';
+import { Controller, Post, Get, Delete, Param, UseGuards, Request, UploadedFile, UseInterceptors } from '@nestjs/common';
 
 @Controller('documents')
 @UseGuards(AuthGuard('jwt'), RolesGuard)

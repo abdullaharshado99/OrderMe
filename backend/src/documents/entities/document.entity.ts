@@ -12,13 +12,13 @@ export class ChatbotDocument {
     fileName?: string;
 
     @Column()
-    fileUrl?: string; // stored path or S3 URL
+    fileUrl?: string;
 
     @Column()
-    fileType?: string; // pdf, docx, txt
+    fileType?: string;
 
     @Column({ nullable: true })
-    vectorId?: string; // Pinecone or pgvector ID
+    vectorId?: string;
 
     @CreateDateColumn()
     uploadedAt?: Date;

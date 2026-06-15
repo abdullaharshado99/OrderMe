@@ -1,9 +1,9 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { RoleName } from '../roles/entities/role.entity';
 import { RestaurantTable } from './entities/table.entity';
 import { CreateTableDto, UpdateTableDto } from './dto/table.dto';
-import { RoleName } from '../roles/entities/role.entity';
+import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
 
 @Injectable()
 export class TablesService {
