@@ -1,0 +1,29 @@
+.page {
+  width: 100%;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--raspberry);
+  font-family: var(--font-quicksand);
+}
+
+.tableCard {
+  overflow: hidden;
+}
+
+.tableContent {
+  padding: 0;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+@media (max-width: 767px) {
+  .tableWrapper {
+    margin: 0 -0.5rem;
+  }
+}

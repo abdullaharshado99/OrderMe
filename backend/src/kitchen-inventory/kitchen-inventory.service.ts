@@ -60,7 +60,7 @@ export class KitchenInventoryService {
         return this.wasteRepo.save({ skuId, quantity, reason, estimatedCost: cost, reportedById: userId });
     }
 
-    async getWasteLogs() { return this.wasteRepo.find({ relations: ['sku', 'reportedBy'], order: { createdAt: 'DESC' } }); }
+    async getWasteLogs() { return this.wasteRepo.find({ relations: ['sku', 'reportedBy'], order: { createdAt: 'ASC' } }); }
 
     async getPrepTasks() {
         return this.prepTaskRepo.find({ relations: ['sku'], order: { date: 'ASC' } });

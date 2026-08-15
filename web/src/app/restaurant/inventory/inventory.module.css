@@ -1,0 +1,56 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  font-family: var(--font-quicksand);
+  color: #111827;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--raspberry);
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+}
+
+.cardHeader {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.cardTitle {
+  color: var(--brilliant-rose);
+}
+
+.cardContent {
+  padding-top: 1rem;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.tableHead {
+  color: var(--raspberry);
+  font-weight: 600;
+}
+
+.tableRow:hover {
+  background: #fdf2f8;
+}
+
+.quantityCell {
+  color: var(--raspberry);
+  font-weight: 600;
+}
+
+.itemCell {
+  font-weight: 500;
+}
+
+.headerRow:hover {
+  background: transparent;
+}

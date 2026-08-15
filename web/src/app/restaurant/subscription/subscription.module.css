@@ -1,0 +1,88 @@
+.page {
+  font-family: var(--font-quicksand);
+  color: #111827;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--raspberry);
+}
+
+.currentCard {
+  margin-bottom: 1.5rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+}
+
+.cardTitle {
+  color: var(--brilliant-rose);
+}
+
+.currentContent {
+  color: #374151;
+}
+
+.price {
+  margin-top: 0.25rem;
+  color: var(--raspberry);
+  font-weight: 600;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--brilliant-rose);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.planCard {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  transition: border-color 0.2s;
+}
+
+.planCard:hover {
+  border-color: var(--brilliant-rose);
+}
+
+.planPrice {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--raspberry);
+}
+
+.planFeatures {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.upgradeButton {
+  margin-top: 1rem;
+  width: 100%;
+  background: var(--raspberry);
+}
+
+.upgradeButton:hover {
+  background: var(--brilliant-rose);
+}
+
+.upgradeButtonActive {
+  margin-top: 1rem;
+  width: 100%;
+  background: #d1d5db;
+  cursor: not-allowed;
+}

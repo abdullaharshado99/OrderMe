@@ -1,0 +1,41 @@
+.page {
+  max-width: 42rem;
+  margin: 0 auto;
+  font-family: var(--font-quicksand);
+  color: #111827;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--raspberry);
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+}
+
+.cardTitle {
+  color: var(--brilliant-rose);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.fileInput {
+  width: 100%;
+}
+
+.submitButton {
+  background: var(--raspberry);
+  align-self: flex-start;
+}
+
+.submitButton:hover {
+  background: var(--brilliant-rose);
+}

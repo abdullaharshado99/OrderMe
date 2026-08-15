@@ -32,7 +32,7 @@ export class DocumentsService {
 
     async findAll(restaurantId: number, currentUserRole: string, userRestaurantId?: number) {
         this.checkAccess(restaurantId, currentUserRole, userRestaurantId);
-        return this.docRepo.find({ where: { restaurantId }, order: { uploadedAt: 'DESC' } });
+        return this.docRepo.find({ where: { restaurantId }, order: { uploadedAt: 'ASC' } });
     }
 
     async delete(id: number, currentUserRole: string, userRestaurantId?: number) {

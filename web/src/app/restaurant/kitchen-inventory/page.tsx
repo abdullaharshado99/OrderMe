@@ -1,4 +1,5 @@
 'use client';
+import styles from './kitchen-inventory.module.css';
 import { useEffect, useState } from 'react';
 import api from '@/lib/axios';
 import { useAuth } from '@/components/auth/AuthProvider';
@@ -23,6 +24,13 @@ import {
     DialogFooter,
 } from '@/components/ui/dialog';
 import { Progress } from '@/components/ui/progress';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 
 type Sku = {
     id: number;
@@ -174,17 +182,17 @@ export default function KitchenInventoryPage() {
         fetchAll();
     };
 
-    if (loading) return <div className="p-6">Loading kitchen inventory...</div>;
+    if (loading) return <div className={styles.p_6}>Loading kitchen inventory...</div>;
 
     return (
-        <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
+        <div className={styles.p_6_space_y_6_bg_gray_50_min_h_screen}>
             {/* Header with buttons */}
-            <div className="flex justify-between items-center">
+            <div className={styles.flex_justify_between_items_center}>
                 <div>
-                    <h1 className="text-2xl font-bold text-stone-800">Kitchen Inventory</h1>
-                    <p className="text-sm text-stone-500">Last sync: {new Date().toLocaleString()} · Station: Main Kitchen</p>
+                    <h1 className={styles.text_2xl_font_bold_text_stone_800}>Kitchen Inventory</h1>
+                    <p className={styles.text_sm_text_stone_500}>Last sync: {new Date().toLocaleString()} · Station: Main Kitchen</p>
                 </div>
-                <div className="flex gap-2">
+                <div className={styles.flex_gap_2}>
                     <Button variant="outline">📊 Export</Button>
                     <Button variant="outline" onClick={() => fetchAll()}>🔄 Sync</Button>
                     <Button onClick={() => setShowPrepDialog(true)}>+ Add Ingredient</Button>
@@ -192,25 +200,25 @@ export default function KitchenInventoryPage() {
             </div>
 
             {/* KPI Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <Card><CardHeader className="pb-2"><CardTitle className="text-sm">Total Ingredients</CardTitle></CardHeader><CardContent><div className="text-2xl font-bold">{totalIngredients}</div><p className="text-xs text-green-600">+8 this week</p></CardContent></Card>
-                <Card><CardHeader className="pb-2"><CardTitle className="text-sm">Low Stock</CardTitle></CardHeader><CardContent><div className="text-2xl font-bold text-yellow-600">{lowStockItems}</div><p className="text-xs">Reorder needed</p></CardContent></Card>
-                <Card><CardHeader className="pb-2"><CardTitle className="text-sm">Expiring Soon</CardTitle></CardHeader><CardContent><div className="text-2xl font-bold text-red-600">{expiringSoon}</div><p className="text-xs">Within 48 hrs</p></CardContent></Card>
-                <Card><CardHeader className="pb-2"><CardTitle className="text-sm">Daily Waste</CardTitle></CardHeader><CardContent><div className="text-2xl font-bold">PKR {dailyWaste.toLocaleString()}</div><p className="text-xs text-green-600">↓ 18% vs yesterday</p></CardContent></Card>
+            <div className={styles.grid_grid_cols_1_sm_grid_cols_2_lg_grid_cols_4_gap}>
+                <Card><CardHeader className={styles.pb_2}><CardTitle className={styles.text_sm}>Total Ingredients</CardTitle></CardHeader><CardContent><div className={styles.text_2xl_font_bold}>{totalIngredients}</div><p className={styles.text_xs_text_green_600}>+8 this week</p></CardContent></Card>
+                <Card><CardHeader className={styles.pb_2}><CardTitle className={styles.text_sm}>Low Stock</CardTitle></CardHeader><CardContent><div className={styles.text_2xl_font_bold_text_yellow_600}>{lowStockItems}</div><p className={styles.text_xs}>Reorder needed</p></CardContent></Card>
+                <Card><CardHeader className={styles.pb_2}><CardTitle className={styles.text_sm}>Expiring Soon</CardTitle></CardHeader><CardContent><div className={styles.text_2xl_font_bold_text_red_600}>{expiringSoon}</div><p className={styles.text_xs}>Within 48 hrs</p></CardContent></Card>
+                <Card><CardHeader className={styles.pb_2}><CardTitle className={styles.text_sm}>Daily Waste</CardTitle></CardHeader><CardContent><div className={styles.text_2xl_font_bold}>PKR {dailyWaste.toLocaleString()}</div><p className={styles.text_xs_text_green_600}>↓ 18% vs yesterday</p></CardContent></Card>
             </div>
 
             {/* Search and Filters */}
-            <div className="flex flex-wrap gap-3 items-center">
-                <div className="relative flex-1">
+            <div className={styles.flex_flex_wrap_gap_3_items_center}>
+                <div className={styles.relative_flex_1}>
                     <Input
                         placeholder="Search ingredients, SKUs, categories..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-8"
+                        className={styles.pl_8}
                     />
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">🔍</span>
+                    <span className={styles.absolute_left_3_top_1_2_translate_y_1_2_text_gray_}>🔍</span>
                 </div>
-                <div className="flex gap-2">
+                <div className={styles.flex_gap_2}>
                     {['all', 'Produce', 'Dairy', 'Proteins', 'Dry Goods'].map((cat) => (
                         <Button
                             key={cat}
@@ -235,7 +243,7 @@ export default function KitchenInventoryPage() {
 
             {/* Main Table */}
             <Card>
-                <CardContent className="p-0 overflow-x-auto">
+                <CardContent className={styles.p_0_overflow_x_auto}>
                     <Table>
                         <TableHeader>
                             <TableRow>
@@ -255,14 +263,14 @@ export default function KitchenInventoryPage() {
                                 const status = getStatusBadge(sku);
                                 return (
                                     <TableRow key={sku.id}>
-                                        <TableCell className="font-medium">{sku.name}<div className="text-xs text-gray-500">{sku.skuCode}</div></TableCell>
+                                        <TableCell className={styles.font_medium}>{sku.name}<div className={styles.text_xs_text_gray_500}>{sku.skuCode}</div></TableCell>
                                         <TableCell>{sku.category}</TableCell>
                                         <TableCell>{sku.unit}</TableCell>
                                         <TableCell>{sku.currentStock}</TableCell>
                                         <TableCell>{sku.minLevel}</TableCell>
-                                        <TableCell className="w-32">
-                                            <Progress value={getStockPercentage(sku)} className="h-2" />
-                                            <span className="text-xs">{((sku.currentStock ?? 0) / (sku.maxLevel ?? 100) * 100).toFixed(0)}%</span>
+                                        <TableCell className={styles.w_32}>
+                                            <Progress value={getStockPercentage(sku)} className={styles.h_2} />
+                                            <span className={styles.text_xs}>{((sku.currentStock ?? 0) / (sku.maxLevel ?? 100) * 100).toFixed(0)}%</span>
                                         </TableCell>
                                         <TableCell>—</TableCell>
                                         <TableCell>PKR {sku.unitPrice}</TableCell>
@@ -276,16 +284,16 @@ export default function KitchenInventoryPage() {
             </Card>
 
             {/* Bottom Grid: Recipes, Waste Log, Reorder Alerts, Prep Tracking */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className={styles.grid_grid_cols_1_lg_grid_cols_2_gap_6}>
                 {/* Recipes */}
                 <Card>
-                    <CardHeader className="flex flex-row justify-between"><CardTitle>📋 Recipes / Bill of Materials</CardTitle><Button variant="link">View all →</Button></CardHeader>
-                    <CardContent className="space-y-4 max-h-80 overflow-y-auto">
+                    <CardHeader className={styles.flex_flex_row_justify_between}><CardTitle>📋 Recipes / Bill of Materials</CardTitle><Button variant="link">View all →</Button></CardHeader>
+                    <CardContent className={styles.space_y_4_max_h_80_overflow_y_auto}>
                         {recipes.map((recipe) => (
-                            <div key={recipe.id} className="border-b pb-3">
-                                <div className="font-semibold">{recipe.name}</div>
-                                <div className="text-sm text-gray-500">{recipe.ingredients?.length} ingredients · Prep: {recipe.prepTimeMinutes} min · Yield: {recipe.yieldQuantity} portions</div>
-                                <div className="font-bold">PKR {recipe.totalCost}</div>
+                            <div key={recipe.id} className={styles.border_b_pb_3}>
+                                <div className={styles.font_semibold}>{recipe.name}</div>
+                                <div className={styles.text_sm_text_gray_500}>{recipe.ingredients?.length} ingredients · Prep: {recipe.prepTimeMinutes} min · Yield: {recipe.yieldQuantity} portions</div>
+                                <div className={styles.font_bold}>PKR {recipe.totalCost}</div>
                             </div>
                         ))}
                     </CardContent>
@@ -293,12 +301,12 @@ export default function KitchenInventoryPage() {
 
                 {/* Waste Log (Today) */}
                 <Card>
-                    <CardHeader className="flex flex-row justify-between"><CardTitle>🗑 Waste Log — Today</CardTitle><Button variant="ghost" size="sm" onClick={() => setShowWasteDialog(true)}>+ Log waste</Button></CardHeader>
-                    <CardContent className="space-y-3 max-h-80 overflow-y-auto">
+                    <CardHeader className={styles.flex_flex_row_justify_between}><CardTitle>🗑 Waste Log — Today</CardTitle><Button variant="ghost" size="sm" onClick={() => setShowWasteDialog(true)}>+ Log waste</Button></CardHeader>
+                    <CardContent className={styles.space_y_3_max_h_80_overflow_y_auto}>
                         {wasteLogs.filter(w => new Date(w.createdAt).toDateString() === new Date().toDateString()).map((w) => (
-                            <div key={w.id} className="flex items-center justify-between border-b pb-2">
-                                <div><div className="font-medium">{w.sku?.name}</div><div className="text-xs text-gray-500">{w.reason} · {new Date(w.createdAt).toLocaleTimeString()}</div></div>
-                                <div className="text-red-500">-{w.quantity} {w.sku?.unit}</div>
+                            <div key={w.id} className={styles.flex_items_center_justify_between_border_b_pb_2}>
+                                <div><div className={styles.font_medium}>{w.sku?.name}</div><div className={styles.text_xs_text_gray_500}>{w.reason} · {new Date(w.createdAt).toLocaleTimeString()}</div></div>
+                                <div className={styles.text_red_500}>-{w.quantity} {w.sku?.unit}</div>
                             </div>
                         ))}
                     </CardContent>
@@ -307,10 +315,10 @@ export default function KitchenInventoryPage() {
                 {/* Reorder Alerts */}
                 <Card>
                     <CardHeader><CardTitle>⚠ Reorder Alerts</CardTitle></CardHeader>
-                    <CardContent className="space-y-3">
+                    <CardContent className={styles.space_y_3}>
                         {skus.filter(s => (s.currentStock ?? 0) <= (s.minLevel ?? 0)).slice(0, 4).map((sku) => (
-                            <div key={sku.id} className="flex justify-between items-center">
-                                <div><div className="font-medium">{sku.name}</div><div className="text-xs">{sku.currentStock} {sku.unit} remaining · Reorder: {sku.minLevel}</div></div>
+                            <div key={sku.id} className={styles.flex_justify_between_items_center}>
+                                <div><div className={styles.font_medium}>{sku.name}</div><div className={styles.text_xs}>{sku.currentStock} {sku.unit} remaining · Reorder: {sku.minLevel}</div></div>
                                 <Button size="sm" variant="outline">Order</Button>
                             </div>
                         ))}
@@ -319,11 +327,11 @@ export default function KitchenInventoryPage() {
 
                 {/* Prep Tracking */}
                 <Card>
-                    <CardHeader className="flex flex-row justify-between"><CardTitle>🔪 Prep Tracking</CardTitle><Button variant="link" onClick={() => setShowPrepDialog(true)}>Today's schedule</Button></CardHeader>
-                    <CardContent className="space-y-3">
+                    <CardHeader className={styles.flex_flex_row_justify_between}><CardTitle>🔪 Prep Tracking</CardTitle><Button variant="link" onClick={() => setShowPrepDialog(true)}>Today's schedule</Button></CardHeader>
+                    <CardContent className={styles.space_y_3}>
                         {prepTasks.slice(0, 4).map((task) => (
-                            <div key={task.id} className="flex justify-between items-center">
-                                <div><div className="font-medium">{task.sku?.name}</div><div className="text-xs">Target: {task.targetQuantity} {task.sku?.unit} · Done: {task.completedQuantity} {task.sku?.unit}</div></div>
+                            <div key={task.id} className={styles.flex_justify_between_items_center}>
+                                <div><div className={styles.font_medium}>{task.sku?.name}</div><div className={styles.text_xs}>Target: {task.targetQuantity} {task.sku?.unit} · Done: {task.completedQuantity} {task.sku?.unit}</div></div>
                                 <Badge className={task.status === 'done' ? 'bg-green-100 text-green-800' : task.status === 'in-progress' ? 'bg-yellow-100' : 'bg-gray-100'}>
                                     {task.status === 'done' ? '✓ Done' : task.status === 'in-progress' ? 'In Progress' : 'Not Started'}
                                 </Badge>
@@ -337,12 +345,23 @@ export default function KitchenInventoryPage() {
             <Dialog open={showWasteDialog} onOpenChange={setShowWasteDialog}>
                 <DialogContent>
                     <DialogHeader><DialogTitle>Log Waste</DialogTitle></DialogHeader>
-                    <div className="space-y-3">
+                    <div className={styles.space_y_3}>
                         <Label>Ingredient</Label>
-                        <select className="w-full border p-2 rounded" value={wasteForm.skuId} onChange={e => setWasteForm({ ...wasteForm, skuId: e.target.value })}>
-                            <option value="">Select SKU</option>
-                            {skus.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
-                        </select>
+                        <Select
+                            value={wasteForm.skuId}
+                            onValueChange={(value) => setWasteForm({ ...wasteForm, skuId: value })}
+                        >
+                            <SelectTrigger className={styles.w_full_border_p_2_rounded}>
+                                <SelectValue placeholder="Select SKU" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {skus.map((s) => (
+                                    <SelectItem key={s.id} value={String(s.id)}>
+                                        {s.name}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
                         <Label>Quantity</Label>
                         <Input type="number" value={wasteForm.quantity} onChange={e => setWasteForm({ ...wasteForm, quantity: e.target.value })} />
                         <Label>Reason</Label>
@@ -356,12 +375,23 @@ export default function KitchenInventoryPage() {
             <Dialog open={showPrepDialog} onOpenChange={setShowPrepDialog}>
                 <DialogContent>
                     <DialogHeader><DialogTitle>Add Prep Task</DialogTitle></DialogHeader>
-                    <div className="space-y-3">
+                    <div className={styles.space_y_3}>
                         <Label>Ingredient</Label>
-                        <select className="w-full border p-2 rounded" value={prepForm.skuId} onChange={e => setPrepForm({ ...prepForm, skuId: e.target.value })}>
-                            <option value="">Select SKU</option>
-                            {skus.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
-                        </select>
+                        <Select
+                          value={prepForm.skuId}
+                          onValueChange={(value) => setPrepForm({ ...prepForm, skuId: value })}
+                        >
+                          <SelectTrigger className={styles.w_full_border_p_2_rounded}>
+                            <SelectValue placeholder="Select SKU" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {skus.map((s) => (
+                              <SelectItem key={s.id} value={String(s.id)}>
+                                {s.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                         <Label>Target Quantity</Label>
                         <Input type="number" value={prepForm.targetQuantity} onChange={e => setPrepForm({ ...prepForm, targetQuantity: e.target.value })} />
                         <Label>Date</Label>

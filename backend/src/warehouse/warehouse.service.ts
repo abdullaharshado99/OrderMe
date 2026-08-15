@@ -223,7 +223,7 @@ export class WarehouseService {
             .createQueryBuilder('audit')
             .leftJoinAndSelect('audit.sku', 'sku')
             .leftJoinAndSelect('audit.user', 'user')
-            .orderBy('audit.createdAt', 'DESC')
+            .orderBy('audit.createdAt', 'ASC')
             .take(150);
         if (rid !== null) {
             qb.andWhere('sku.restaurantId = :rid', { rid });
@@ -240,7 +240,7 @@ export class WarehouseService {
         return this.poRepo.find({
             where,
             relations: ['supplier', 'items', 'items.sku'],
-            order: { createdAt: 'DESC' },
+            order: { createdAt: 'ASC' },
         });
     }
 
@@ -250,7 +250,7 @@ export class WarehouseService {
         return this.transferRepo.find({
             where,
             relations: ['sku', 'requestedBy', 'approvedBy'],
-            order: { createdAt: 'DESC' },
+            order: { createdAt: 'ASC' },
         });
     }
 }

@@ -1,13 +1,13 @@
 import { RestaurantSidebar } from '@/components/layout/RestaurantSidebar';
+import { AppShell } from '@/components/layout/AppShell';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 
 export default function RestaurantLayout({ children }: { children: React.ReactNode }) {
-    return (
-        <ProtectedRoute allowedRoles={['RESTAURANT_OWNER']}>
-            <div className="flex min-h-screen bg-gray-50">
-                <RestaurantSidebar />
-                <main className="flex-1 ml-64 p-6">{children}</main>
-            </div>
-        </ProtectedRoute>
-    );
+  return (
+    <ProtectedRoute allowedRoles={['RESTAURANT_OWNER']}>
+      <AppShell theme="restaurant" title="Order Me" sidebar={<RestaurantSidebar />}>
+        {children}
+      </AppShell>
+    </ProtectedRoute>
+  );
 }

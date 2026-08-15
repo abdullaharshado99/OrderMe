@@ -1,0 +1,78 @@
+.page {
+  max-width: 42rem;
+  margin: 0 auto;
+  font-family: var(--font-quicksand);
+  color: #111827;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--raspberry);
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+}
+
+.cardTitle {
+  color: var(--brilliant-rose);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Input fields - grey border by default, raspberry on hover */
+.form input {
+  border: 1px solid #d1d5db !important;
+  border-radius: 0.375rem;
+  transition: border-color 0.2s ease;
+}
+
+.form input:hover {
+  border-color: var(--raspberry) !important;
+}
+
+.form input:focus {
+  border-color: var(--raspberry) !important;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+/* Select trigger - grey border by default, raspberry on hover */
+.form .selectTrigger {
+  border: 1px solid #d1d5db !important;
+  border-radius: 0.375rem;
+  transition: border-color 0.2s ease;
+  background: #fff;
+}
+
+.form .selectTrigger:hover {
+  border-color: var(--raspberry) !important;
+}
+
+.form .selectTrigger:focus {
+  border-color: var(--raspberry) !important;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+.submitButton {
+  background: var(--raspberry);
+  align-self: flex-start;
+  border: none !important;
+}
+
+.submitButton:hover {
+  background: var(--brilliant-rose);
+}
+
+.message {
+  margin-top: 1rem;
+  color: #16a34a;
+}

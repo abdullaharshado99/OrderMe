@@ -1,22 +1,24 @@
 .container {
-    padding: 1.5rem;
-    background-color: var(--black);
+    padding: 2rem;
+    background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
     min-height: 100vh;
-    color: var(--silver);
+    color: #1a1a1a;
+    font-family: var(--font-quicksand);
 }
 
 .title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    color: var(--raspberry);
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 0;
+    color: #1a1a1a;
     font-family: var(--font-quicksand);
+    letter-spacing: -0.5px;
 }
 
 .statsGrid {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
-    gap: 1.5rem;
+    gap: 2rem;
 }
 
 @media (min-width: 768px) {
@@ -25,24 +27,65 @@
     }
 }
 
-/* Card Styling */
 .statsGrid :global(.bg-card) {
-    background: linear-gradient(135deg, var(--black), #222);
-    border: 1px solid var(--silver);
-    border-radius: 12px;
-    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #ffffff 0%, #fff8fb 100%);
+    border: 2px solid #f0f0f0;
+    border-radius: 16px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     font-family: var(--font-quicksand);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .statsGrid :global(.bg-card:hover) {
-    border-color: var(--brilliant-rose);
-    transform: translateY(-5px);
+    border-color: #ffb3d9;
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(255, 20, 147, 0.15);
 }
 
 .statsGrid :global(h3) {
-    color: var(--brilliant-rose);
+    color: #666666;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 .statsGrid :global(.text-3xl) {
+    color: #ff1493;
+    font-weight: 800;
+}
+
+.statValue {
+    font-size: 2.25rem;
+    font-weight: 700;
     color: var(--raspberry);
+}
+
+.topBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.searchInput {
+    width: 100%;
+    max-width: 350px;
+    height: 45px;
+    border-radius: 12px;
+    border: 2px solid #e5e5e5;
+    background: #ffffff;
+    font-family: var(--font-quicksand);
+    transition: all 0.3s ease;
+}
+
+.searchInput:focus {
+    border-color: #ff1493;
+    box-shadow: 0 0 0 3px rgba(255, 20, 147, 0.15);
+}
+
+.searchInput::placeholder {
+    color: #999;
 }

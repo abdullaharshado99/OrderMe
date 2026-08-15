@@ -1,16 +1,34 @@
 'use client';
-import { useEffect, useState } from 'react';
+
 import api from '@/lib/axios';
+import { useEffect, useState } from 'react';
+import { Loader2 } from 'lucide-react';
 import { toast } from '@/components/ui/use-toast';
-import { useAuth } from '@/components/auth/AuthProvider';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import styles from './restaurants.module.css';
 
 export default function RestaurantsPage() {
-    const { user } = useAuth();
     const [restaurants, setRestaurants] = useState<any[]>([]);
     const [showForm, setShowForm] = useState(false);
     const [editingRestaurantId, setEditingRestaurantId] = useState<number | null>(null);
-    const [formData, setFormData] = useState({ name: '', address: '', phone: '', email: '', subscriptionPlan: 'basic', isActive: true });
+    const [formData, setFormData] = useState({
+        name: '',
+        address: '',
+        phone: '',
+        email: '',
+        subscriptionPlan: 'basic',
+        isActive: true,
+    });
     const [submitting, setSubmitting] = useState(false);
 
     useEffect(() => {
@@ -28,7 +46,14 @@ export default function RestaurantsPage() {
 
     const openCreateForm = () => {
         setEditingRestaurantId(null);
-        setFormData({ name: '', address: '', phone: '', email: '', subscriptionPlan: 'basic', isActive: true });
+        setFormData({
+            name: '',
+            address: '',
+            phone: '',
+            email: '',
+            subscriptionPlan: 'basic',
+            isActive: true,
+        });
         setShowForm(true);
     };
 
@@ -51,14 +76,29 @@ export default function RestaurantsPage() {
             setSubmitting(true);
             if (editingRestaurantId) {
                 await api.patch(`/restaurants/${editingRestaurantId}`, formData);
-                toast({ title: 'Restaurant updated', description: `${formData.name} changes have been saved`, variant: 'success' });
+                toast({
+                    title: 'Restaurant updated',
+                    description: `${formData.name} changes have been saved`,
+                    variant: 'success',
+                });
             } else {
                 await api.post('/restaurants', formData);
-                toast({ title: 'Restaurant created', description: `${formData.name} was added successfully`, variant: 'success' });
+                toast({
+                    title: 'Restaurant created',
+                    description: `${formData.name} was added successfully`,
+                    variant: 'success',
+                });
             }
             setShowForm(false);
             setEditingRestaurantId(null);
-            setFormData({ name: '', address: '', phone: '', email: '', subscriptionPlan: 'basic', isActive: true });
+            setFormData({
+                name: '',
+                address: '',
+                phone: '',
+                email: '',
+                subscriptionPlan: 'basic',
+                isActive: true,
+            });
             await fetchRestaurants();
         } catch (err) {
             console.error(err);
@@ -70,143 +110,139 @@ export default function RestaurantsPage() {
     };
 
     return (
-        <div className="p-6 min-h-screen bg-gray-50 text-gray-900" style={{ fontFamily: 'var(--font-quicksand)' }}>
-            <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold text-[var(--raspberry)]">Restaurants</h1>
-
-                <button
-                    onClick={openCreateForm}
-                    className="bg-[var(--raspberry)] hover:bg-[var(--brilliant-rose)] text-white px-4 py-2 rounded transition"
-                >
+        <div className={styles.page}>
+            <div className={styles.header}>
+                <h1 className={styles.title}>Restaurants</h1>
+                <Button onClick={openCreateForm} className={styles.primaryButton}>
                     + Add Restaurant
-                </button>
+                </Button>
             </div>
 
             {showForm && (
-                <Card className="bg-white border border-gray-200">
+                <Card className={styles.formCard}>
                     <CardHeader>
-                        <CardTitle className="text-[var(--brilliant-rose)]">
+                        <CardTitle className={styles.formTitle}>
                             {editingRestaurantId ? 'Edit Restaurant' : 'Create New Restaurant'}
                         </CardTitle>
                     </CardHeader>
-
-                    <CardContent className="text-gray-700">
-                        <form onSubmit={handleSubmit} className="space-y-4">
-
-                            <input
+                    <CardContent className={styles.formContent}>
+                        <form onSubmit={handleSubmit} className={styles.form}>
+                            <Input
+                                className={styles.input}
                                 type="text"
                                 placeholder="Restaurant Name"
                                 value={formData.name}
-                                onChange={e => setFormData({ ...formData, name: e.target.value })}
-                                className="w-full p-2 rounded bg-white border border-gray-300 text-brilliant-rose focus:border-[var(--raspberry)] outline-none" required
+                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                required
                             />
-
-                            <input
+                            <Input
+                                className={styles.input}
                                 type="text"
                                 placeholder="Address"
                                 value={formData.address}
-                                onChange={e => setFormData({ ...formData, address: e.target.value })}
-                                className="w-full p-2 rounded bg-white border border-gray-300 text-brilliant-rose focus:border-[var(--raspberry)] outline-none" />
-
-                            <input
+                                onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                            />
+                            <Input
+                                className={styles.input}
                                 type="text"
                                 placeholder="Phone"
                                 value={formData.phone}
-                                onChange={e => setFormData({ ...formData, phone: e.target.value })}
-                                className="w-full p-2 rounded bg-white border border-gray-300 text-brilliant-rose focus:border-[var(--raspberry)] outline-none" />
-
-                            <input
+                                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                            />
+                            <Input
+                                className={styles.input}
                                 type="email"
                                 placeholder="Owner Email"
                                 value={formData.email}
-                                onChange={e => setFormData({ ...formData, email: e.target.value })}
-                                className="w-full p-2 rounded bg-white border border-gray-300 text-brilliant-rose focus:border-[var(--raspberry)] outline-none" required
+                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                required
                             />
 
-                            <label className="block text-sm font-medium text-gray-600">Subscription Plan</label>
-                            <select
-                                value={formData.subscriptionPlan}
-                                onChange={e => setFormData({ ...formData, subscriptionPlan: e.target.value })}
-                                className="w-full p-2 rounded bg-white border border-gray-300 text-gray-800 focus:border-[var(--raspberry)] outline-none"
-                            >
-                                <option value="basic">Basic (per month)</option>
-                                <option value="pro">Pro (per month)</option>
-                                <option value="enterprise">Enterprise (per month)</option>
-                            </select>
+                            <div>
+                                <Label className={styles.fieldLabel}>Subscription Plan</Label>
+                                <Select
+                                    value={formData.subscriptionPlan}
+                                    onValueChange={(value) =>
+                                        setFormData({ ...formData, subscriptionPlan: value })
+                                    }
+                                >
+                                    <SelectTrigger className={styles.selectTrigger}>
+                                        <SelectValue placeholder="Select plan" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="Basic">Basic (per month)</SelectItem>
+                                        <SelectItem value="Pro">Pro (per month)</SelectItem>
+                                        <SelectItem value="Enterprise">Enterprise (per month)</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
 
                             {editingRestaurantId && (
-                                <label className="flex items-center gap-3 text-sm text-gray-700">
-                                    <input
+                                <Label className={styles.checkboxRow}>
+                                    <Input
                                         type="checkbox"
                                         checked={formData.isActive}
-                                        onChange={e => setFormData({ ...formData, isActive: e.target.checked })}
-                                        className="h-4 w-4 rounded border-gray-300 text-[var(--raspberry)] focus:ring-[var(--raspberry)]"
+                                        onChange={(e) =>
+                                            setFormData({ ...formData, isActive: e.target.checked })
+                                        }
+                                        className={styles.checkbox}
                                     />
                                     Active restaurant
-                                </label>
+                                </Label>
                             )}
 
-                            <div className="flex gap-2">
-                                <button
+                            <div className={styles.actions}>
+                                <Button
                                     type="submit"
-                                    className="bg-[var(--raspberry)] hover:bg-[var(--brilliant-rose)] text-white px-4 py-2 rounded transition flex items-center gap-2"
+                                    className={styles.primaryButton}
                                     disabled={submitting}
                                 >
                                     {submitting ? (
                                         <>
-                                            <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg>
+                                            <Loader2 className={styles.spinner} aria-hidden />
                                             Saving...
                                         </>
                                     ) : (
                                         'Save'
                                     )}
-                                </button>
-
-                                <button
+                                </Button>
+                                <Button
                                     type="button"
+                                    variant="secondary"
                                     onClick={() => {
                                         setShowForm(false);
                                         setEditingRestaurantId(null);
                                     }}
-                                    className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded transition"
                                 >
                                     Cancel
-                                </button>
+                                </Button>
                             </div>
                         </form>
                     </CardContent>
                 </Card>
             )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+            <div className={styles.grid}>
                 {restaurants.map((rest: any) => (
-                    <Card
-                        key={rest.id}
-                        className="bg-white border border-gray-200 hover:border-[var(--brilliant-rose)] transition"                    >
+                    <Card key={rest.id} className={styles.restaurantCard}>
                         <CardHeader>
-                            <CardTitle className="text-[var(--brilliant-rose)]">
-                                {rest.name}
-                            </CardTitle>
+                            <CardTitle className={styles.restaurantTitle}>{rest.name}</CardTitle>
                         </CardHeader>
-
                         <CardContent>
                             <p>{rest.address}</p>
                             <p>{rest.phone}</p>
                             <p>{rest.email}</p>
-                            <p className="text-sm text-gray-400">
-                                Plan: {rest.subscriptionPlan || 'basic'}
-                            </p>
-                            <p className="text-sm text-gray-400">
-                                Active: {rest.isActive ? 'Yes' : 'No'}
-                            </p>
-                            <div className="mt-4 flex justify-end">
-                                <button
+                            <p className={styles.meta}>Plan: {rest.subscriptionPlan || 'basic'}</p>
+                            <p className={styles.meta}>Active: {rest.isActive ? 'Yes' : 'No'}</p>
+                            <div className={styles.cardFooter}>
+                                <Button
                                     type="button"
+                                    variant="link"
+                                    className={styles.editButton}
                                     onClick={() => openEditForm(rest)}
-                                    className="text-[var(--raspberry)] hover:text-[var(--brilliant-rose)] text-sm font-semibold"
                                 >
                                     Edit
-                                </button>
+                                </Button>
                             </div>
                         </CardContent>
                     </Card>

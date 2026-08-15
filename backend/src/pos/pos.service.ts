@@ -48,7 +48,7 @@ export class PosService {
                 : {};
         const carts = await this.cartRepo.find({
             where,
-            order: { updatedAt: 'DESC' },
+            order: { updatedAt: 'ASC' },
             take: 50,
         });
         return carts.filter((c) => (c.items?.length ?? 0) > 0);

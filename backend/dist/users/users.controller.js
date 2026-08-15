@@ -13,12 +13,12 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
-const common_1 = require("@nestjs/common");
-const users_service_1 = require("./users.service");
 const passport_1 = require("@nestjs/passport");
+const users_service_1 = require("./users.service");
+const role_entity_1 = require("../roles/entities/role.entity");
 const roles_guard_1 = require("../common/guards/roles.guard");
 const roles_decorator_1 = require("../common/decorators/roles.decorator");
-const role_entity_1 = require("../roles/entities/role.entity");
+const common_1 = require("@nestjs/common");
 let UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;

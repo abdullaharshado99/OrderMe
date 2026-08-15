@@ -23,7 +23,7 @@ export class DealsService {
     async findAllByRestaurant(restaurantId: number, cuisine?: string) {
         const where: any = { restaurantId, isAvailable: true };
         if (cuisine) where.cuisine = cuisine;
-        return this.dealRepo.find({ where, order: { createdAt: 'DESC' } });
+        return this.dealRepo.find({ where, order: { createdAt: 'ASC' } });
     }
 
     async update(id: number, dto: UpdateDealDto, role: string, userRestaurantId?: number) {

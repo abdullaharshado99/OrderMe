@@ -1,14 +1,13 @@
 import { AdminSidebar } from '@/components/layout/AdminSidebar';
+import { AppShell } from '@/components/layout/AppShell';
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 
-
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-    return (
-        <ProtectedRoute allowedRoles={['SUPER_ADMIN']}>
-            <div className="flex min-h-screen bg-gray-100">
-                <AdminSidebar />
-                <main className="flex-1 ml-64 p-6">{children}</main>
-            </div>
-        </ProtectedRoute>
-    );
+  return (
+    <ProtectedRoute allowedRoles={['SUPER_ADMIN']}>
+      <AppShell theme="admin" title="Order Me Admin" sidebar={<AdminSidebar />}>
+        {children}
+      </AppShell>
+    </ProtectedRoute>
+  );
 }
