@@ -46,23 +46,21 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersService = void 0;
-const common_1 = require("@nestjs/common");
-const typeorm_1 = require("@nestjs/typeorm");
-const typeorm_2 = require("typeorm");
-const user_entity_1 = require("./entities/user.entity");
-const role_entity_1 = require("../roles/entities/role.entity");
 const bcrypt = __importStar(require("bcrypt"));
+const typeorm_1 = require("typeorm");
+const user_entity_1 = require("./entities/user.entity");
+const typeorm_2 = require("@nestjs/typeorm");
+const role_entity_1 = require("../roles/entities/role.entity");
+const common_1 = require("@nestjs/common");
 let UsersService = class UsersService {
     constructor(userRepository, roleRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
     }
     async findAll(restaurantId, currentUserRole, currentUserRestaurantId) {
-        // Super admin can see all users
         if (currentUserRole === role_entity_1.RoleName.SUPER_ADMIN) {
             return this.userRepository.find({ relations: ['role'] });
         }
-        // Restaurant owner and chef see only users in their restaurant
         if (restaurantId && currentUserRestaurantId === restaurantId) {
             return this.userRepository.find({ where: { restaurantId }, relations: ['role'] });
         }
@@ -148,9 +146,9 @@ let UsersService = class UsersService {
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
-    __param(1, (0, typeorm_1.InjectRepository)(role_entity_1.Role)),
-    __metadata("design:paramtypes", [typeorm_2.Repository,
-        typeorm_2.Repository])
+    __param(0, (0, typeorm_2.InjectRepository)(user_entity_1.User)),
+    __param(1, (0, typeorm_2.InjectRepository)(role_entity_1.Role)),
+    __metadata("design:paramtypes", [typeorm_1.Repository,
+        typeorm_1.Repository])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map

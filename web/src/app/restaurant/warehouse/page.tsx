@@ -1,4 +1,5 @@
 'use client';
+import styles from './warehouse.module.css';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import api from '@/lib/axios';
@@ -422,16 +423,16 @@ export default function RestaurantWarehousePage() {
 
     if (authLoading || loading) {
         return (
-            <div className="flex min-h-screen items-center justify-center bg-[#f9f7f2]">
-                <Loader2 className="h-8 w-8 animate-spin text-stone-500" />
+            <div className={styles.flex_min_h_screen_items_center_justify_center_bg_f}>
+                <Loader2 className={styles.h_8_w_8_animate_spin_text_stone_500} />
             </div>
         );
     }
 
     if (!user?.restaurantId && user?.role !== 'SUPER_ADMIN') {
         return (
-            <div className="p-8 max-w-lg mx-auto text-center text-stone-700">
-                <p className="mb-4">Your account is not linked to a restaurant, so warehouse data cannot be loaded.</p>
+            <div className={styles.p_8_max_w_lg_mx_auto_text_center_text_stone_700}>
+                <p className={styles.mb_4}>Your account is not linked to a restaurant, so warehouse data cannot be loaded.</p>
                 <Button asChild variant="outline">
                     <Link href="/restaurant">Back</Link>
                 </Button>
@@ -487,103 +488,103 @@ export default function RestaurantWarehousePage() {
 
     return (
         <div
-            className="min-h-screen bg-[#f9f7f2] p-4 md:p-6 text-[#1a1714] space-y-6"
+            className={styles.min_h_screen_bg_f9f7f2_p_4_md_p_6_text_1a1714_spac}
             style={{ fontFamily: "'Space Grotesk', ui-sans-serif, system-ui, sans-serif" }}
         >
             {loadError && (
-                <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+                <div className={styles.rounded_lg_border_border_red_200_bg_red_50_px_4_py}>
                     {loadError}
-                    <Button variant="ghost" size="sm" className="ml-2" onClick={() => void fetchAll()}>
+                    <Button variant="ghost" size="sm" className={styles.ml_2} onClick={() => void fetchAll()}>
                         Retry
                     </Button>
                 </div>
             )}
 
             {/* Action buttons */}
-            <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="flex flex-wrap gap-2">
+            <div className={styles.flex_flex_wrap_items_center_justify_between_gap_3}>
+                <div className={styles.flex_flex_wrap_gap_2}>
                     <Button variant="outline" onClick={exportToCSV}>📎 Export CSV</Button>
                     <Button variant="outline" onClick={() => setShowReceiveModal(true)}>📦 Receive Stock</Button>
                     <Button onClick={() => setShowPoDialog(true)}>+ New PO</Button>
                 </div>
-                <div className="text-sm text-stone-500">
+                <div className={styles.text_sm_text_stone_500}>
                     Last sync: just now
                 </div>
             </div>
 
             {/* KPI row */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4">
-                <Card className="border border-stone-200 bg-white shadow-sm">
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-stone-600">Total SKUs</CardTitle>
-                        <Package className="h-4 w-4 text-stone-400" />
+            <div className={styles.grid_grid_cols_1_sm_grid_cols_2_xl_grid_cols_5_gap}>
+                <Card className={styles.border_border_stone_200_bg_white_shadow_sm}>
+                    <CardHeader className={styles.flex_flex_row_items_center_justify_between_space_y}>
+                        <CardTitle className={styles.text_sm_font_medium_text_stone_600}>Total SKUs</CardTitle>
+                        <Package className={styles.h_4_w_4_text_stone_400} />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-semibold">{d.totalSkus}</div>
-                        <p className="text-xs text-emerald-600 mt-1">+{d.skuAddedThisMonth} added this month</p>
+                        <div className={styles.text_2xl_font_semibold}>{d.totalSkus}</div>
+                        <p className={styles.text_xs_text_emerald_600_mt_1}>+{d.skuAddedThisMonth} added this month</p>
                     </CardContent>
                 </Card>
-                <Card className="border border-stone-200 bg-white shadow-sm">
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-stone-600">Stock Value</CardTitle>
-                        <DollarSign className="h-4 w-4 text-stone-400" />
+                <Card className={styles.border_border_stone_200_bg_white_shadow_sm}>
+                    <CardHeader className={styles.flex_flex_row_items_center_justify_between_space_y}>
+                        <CardTitle className={styles.text_sm_font_medium_text_stone_600}>Stock Value</CardTitle>
+                        <DollarSign className={styles.h_4_w_4_text_stone_400} />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-semibold">{formatPkr(d.stockValuePkr)}</div>
-                        <p className="text-xs text-stone-500 mt-1">Warehouse inventory valuation</p>
+                        <div className={styles.text_2xl_font_semibold}>{formatPkr(d.stockValuePkr)}</div>
+                        <p className={styles.text_xs_text_stone_500_mt_1}>Warehouse inventory valuation</p>
                     </CardContent>
                 </Card>
-                <Card className="border border-stone-200 bg-white shadow-sm">
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-stone-600">Active POs</CardTitle>
-                        <Truck className="h-4 w-4 text-stone-400" />
+                <Card className={styles.border_border_stone_200_bg_white_shadow_sm}>
+                    <CardHeader className={styles.flex_flex_row_items_center_justify_between_space_y}>
+                        <CardTitle className={styles.text_sm_font_medium_text_stone_600}>Active POs</CardTitle>
+                        <Truck className={styles.h_4_w_4_text_stone_400} />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-semibold">{d.activePurchaseOrders}</div>
-                        <p className="text-xs text-blue-600 mt-1">
+                        <div className={styles.text_2xl_font_semibold}>{d.activePurchaseOrders}</div>
+                        <p className={styles.text_xs_text_blue_600_mt_1}>
                             {d.purchaseOrdersArrivingToday} arriving today (ETA matches today&apos;s date)
                         </p>
                     </CardContent>
                 </Card>
-                <Card className="border border-stone-200 bg-white shadow-sm">
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-stone-600">Below Min Level</CardTitle>
-                        <AlertCircle className="h-4 w-4 text-red-500" />
+                <Card className={styles.border_border_stone_200_bg_white_shadow_sm}>
+                    <CardHeader className={styles.flex_flex_row_items_center_justify_between_space_y}>
+                        <CardTitle className={styles.text_sm_font_medium_text_stone_600}>Below Min Level</CardTitle>
+                        <AlertCircle className={styles.h_4_w_4_text_red_500} />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-semibold text-red-600">{d.belowMinLevelCount}</div>
-                        <p className="text-xs text-stone-500 mt-1">Needs reorder</p>
+                        <div className={styles.text_2xl_font_semibold_text_red_600}>{d.belowMinLevelCount}</div>
+                        <p className={styles.text_xs_text_stone_500_mt_1}>Needs reorder</p>
                     </CardContent>
                 </Card>
-                <Card className="border border-stone-200 bg-white shadow-sm">
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-stone-600">Suppliers</CardTitle>
-                        <Users className="h-4 w-4 text-stone-400" />
+                <Card className={styles.border_border_stone_200_bg_white_shadow_sm}>
+                    <CardHeader className={styles.flex_flex_row_items_center_justify_between_space_y}>
+                        <CardTitle className={styles.text_sm_font_medium_text_stone_600}>Suppliers</CardTitle>
+                        <Users className={styles.h_4_w_4_text_stone_400} />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-semibold">{d.totalSuppliers}</div>
-                        <p className="text-xs text-stone-500 mt-1">{d.activeSuppliersCount} active</p>
+                        <div className={styles.text_2xl_font_semibold}>{d.totalSuppliers}</div>
+                        <p className={styles.text_xs_text_stone_500_mt_1}>{d.activeSuppliersCount} active</p>
                     </CardContent>
                 </Card>
             </div>
 
             {/* SKU catalog table */}
-            <Card className="border border-stone-200 bg-white shadow-sm overflow-hidden">
-                <CardHeader className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <CardTitle className="text-lg">SKU Catalog — All Items</CardTitle>
-                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                        <div className="relative">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" />
+            <Card className={styles.border_border_stone_200_bg_white_shadow_sm_overflo}>
+                <CardHeader className={styles.flex_flex_col_gap_4_sm_flex_row_sm_items_center_sm}>
+                    <CardTitle className={styles.text_lg}>SKU Catalog — All Items</CardTitle>
+                    <div className={styles.flex_flex_col_gap_2_sm_flex_row_sm_items_center}>
+                        <div className={styles.relative}>
+                            <Search className={styles.absolute_left_3_top_1_2_translate_y_1_2_h_4_w_4_te} />
                             <Input
                                 placeholder="Search SKU, name…"
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
-                                className="pl-9 w-full sm:w-64 bg-stone-50 border-stone-200"
+                                className={styles.pl_9_w_full_sm_w_64_bg_stone_50_border_stone_200}
                             />
                         </div>
                         <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                            <SelectTrigger className="w-full sm:w-[160px] border-stone-200 bg-white">
-                                <SlidersHorizontal className="h-4 w-4 mr-2 text-stone-500" />
+                            <SelectTrigger className={styles.w_full_sm_w_160px_border_stone_200_bg_white}>
+                                <SlidersHorizontal className={styles.h_4_w_4_mr_2_text_stone_500} />
                                 <SelectValue placeholder="Category" />
                             </SelectTrigger>
                             <SelectContent>
@@ -598,20 +599,20 @@ export default function RestaurantWarehousePage() {
                         <Button onClick={() => setShowSkuDialog(true)}>+ Add SKU</Button>
                     </div>
                 </CardHeader>
-                <CardContent className="overflow-x-auto p-0">
+                <CardContent className={styles.overflow_x_auto_p_0}>
                     <Table>
-                        <TableHeader className="bg-stone-50">
+                        <TableHeader className={styles.bg_stone_50}>
                             <TableRow>
-                                <TableHead className="font-semibold">SKU</TableHead>
-                                <TableHead className="font-semibold">Product Name</TableHead>
-                                <TableHead className="font-semibold">Category</TableHead>
-                                <TableHead className="font-semibold">Bin</TableHead>
-                                <TableHead className="font-semibold">Qty on Hand</TableHead>
-                                <TableHead className="font-semibold text-right">Min</TableHead>
-                                <TableHead className="font-semibold text-right">Max</TableHead>
-                                <TableHead className="font-semibold">Batch / Lot</TableHead>
-                                <TableHead className="font-semibold text-right">Valuation</TableHead>
-                                <TableHead className="font-semibold">Status</TableHead>
+                                <TableHead className={styles.font_semibold}>SKU</TableHead>
+                                <TableHead className={styles.font_semibold}>Product Name</TableHead>
+                                <TableHead className={styles.font_semibold}>Category</TableHead>
+                                <TableHead className={styles.font_semibold}>Bin</TableHead>
+                                <TableHead className={styles.font_semibold}>Qty on Hand</TableHead>
+                                <TableHead className={styles.font_semibold_text_right}>Min</TableHead>
+                                <TableHead className={styles.font_semibold_text_right}>Max</TableHead>
+                                <TableHead className={styles.font_semibold}>Batch / Lot</TableHead>
+                                <TableHead className={styles.font_semibold_text_right}>Valuation</TableHead>
+                                <TableHead className={styles.font_semibold}>Status</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -621,25 +622,25 @@ export default function RestaurantWarehousePage() {
                                 const valuation = qty * Number(sku.unitPrice ?? 0);
                                 const belowMin = qty <= min;
                                 return (
-                                    <TableRow key={sku.id} className="border-stone-100">
-                                        <TableCell className="font-mono text-sm">{sku.skuCode}</TableCell>
+                                    <TableRow key={sku.id} className={styles.border_stone_100}>
+                                        <TableCell className={styles.font_mono_text_sm}>{sku.skuCode}</TableCell>
                                         <TableCell>
-                                            <div className="font-medium">{sku.name}</div>
-                                            <div className="text-xs text-stone-500">
+                                            <div className={styles.font_medium}>{sku.name}</div>
+                                            <div className={styles.text_xs_text_stone_500}>
                                                 Supplier: {sku.preferredSupplier?.name?.trim() || '—'}
                                             </div>
                                         </TableCell>
-                                        <TableCell className="text-stone-700">{sku.category?.trim() || '—'}</TableCell>
-                                        <TableCell className="font-mono text-sm">{sku.binLocation || '—'}</TableCell>
+                                        <TableCell className={styles.text_stone_700}>{sku.category?.trim() || '—'}</TableCell>
+                                        <TableCell className={styles.font_mono_text_sm}>{sku.binLocation || '—'}</TableCell>
                                         <TableCell>
                                             {qty} {sku.unit || ''}
                                         </TableCell>
-                                        <TableCell className="text-right tabular-nums">{sku.minLevel}</TableCell>
-                                        <TableCell className="text-right tabular-nums">{sku.maxLevel}</TableCell>
-                                        <TableCell className="font-mono text-sm">
+                                        <TableCell className={styles.text_right_tabular_nums}>{sku.minLevel}</TableCell>
+                                        <TableCell className={styles.text_right_tabular_nums}>{sku.maxLevel}</TableCell>
+                                        <TableCell className={styles.font_mono_text_sm}>
                                             {sku.batchLot?.trim() || (sku.batchTracking ? '(tracked)' : '—')}
                                         </TableCell>
-                                        <TableCell className="text-right font-medium">{formatPkr(valuation)}</TableCell>
+                                        <TableCell className={styles.text_right_font_medium}>{formatPkr(valuation)}</TableCell>
                                         <TableCell>
                                             <span
                                                 className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${belowMin ? 'bg-red-50 text-red-800 ring-1 ring-red-200' : 'bg-emerald-50 text-emerald-800 ring-1 ring-emerald-200'
@@ -654,46 +655,47 @@ export default function RestaurantWarehousePage() {
                         </TableBody>
                     </Table>
                     {filteredSkus.length === 0 && (
-                        <div className="py-12 text-center text-sm text-stone-500">No SKUs match the current filters.</div>
+                        <div className={styles.py_12_text_center_text_sm_text_stone_500}>No SKUs match the current filters.</div>
                     )}
                 </CardContent>
             </Card>
 
             {/* 2 × 2 activity grid */}
-            <div id="warehouse-purchase-orders" className="grid gap-6 lg:grid-cols-2">
-                <Card className="border border-stone-200 bg-white shadow-sm">
-                    <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <div className="flex items-center gap-2">
-                            <ClipboardList className="h-5 w-5 text-blue-600" />
-                            <CardTitle className="text-base">Purchase Orders</CardTitle>
+            <div id="warehouse-purchase-orders" className={styles.grid_gap_6_lg_grid_cols_2}>
+                <Card className={styles.border_border_stone_200_bg_white_shadow_sm}>
+                    <CardHeader className={styles.flex_flex_row_items_center_justify_between_pb_2}>
+                        <div className={styles.flex_items_center_gap_2}>
+                            <ClipboardList className={styles.h_5_w_5_text_blue_600} />
+                            <CardTitle className={styles.text_base}>Purchase Orders</CardTitle>
                         </div>
-                        <button
+                        <Button
                             type="button"
-                            className="text-sm text-blue-600 hover:underline inline-flex items-center gap-0.5"
+                            variant="link"
+                            className={styles.text_sm_text_blue_600_hover_underline_inline_flex_}
                             onClick={() => document.getElementById('warehouse-purchase-orders')?.scrollIntoView({ behavior: 'smooth' })}
                         >
-                            View all <ChevronRight className="h-4 w-4" />
-                        </button>
+                            View all <ChevronRight className={styles.h_4_w_4} />
+                        </Button>
                     </CardHeader>
-                    <CardContent className="divide-y divide-stone-100 max-h-[22rem] overflow-y-auto px-6">
+                    <CardContent className={styles.divide_y_divide_stone_100_max_h_22rem_overflow_y_a}>
                         {(purchaseOrders.length ? purchaseOrders.slice(0, 8) : []).map((po) => {
                             const itemCount = po.items?.length ?? 0;
                             const eta = po.expectedDelivery != null ? new Date(po.expectedDelivery) : null;
                             const etaTxt = eta ? `ETA ${eta.toLocaleDateString('en-PK', { weekday: 'short', day: 'numeric', month: 'short' })}` : 'No ETA';
                             return (
-                                <div key={po.id} className="flex flex-wrap items-start justify-between gap-2 py-3 first:pt-0">
-                                    <div className="min-w-0">
-                                        <div className="font-mono text-sm text-stone-800">{po.poNumber}</div>
-                                        <div className="font-semibold">{po.supplier?.name ?? '—'}</div>
-                                        <div className="text-xs text-stone-500">
+                                <div key={po.id} className={styles.flex_flex_wrap_items_start_justify_between_gap_2_p}>
+                                    <div className={styles.min_w_0}>
+                                        <div className={styles.font_mono_text_sm_text_stone_800}>{po.poNumber}</div>
+                                        <div className={styles.font_semibold}>{po.supplier?.name ?? '—'}</div>
+                                        <div className={styles.text_xs_text_stone_500}>
                                             {itemCount} items · {etaTxt}
                                         </div>
                                     </div>
-                                    <div className="text-right space-y-1">
+                                    <div className={styles.text_right_space_y_1}>
                                         <span className={`inline-flex rounded-full px-2 py-0.5 text-xs capitalize ${poStatusStyles(po.status)}`}>
                                             {(po.status ?? '').replace('-', ' ')}
                                         </span>
-                                        <div className="font-semibold">{formatPkr(poLineTotal(po))}</div>
+                                        <div className={styles.font_semibold}>{formatPkr(poLineTotal(po))}</div>
                                         {po.status !== 'received' && (
                                             <Button size="sm" variant="outline" onClick={() => void handleReceivePO(po.id)}>
                                                 Receive
@@ -703,24 +705,24 @@ export default function RestaurantWarehousePage() {
                                 </div>
                             );
                         })}
-                        {!purchaseOrders.length && <div className="py-8 text-center text-sm text-stone-500">No purchase orders.</div>}
+                        {!purchaseOrders.length && <div className={styles.py_8_text_center_text_sm_text_stone_500}>No purchase orders.</div>}
                     </CardContent>
                 </Card>
 
-                <Card className="border border-stone-200 bg-white shadow-sm">
-                    <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <div className="flex items-center gap-2">
-                            <Store className="h-5 w-5 text-orange-600" />
-                            <CardTitle className="text-base">Supplier Directory</CardTitle>
+                <Card className={styles.border_border_stone_200_bg_white_shadow_sm}>
+                    <CardHeader className={styles.flex_flex_row_items_center_justify_between_pb_2}>
+                        <div className={styles.flex_items_center_gap_2}>
+                            <Store className={styles.h_5_w_5_text_orange_600} />
+                            <CardTitle className={styles.text_base}>Supplier Directory</CardTitle>
                         </div>
-                        <button type="button" className="text-sm text-blue-600 hover:underline" onClick={() => setShowSupplierDialog(true)}>
+                        <Button type="button" variant="link" className={styles.text_sm_text_blue_600_hover_underline} onClick={() => setShowSupplierDialog(true)}>
                             + Add supplier
-                        </button>
+                        </Button>
                     </CardHeader>
-                    <CardContent className="divide-y divide-stone-100 max-h-[22rem] overflow-y-auto px-6">
+                    <CardContent className={styles.divide_y_divide_stone_100_max_h_22rem_overflow_y_a}>
                         {(suppliers.length ? suppliers.slice(0, 8) : []).map((s) => (
-                            <div key={s.id} className="flex items-center justify-between gap-3 py-3 first:pt-0">
-                                <div className="flex items-center gap-3 min-w-0">
+                            <div key={s.id} className={styles.flex_items_center_justify_between_gap_3_py_3_first}>
+                                <div className={styles.flex_items_center_gap_3_min_w_0}>
                                     <div
                                         className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-md text-xs font-bold ${initialsBg(
                                             s.name,
@@ -728,15 +730,15 @@ export default function RestaurantWarehousePage() {
                                     >
                                         {supplierInitials(s.name)}
                                     </div>
-                                    <div className="min-w-0">
-                                        <div className="font-semibold truncate">{s.name}</div>
-                                        <div className="text-xs text-stone-500 truncate">
+                                    <div className={styles.min_w_0}>
+                                        <div className={styles.font_semibold_truncate}>{s.name}</div>
+                                        <div className={styles.text_xs_text_stone_500_truncate}>
                                             {s.primaryCategory?.trim() || '—'} · {s.leadTimeDays ?? '—'} days lead · {s.paymentTerms || '—'}
                                         </div>
                                     </div>
                                 </div>
-                                <div className="flex flex-col items-end gap-1 shrink-0">
-                                    <span className="text-sm font-medium text-orange-700">★ {Number(s.rating ?? 0).toFixed(1)}</span>
+                                <div className={styles.flex_flex_col_items_end_gap_1_shrink_0}>
+                                    <span className={styles.text_sm_font_medium_text_orange_700}>★ {Number(s.rating ?? 0).toFixed(1)}</span>
                                     <span
                                         className={`text-[11px] rounded-full px-2 py-0.5 ring-1 ${s.isActive ? 'bg-emerald-50 text-emerald-800 ring-emerald-200' : 'bg-amber-50 text-amber-900 ring-amber-200'
                                             }`}
@@ -746,61 +748,62 @@ export default function RestaurantWarehousePage() {
                                 </div>
                             </div>
                         ))}
-                        {!suppliers.length && <div className="py-8 text-center text-sm text-stone-500">No suppliers.</div>}
+                        {!suppliers.length && <div className={styles.py_8_text_center_text_sm_text_stone_500}>No suppliers.</div>}
                     </CardContent>
                 </Card>
 
-                <Card className="border border-stone-200 bg-white shadow-sm">
-                    <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <div className="flex items-center gap-2">
-                            <RefreshCw className="h-5 w-5 text-blue-600" />
-                            <CardTitle className="text-base">Stock Transfers</CardTitle>
+                <Card className={styles.border_border_stone_200_bg_white_shadow_sm}>
+                    <CardHeader className={styles.flex_flex_row_items_center_justify_between_pb_2}>
+                        <div className={styles.flex_items_center_gap_2}>
+                            <RefreshCw className={styles.h_5_w_5_text_blue_600} />
+                            <CardTitle className={styles.text_base}>Stock Transfers</CardTitle>
                         </div>
-                        <button type="button" className="text-sm text-blue-600 hover:underline" onClick={() => setShowTransferDialog(true)}>
+                        <Button type="button" variant="link" className={styles.text_sm_text_blue_600_hover_underline} onClick={() => setShowTransferDialog(true)}>
                             + New transfer
-                        </button>
+                        </Button>
                     </CardHeader>
-                    <CardContent className="divide-y divide-stone-100 max-h-[22rem] overflow-y-auto px-6">
+                    <CardContent className={styles.divide_y_divide_stone_100_max_h_22rem_overflow_y_a}>
                         {(transfers.length ? transfers.slice(0, 8) : []).map((t) => (
-                            <div key={t.id} className="flex gap-3 py-3 first:pt-0">
+                            <div key={t.id} className={styles.flex_gap_3_py_3_first_pt_0}>
                                 <div className={`mt-1 h-2.5 w-2.5 rounded-full shrink-0 ${transferDotClass(t.status)}`} aria-hidden />
-                                <div className="min-w-0 flex-1">
-                                    <div className="font-semibold">
+                                <div className={styles.min_w_0_flex_1}>
+                                    <div className={styles.font_semibold}>
                                         {t.sku?.name ?? 'Item'} → {t.toLocation ?? '—'}
                                     </div>
-                                    <div className="text-xs text-stone-500">
+                                    <div className={styles.text_xs_text_stone_500}>
                                         {t.quantity} {t.sku?.unit ?? ''} · {t.fromLocation ?? '—'} → {t.toLocation ?? '—'} ·{' '}
                                         {t.createdAt ? new Date(t.createdAt).toLocaleString() : '—'}
                                         {t.requestedBy?.name ? ` · ${t.requestedBy.name}` : ''}
                                     </div>
                                     {String(t.status).toLowerCase() === 'pending' && (
-                                        <Button size="sm" className="mt-2 h-8" variant="outline" onClick={() => void handleApproveTransfer(t.id)}>
+                                        <Button size="sm" className={styles.mt_2_h_8} variant="outline" onClick={() => void handleApproveTransfer(t.id)}>
                                             Approve
                                         </Button>
                                     )}
                                 </div>
-                                <span className="text-xs text-stone-500 capitalize shrink-0">{t.status}</span>
+                                <span className={styles.text_xs_text_stone_500_capitalize_shrink_0}>{t.status}</span>
                             </div>
                         ))}
-                        {!transfers.length && <div className="py-8 text-center text-sm text-stone-500">No transfers.</div>}
+                        {!transfers.length && <div className={styles.py_8_text_center_text_sm_text_stone_500}>No transfers.</div>}
                     </CardContent>
                 </Card>
 
-                <Card className="border border-stone-200 bg-white shadow-sm">
-                    <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <div className="flex items-center gap-2">
-                            <BarChart3 className="h-5 w-5 text-emerald-600" />
-                            <CardTitle className="text-base">Audit Trail</CardTitle>
+                <Card className={styles.border_border_stone_200_bg_white_shadow_sm}>
+                    <CardHeader className={styles.flex_flex_row_items_center_justify_between_pb_2}>
+                        <div className={styles.flex_items_center_gap_2}>
+                            <BarChart3 className={styles.h_5_w_5_text_emerald_600} />
+                            <CardTitle className={styles.text_base}>Audit Trail</CardTitle>
                         </div>
-                        <button
+                        <Button
                             type="button"
-                            className="text-sm text-blue-600 hover:underline inline-flex items-center gap-0.5"
+                            variant="link"
+                            className={styles.text_sm_text_blue_600_hover_underline_inline_flex_}
                             onClick={() => document.querySelector('[data-section="warehouse-audit"]')?.scrollIntoView({ behavior: 'smooth' })}
                         >
-                            Full log <ChevronRight className="h-4 w-4" />
-                        </button>
+                            Full log <ChevronRight className={styles.h_4_w_4} />
+                        </Button>
                     </CardHeader>
-                    <CardContent className="divide-y divide-stone-100 max-h-[22rem] overflow-y-auto px-6" data-section="warehouse-audit">
+                    <CardContent className={styles.divide_y_divide_stone_100_max_h_22rem_overflow_y_a} data-section="warehouse-audit">
                         {(auditLogs.length ? auditLogs.slice(0, 8) : []).map((log) => {
                             const adj = Number(log.adjustment ?? 0);
                             const title =
@@ -810,11 +813,11 @@ export default function RestaurantWarehousePage() {
                                         ? `Stock Received — ${log.sku?.skuCode ?? 'SKU'}`
                                         : `Stock Event — ${log.sku?.skuCode ?? 'SKU'}`;
                             return (
-                                <div key={log.id} className="flex gap-3 py-3 first:pt-0">
+                                <div key={log.id} className={styles.flex_gap_3_py_3_first_pt_0}>
                                     <div className={`mt-1 h-2.5 w-2.5 rounded-full shrink-0 ${auditDotClass(adj)}`} aria-hidden />
-                                    <div className="min-w-0">
-                                        <div className="font-semibold">{title}</div>
-                                        <div className="text-xs text-stone-500">
+                                    <div className={styles.min_w_0}>
+                                        <div className={styles.font_semibold}>{title}</div>
+                                        <div className={styles.text_xs_text_stone_500}>
                                             {log.sku?.name ?? 'SKU'} · {adj > 0 ? '+' : ''}{adj}{' '}
                                             {log.sku?.unit ? `${log.sku.unit} · ` : ''}
                                             {log.reason ?? ''} · {log.user?.name ?? 'System'} ·{' '}
@@ -825,13 +828,13 @@ export default function RestaurantWarehousePage() {
                                 </div>
                             );
                         })}
-                        {!auditLogs.length && <div className="py-8 text-center text-sm text-stone-500">No audit entries.</div>}
+                        {!auditLogs.length && <div className={styles.py_8_text_center_text_sm_text_stone_500}>No audit entries.</div>}
                     </CardContent>
                 </Card>
             </div>
 
             {/* Quick actions bar */}
-            <div className="flex flex-wrap gap-2 pb-10">
+            <div className={styles.flex_flex_wrap_gap_2_pb_10}>
                 <Button variant="outline" onClick={() => setShowPoDialog(true)}>
                     + New Purchase Order
                 </Button>
@@ -840,37 +843,37 @@ export default function RestaurantWarehousePage() {
             {/* --- Dialogs ------------------------------------------------ */}
 
             <Dialog open={showSkuDialog} onOpenChange={setShowSkuDialog}>
-                <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
+                <DialogContent className={styles.max_w_md_max_h_90vh_overflow_y_auto}>
                     <DialogHeader>
                         <DialogTitle>New SKU</DialogTitle>
                     </DialogHeader>
-                    <div className="grid gap-3 pt-2">
-                        <Label className="text-xs text-stone-500">SKU code</Label>
+                    <div className={styles.grid_gap_3_pt_2}>
+                        <Label className={styles.text_xs_text_stone_500}>SKU code</Label>
                         <Input value={newSku.skuCode} onChange={(e) => setNewSku({ ...newSku, skuCode: e.target.value })} />
-                        <Label className="text-xs text-stone-500">Name</Label>
+                        <Label className={styles.text_xs_text_stone_500}>Name</Label>
                         <Input value={newSku.name} onChange={(e) => setNewSku({ ...newSku, name: e.target.value })} />
-                        <Label className="text-xs text-stone-500">Category</Label>
+                        <Label className={styles.text_xs_text_stone_500}>Category</Label>
                         <Input value={newSku.category} onChange={(e) => setNewSku({ ...newSku, category: e.target.value })} />
-                        <Label className="text-xs text-stone-500">Bin location</Label>
+                        <Label className={styles.text_xs_text_stone_500}>Bin location</Label>
                         <Input value={newSku.binLocation} onChange={(e) => setNewSku({ ...newSku, binLocation: e.target.value })} />
-                        <Label className="text-xs text-stone-500">Batch / Lot (optional)</Label>
+                        <Label className={styles.text_xs_text_stone_500}>Batch / Lot (optional)</Label>
                         <Input value={newSku.batchLot} onChange={(e) => setNewSku({ ...newSku, batchLot: e.target.value })} />
-                        <Label className="text-xs text-stone-500">Unit</Label>
+                        <Label className={styles.text_xs_text_stone_500}>Unit</Label>
                         <Input value={newSku.unit} onChange={(e) => setNewSku({ ...newSku, unit: e.target.value })} />
-                        <Label className="text-xs text-stone-500">Unit price (PKR)</Label>
+                        <Label className={styles.text_xs_text_stone_500}>Unit price (PKR)</Label>
                         <Input
                             type="number"
                             value={newSku.unitPrice || ''}
                             onChange={(e) => setNewSku({ ...newSku, unitPrice: parseFloat(e.target.value || '0') })}
                         />
-                        <Label className="text-xs text-stone-500">Current stock</Label>
+                        <Label className={styles.text_xs_text_stone_500}>Current stock</Label>
                         <Input
                             type="number"
                             value={newSku.currentStock || ''}
                             onChange={(e) => setNewSku({ ...newSku, currentStock: parseFloat(e.target.value || '0') })}
                         />
-                        <Label className="text-xs text-stone-500">Min / Max level</Label>
-                        <div className="flex gap-2">
+                        <Label className={styles.text_xs_text_stone_500}>Min / Max level</Label>
+                        <div className={styles.flex_gap_2}>
                             <Input
                                 type="number"
                                 value={newSku.minLevel || ''}
@@ -888,11 +891,11 @@ export default function RestaurantWarehousePage() {
             </Dialog>
 
             <Dialog open={showSupplierDialog} onOpenChange={setShowSupplierDialog}>
-                <DialogContent className="max-w-md">
+                <DialogContent className={styles.max_w_md}>
                     <DialogHeader>
                         <DialogTitle>New supplier</DialogTitle>
                     </DialogHeader>
-                    <div className="grid gap-3 pt-2">
+                    <div className={styles.grid_gap_3_pt_2}>
                         <Input placeholder="Name" value={newSupplier.name} onChange={(e) => setNewSupplier({ ...newSupplier, name: e.target.value })} />
                         <Input
                             placeholder="Contact person"
@@ -922,12 +925,12 @@ export default function RestaurantWarehousePage() {
             </Dialog>
 
             <Dialog open={showPoDialog} onOpenChange={setShowPoDialog}>
-                <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+                <DialogContent className={styles.max_w_lg_max_h_90vh_overflow_y_auto}>
                     <DialogHeader>
                         <DialogTitle>New purchase order</DialogTitle>
                     </DialogHeader>
-                    <div className="grid gap-3 pt-2">
-                        <Label className="text-xs">Supplier</Label>
+                    <div className={styles.grid_gap_3_pt_2}>
+                        <Label className={styles.text_xs}>Supplier</Label>
                         <Select value={newPo.supplierId} onValueChange={(v) => setNewPo({ ...newPo, supplierId: v })}>
                             <SelectTrigger>
                                 <SelectValue placeholder="Pick supplier" />
@@ -940,10 +943,10 @@ export default function RestaurantWarehousePage() {
                                 ))}
                             </SelectContent>
                         </Select>
-                        <Label className="text-xs">Expected delivery (yyyy-mm-dd)</Label>
+                        <Label className={styles.text_xs}>Expected delivery (yyyy-mm-dd)</Label>
                         <Input type="date" value={newPo.expectedDelivery} onChange={(e) => setNewPo({ ...newPo, expectedDelivery: e.target.value })} />
-                        <div className="rounded-md border border-stone-200 p-3 space-y-2">
-                            <Label className="text-xs text-stone-500">Lines</Label>
+                        <div className={styles.rounded_md_border_border_stone_200_p_3_space_y_2}>
+                            <Label className={styles.text_xs_text_stone_500}>Lines</Label>
                             <Select value={poItemForm.skuId || undefined} onValueChange={(v) => setPoItemForm({ ...poItemForm, skuId: v })}>
                                 <SelectTrigger>
                                     <SelectValue placeholder="SKU" />
@@ -971,7 +974,7 @@ export default function RestaurantWarehousePage() {
                             <Button type="button" variant="outline" size="sm" onClick={() => poItemForm.skuId && addPoItem()}>
                                 Add line
                             </Button>
-                            <ul className="text-xs text-stone-600 space-y-1">
+                            <ul className={styles.text_xs_text_stone_600_space_y_1}>
                                 {newPo.items.map((l, idx) => (
                                     <li key={`${l.skuId}-${idx}`}>
                                         SKU #{l.skuId} × {l.orderedQuantity} @ {formatPkr(l.unitPrice)}
@@ -987,11 +990,11 @@ export default function RestaurantWarehousePage() {
             </Dialog>
 
             <Dialog open={showTransferDialog} onOpenChange={setShowTransferDialog}>
-                <DialogContent className="max-w-md">
+                <DialogContent className={styles.max_w_md}>
                     <DialogHeader>
                         <DialogTitle>Stock transfer</DialogTitle>
                     </DialogHeader>
-                    <div className="grid gap-3 pt-2">
+                    <div className={styles.grid_gap_3_pt_2}>
                         <Select value={newTransfer.skuId || undefined} onValueChange={(v) => setNewTransfer({ ...newTransfer, skuId: v })}>
                             <SelectTrigger>
                                 <SelectValue placeholder="SKU" />
@@ -1031,11 +1034,11 @@ export default function RestaurantWarehousePage() {
             </Dialog>
 
             <Dialog open={showReceiveModal} onOpenChange={setShowReceiveModal}>
-                <DialogContent className="max-w-md">
+                <DialogContent className={styles.max_w_md}>
                     <DialogHeader>
                         <DialogTitle>Receive Stock (Manual Adjustment)</DialogTitle>
                     </DialogHeader>
-                    <div className="grid gap-3 pt-2">
+                    <div className={styles.grid_gap_3_pt_2}>
                         <Label>SKU</Label>
                         <Select value={receiveData.skuId} onValueChange={(v) => setReceiveData({ ...receiveData, skuId: v })}>
                             <SelectTrigger>

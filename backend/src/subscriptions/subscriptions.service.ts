@@ -32,7 +32,7 @@ export class SubscriptionsService {
     }
 
     async getAllWithRestaurants() {
-        return this.subRepo.find({ relations: ['restaurant'], order: { createdAt: 'DESC' } });
+        return this.subRepo.find({ relations: ['restaurant'], order: { createdAt: 'ASC' } });
     }
 
     async createSubscriptionFromPlan(restaurantId: number, planName: string): Promise<Subscription> {
@@ -91,7 +91,7 @@ export class SubscriptionsService {
         if (currentUserRole !== RoleName.SUPER_ADMIN && userRestaurantId !== restaurantId) {
             throw new ForbiddenException('Access denied');
         }
-        return this.subRepo.find({ where: { restaurantId }, order: { createdAt: 'DESC' } });
+        return this.subRepo.find({ where: { restaurantId }, order: { createdAt: 'ASC' } });
     }
 
     async getCurrentSubscription(restaurantId: number, currentUserRole: string, userRestaurantId?: number) {
@@ -100,7 +100,7 @@ export class SubscriptionsService {
         }
         return this.subRepo.findOne({
             where: { restaurantId, isActive: true },
-            order: { endDate: 'DESC' },
+            order: { endDate: 'ASC' },
         });
     }
 

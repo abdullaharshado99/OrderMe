@@ -1,0 +1,161 @@
+.page {
+  min-height: 100%;
+  font-family: var(--font-quicksand);
+  color: #111827;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--raspberry);
+}
+
+.formCard {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 1rem;
+}
+
+.formTitle {
+  color: var(--brilliant-rose);
+}
+
+.formContent {
+  color: #374151;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.fieldLabel {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.selectTrigger {
+  width: 100%;
+}
+
+.checkboxRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.checkbox {
+  width: 1rem;
+  height: 1rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.primaryButton {
+  background: var(--raspberry);
+}
+
+.primaryButton:hover {
+  background: var(--brilliant-rose);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.restaurantCard {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  transition: border-color 0.2s;
+}
+
+.restaurantCard:hover {
+  border-color: var(--brilliant-rose);
+}
+
+.restaurantTitle {
+  color: var(--brilliant-rose);
+}
+
+.meta {
+  font-size: 0.875rem;
+  color: #9ca3af;
+}
+
+.cardFooter {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.editButton {
+  color: var(--raspberry);
+}
+
+.editButton:hover {
+  color: var(--brilliant-rose);
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.input {
+  border: 1px solid #d1d5db !important;
+}
+
+.input:focus {
+  border-color: var(--brilliant-rose) !important;
+  box-shadow: 0 0 0 2px rgba(232, 62, 140, 0.15);
+}
+
+.selectTrigger {
+  width: 100%;
+  border: 1px solid #d1d5db !important;
+}
+
+.selectTrigger:focus {
+  border-color: var(--brilliant-rose) !important;
+}

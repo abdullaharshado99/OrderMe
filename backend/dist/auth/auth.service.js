@@ -46,15 +46,15 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
-const common_1 = require("@nestjs/common");
-const typeorm_1 = require("@nestjs/typeorm");
-const typeorm_2 = require("typeorm");
-const jwt_1 = require("@nestjs/jwt");
 const bcrypt = __importStar(require("bcrypt"));
+const typeorm_1 = require("typeorm");
+const jwt_1 = require("@nestjs/jwt");
+const config_1 = require("@nestjs/config");
+const typeorm_2 = require("@nestjs/typeorm");
 const user_entity_1 = require("../users/entities/user.entity");
 const role_entity_1 = require("../roles/entities/role.entity");
-const config_1 = require("@nestjs/config");
 const subscriptions_service_1 = require("../subscriptions/subscriptions.service");
+const common_1 = require("@nestjs/common");
 let AuthService = class AuthService {
     constructor(userRepository, roleRepository, jwtService, configService, subscriptionsService) {
         this.userRepository = userRepository;
@@ -171,10 +171,10 @@ let AuthService = class AuthService {
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
-    __param(1, (0, typeorm_1.InjectRepository)(role_entity_1.Role)),
-    __metadata("design:paramtypes", [typeorm_2.Repository,
-        typeorm_2.Repository,
+    __param(0, (0, typeorm_2.InjectRepository)(user_entity_1.User)),
+    __param(1, (0, typeorm_2.InjectRepository)(role_entity_1.Role)),
+    __metadata("design:paramtypes", [typeorm_1.Repository,
+        typeorm_1.Repository,
         jwt_1.JwtService,
         config_1.ConfigService,
         subscriptions_service_1.SubscriptionsService])

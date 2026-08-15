@@ -43,7 +43,7 @@ export class OrdersService {
 
     async getOrdersForRestaurant(restaurantId: number, currentUserRole: string, currentUserRestaurantId?: number) {
         this.checkAccess(restaurantId, currentUserRole, currentUserRestaurantId);
-        return this.orderRepository.find({ where: { restaurantId }, order: { createdAt: 'DESC' } });
+        return this.orderRepository.find({ where: { restaurantId }, order: { createdAt: 'ASC' } });
     }
 
     async getOrderById(orderId: number, currentUserRole: string, currentUserRestaurantId?: number) {

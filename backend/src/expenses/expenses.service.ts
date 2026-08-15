@@ -31,7 +31,7 @@ export class ExpensesService {
 
     async findAll(restaurantId: number, currentUserRole: string, userRestaurantId?: number) {
         this.checkAccess(restaurantId, currentUserRole, userRestaurantId);
-        return this.expenseRepository.find({ where: { restaurantId }, order: { date: 'DESC' } });
+        return this.expenseRepository.find({ where: { restaurantId }, order: { date: 'ASC' } });
     }
 
     async update(id: number, dto: Partial<CreateExpenseDto>, currentUserRole: string, userRestaurantId?: number) {
@@ -78,7 +78,7 @@ export class ExpensesService {
 
     async getBudgets(restaurantId: number, role: string, userRestaurantId?: number) {
         this.checkAccess(restaurantId, role, userRestaurantId);
-        return this.budgetRepo.find({ where: { restaurantId }, order: { month: 'DESC' } });
+        return this.budgetRepo.find({ where: { restaurantId }, order: { month: 'ASC' } });
     }
 
     async getBudgetUtilization(restaurantId: number, role: string, userRestaurantId?: number) {

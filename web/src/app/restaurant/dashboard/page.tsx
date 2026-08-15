@@ -26,7 +26,7 @@ export default function RestaurantDashboard() {
         }
     }, [user]);
 
-    if (loading) return <div className="p-6">Loading dashboard...</div>;
+    if (loading) return <div className={styles.loading}>Loading dashboard...</div>;
 
     return (
         <div className={styles.container}>
@@ -34,7 +34,7 @@ export default function RestaurantDashboard() {
 
             <div className={styles.statsGrid}>
                 <Card className={styles.card}>
-                    <CardHeader className="flex flex-row items-center justify-between">
+                    <CardHeader className={styles.cardHeaderRow}>
                         <CardTitle>Today Orders</CardTitle>
                         <ShoppingCart size={20} />
                     </CardHeader>
@@ -42,7 +42,7 @@ export default function RestaurantDashboard() {
                 </Card>
 
                 <Card className={styles.card}>
-                    <CardHeader className="flex flex-row items-center justify-between">
+                    <CardHeader className={styles.cardHeaderRow}>
                         <CardTitle>Pending</CardTitle>
                         <Clock size={20} />
                     </CardHeader>
@@ -50,7 +50,7 @@ export default function RestaurantDashboard() {
                 </Card>
 
                 <Card className={styles.card}>
-                    <CardHeader className="flex flex-row items-center justify-between">
+                    <CardHeader className={styles.cardHeaderRow}>
                         <CardTitle>Revenue (Today)</CardTitle>
                         <DollarSign size={20} />
                     </CardHeader>
@@ -58,7 +58,7 @@ export default function RestaurantDashboard() {
                 </Card>
 
                 <Card className={styles.card}>
-                    <CardHeader className="flex flex-row items-center justify-between">
+                    <CardHeader className={styles.cardHeaderRow}>
                         <CardTitle>Menu Items</CardTitle>
                         <Utensils size={20} />
                     </CardHeader>

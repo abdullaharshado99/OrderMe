@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import api from '@/lib/axios';
+import styles from './logout.module.css';
 
 async function performLogout() {
     const refreshToken = localStorage.getItem('refreshToken');
@@ -18,8 +19,8 @@ export default function LogoutPage() {
         void performLogout();
     }, []);
     return (
-        <div className="flex min-h-screen items-center justify-center text-muted-foreground">
-            Logging out…
+        <div className={styles.container}>
+            <p className={styles.text}>Logging out…</p>
         </div>
     );
 }

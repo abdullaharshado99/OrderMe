@@ -8,8 +8,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RolesModule = void 0;
 const common_1 = require("@nestjs/common");
-const typeorm_1 = require("@nestjs/typeorm");
 const role_entity_1 = require("./entities/role.entity");
+const typeorm_1 = require("@nestjs/typeorm");
 let RolesModule = class RolesModule {
 };
 exports.RolesModule = RolesModule;

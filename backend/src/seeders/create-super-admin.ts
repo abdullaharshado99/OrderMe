@@ -15,7 +15,7 @@ async function bootstrap() {
             name: 'Super Admin',
         });
     } else {
-        console.log('⚠️ Super Admin already exists');
+        console.warn('⚠️ Super Admin already exists');
     }
 
     await app.close();

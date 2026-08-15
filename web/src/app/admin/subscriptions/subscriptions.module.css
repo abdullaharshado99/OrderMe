@@ -1,0 +1,50 @@
+.page {
+  font-family: var(--font-quicksand);
+  color: #111827;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--raspberry);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  transition: border-color 0.2s;
+}
+
+.card:hover {
+  border-color: var(--brilliant-rose);
+}
+
+.cardTitle {
+  color: var(--brilliant-rose);
+}
+
+.content {
+  color: #374151;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.label {
+  font-weight: 600;
+}
+
+.statusActive {
+  color: #16a34a;
+}
+
+.statusExpired {
+  color: #ef4444;
+}

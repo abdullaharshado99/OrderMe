@@ -2,6 +2,7 @@
 import { useAuth } from '@/components/auth/AuthProvider';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import styles from './page.module.css';
 
 export default function Home() {
   const { user, isLoading } = useAuth();
@@ -17,5 +18,9 @@ export default function Home() {
     }
   }, [isLoading, user, router]);
 
-  return <div className="flex justify-center items-center h-screen">Redirecting...</div>;
+  return (
+    <div className={styles.container}>
+      <p className={styles.text}>Redirecting...</p>
+    </div>
+  );
 }

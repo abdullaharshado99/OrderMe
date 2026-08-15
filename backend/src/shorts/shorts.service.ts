@@ -21,7 +21,7 @@ export class ShortsService {
     }
 
     async findAllByRestaurant(restaurantId: number) {
-        return this.shortRepo.find({ where: { restaurantId }, order: { createdAt: 'DESC' } });
+        return this.shortRepo.find({ where: { restaurantId }, order: { createdAt: 'ASC' } });
     }
 
     async update(id: number, dto: UpdateShortDto, role: string, userRestaurantId?: number) {

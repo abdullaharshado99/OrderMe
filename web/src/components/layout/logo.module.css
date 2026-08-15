@@ -1,0 +1,89 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.container:hover {
+  transform: scale(1.02);
+}
+
+.logoWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.logoIcon {
+  color: #ff1493;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.container:hover .logoIcon {
+  filter: drop-shadow(0 0 8px rgba(255, 20, 147, 0.4));
+}
+
+.size-sm .logoIcon {
+  width: 32px;
+  height: 32px;
+}
+
+.size-md .logoIcon {
+  width: 40px;
+  height: 40px;
+}
+
+.size-lg .logoIcon {
+  width: 64px;
+  height: 64px;
+}
+
+.textWrapper {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.brandName {
+  color: #1a1a1a;
+  font-size: inherit;
+}
+
+.brandNameAccent {
+  color: #ff1493;
+  font-size: inherit;
+  font-weight: 800;
+}
+
+.size-sm .textWrapper {
+  font-size: 14px;
+}
+
+.size-md .textWrapper {
+  font-size: 18px;
+}
+
+.size-lg .textWrapper {
+  font-size: 28px;
+}
+
+.variant-white .logoIcon {
+  color: #ffffff;
+}
+
+.variant-white .brandName {
+  color: #ffffff;
+}
+
+.variant-white .brandNameAccent {
+  color: #ffffff;
+}
+
+.variant-white .container:hover .logoIcon {
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
+}
